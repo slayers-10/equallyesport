@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Staff — Equally Esport</title>
+  <link rel="icon" type="image/png" href="../assets/images/logo.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body>
+
+  <div id="page-loader"><img src="../assets/images/logo.png" alt="Equally Esport"><div class="loader-bar-wrap"><div class="loader-bar"></div></div><span class="loader-text-anim">Chargement…</span></div><div class="cursor"></div><div class="cursor-ring"></div>
+
+  <nav class="navbar">
+    <a href="../index.html" class="nav-brand">
+      <img src="../assets/images/logo.png" alt="Equally Esport">
+      <span>EQUALLY <em>ESPORT</em></span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="../index.html">Accueil</a></li>
+      <li><a href="equipes.html">Équipes</a></li>
+      <li><a href="actus.html">Actus</a></li>
+      <li><a href="boutique.html">Boutique</a></li>
+      <li><a href="staff.html" class="active">Staff</a></li>
+      <li><a href="contact.html">Contact</a></li>
+    </ul>
+    <div class="nav-right">
+      <a href="boutique.html" class="nav-btn">Shop</a>
+    </div>
+    <button class="nav-hamburger" aria-label="Menu"><span></span><span></span><span></span></button>
+  </nav>
+
+  <div class="nav-mobile">
+    <a href="../index.html">Accueil</a>
+    <a href="equipes.html">Équipes</a>
+    <a href="actus.html">Actus</a>
+    <a href="boutique.html">Boutique</a>
+    <a href="staff.html">Staff</a>
+    <a href="contact.html">Contact</a>
+  </div>
+
+  <div class="page">
+    <div class="page-header">
+      <div class="section-label">L'équipe dirigeante</div>
+      <h1>LE <em>STAFF</em></h1>
+      <p>Les personnes derrière Equally Esport</p>
+    </div>
+
+    <div class="section">
+      <div class="section-label">Direction</div>
+      <h2 class="section-title">Management</h2>
+      <div class="staff-grid">
+        <div class="staff-card" data-reveal>
+          <div class="staff-avatar">👑</div>
+          <div class="staff-name">CEO</div>
+          <div class="staff-role">Chief Executive Officer</div>
+          <div class="staff-game">Equally Esport</div>
+        </div>
+        <!-- Ajouter les membres du staff ici -->
+        <div class="staff-card" data-reveal style="border-style:dashed;display:flex;align-items:center;justify-content:center;min-height:180px;cursor:default;">
+          <div style="text-align:center;">
+            <div style="font-size:24px;margin-bottom:8px;">➕</div>
+            <div style="font-size:13px;color:var(--text-dim);">Compléter le staff</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <img src="../assets/images/logo.png" alt="Equally Esport">
+        <div class="footer-brand-name">EQUALLY <em>ESPORT</em></div>
+        <p>Organisation française d'esport basée à La Rochelle.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Navigation</h4>
+        <ul>
+          <li><a href="equipes.html">Équipes</a></li>
+          <li><a href="actus.html">Actualités</a></li>
+          <li><a href="boutique.html">Boutique</a></li>
+          <li><a href="contact.html">Contact</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Légal</h4>
+        <ul>
+          <li><a href="mentions-legales.html">Mentions légales</a></li>
+          <li><a href="confidentialite.html">Confidentialité</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2025 Equally Esport — La Rochelle, France. Tous droits réservés.</p>
+    </div>
+  </footer>
+
+  <script src="../assets/js/main.js"></script>
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/sw.js').catch(() => {});
+      });
+    }
+  </script>
+</body>
+</html>

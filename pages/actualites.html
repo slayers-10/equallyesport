@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Actualités — Equally Esport</title>
+  <link rel="stylesheet" href="../css/variables.css" />
+  <link rel="stylesheet" href="../css/reset.css" />
+  <link rel="stylesheet" href="../css/components.css" />
+  <link rel="stylesheet" href="../css/main.css" />
+</head>
+<body>
+<main style="padding-top:var(--navbar-h)">
+
+  <div class="page-hero">
+    <div class="container">
+      <p class="page-hero-eyebrow">News</p>
+      <h1 class="page-hero-title">Nos <span class="text-red">Actualités</span></h1>
+      <p class="page-hero-sub">Toute l'actualité d'Equally Esport : victoires, transferts, partenariats.</p>
+    </div>
+  </div>
+
+  <section style="padding:4rem 0">
+    <div class="container">
+      <div id="cat-filter" class="filter-bar" style="margin-bottom:2rem"></div>
+      <div id="news-grid" class="news-grid"></div>
+    </div>
+  </section>
+</main>
+
+<script src="../js/components.js"></script>
+<script src="../js/loader.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', async () => {
+  const API='../api/';
+  async function get(ep){try{const r=await fetch(API+ep);const j=await r.json();return j.ok?j.data:[];}catch{return[];}}
+  const safe=s=>{const d=document.createElement('div');d.appendChild(document.createTextNode(String(s||'')));return d.innerHTML;};
+
+  const news = await get('news.php');
+  const icons={Victoire:'🏆',Transfert:'🔄',Qualification:'⚡',Partenariat:'🤝',Analyse:'📊',Annonce:'📣'};
+  const cats = ['Toutes', ...new Set(news.map(n=>n.category).filter(Boolean))];
+
+  // Filtres catégories
+  const filterBar=document.getElementById('cat-filter');
+  cats.forEach(cat=>{
+    const btn=document.createElement('button');
+    btn.className='filter-btn'+(cat==='Toutes'?' active':'');
+    btn.textContent=cat;
+    btn.addEventListener('click',()=>{
+      filterBar.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));
+      btn.classList.add('active');
+      document.querySelectorAll('#news-grid article').forEach(a=>{
+        a.style.display=(cat==='Toutes'||a.dataset.cat===cat)?'':'none';
+      });
+    });
+    filterBar.appendChild(btn);
+  });
+
+  // Cards news
+  const grid=document.getElementById('news-grid');
+  news.forEach((item,i)=>{
+    const article=document.createElement('article');
+    article.className='news-card reveal'; article.dataset.cat=item.category;
+    article.style.transitionDelay=`${i*.08}s`;
+    let dateStr=''; try{dateStr=new Date(item.date).toLocaleDateString('fr-FR',{day:'numeric',month:'long',year:'numeric'});}catch{}
+    const icon=icons[item.category]||'📰';
+    article.innerHTML=`
+      <div class="news-card-thumb" aria-label="${safe(item.title)}">
+        ${item.image_url ? `<img src="../${safe(item.image_url)}" alt="${safe(item.title)}" style="width:100%;height:100%;object-fit:cover" />` : `<span class="thumb-icon">${icon}</span>`}
+        <div class="news-card-thumb-overlay">
+          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </div>
+      </div>
+      <div class="news-card-body">
+        <div class="news-card-meta">
+          <span class="badge badge-red">${safe(item.category)}</span>
+          <span class="news-card-date">${dateStr}</span>
+        </div>
+        <h3 class="news-card-title">${safe(item.title)}</h3>
+        <p class="news-card-summary">${safe(item.summary)}</p>
+      </div>`;
+    grid.appendChild(article);
+  });
+
+  const obs=new IntersectionObserver(e=>{e.forEach(x=>{if(x.isIntersecting){x.target.classList.add('visible');obs.unobserve(x.target);}});},{threshold:.1});
+  document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
+});
+</script>
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/sw.js').catch(() => {});
+      });
+    }
+  </script>
+</body>
+</html>

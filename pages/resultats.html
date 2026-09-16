@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Résultats — Equally Esport</title>
+  <link rel="stylesheet" href="../css/variables.css" />
+  <link rel="stylesheet" href="../css/reset.css" />
+  <link rel="stylesheet" href="../css/components.css" />
+  <link rel="stylesheet" href="../css/main.css" />
+</head>
+<body>
+<main style="padding-top:var(--navbar-h)">
+
+  <div class="page-hero">
+    <div class="container">
+      <p class="page-hero-eyebrow">Compétition</p>
+      <h1 class="page-hero-title">Nos <span class="text-red">Résultats</span></h1>
+      <p class="page-hero-sub">Suivez les performances d'Equally Esport sur tous les jeux.</p>
+    </div>
+  </div>
+
+  <section style="padding:4rem 0">
+    <div class="container">
+
+      <!-- Filtres jeux -->
+      <div id="results-filter" class="filter-bar" style="margin-bottom:2rem"></div>
+
+      <!-- Stats rapides -->
+      <div id="results-stats" class="stats-row reveal" style="display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;margin-bottom:3rem"></div>
+
+      <!-- Tableau -->
+      <div style="overflow-x:auto" class="reveal">
+        <table class="results-table" aria-label="Tous les résultats">
+          <thead><tr>
+            <th>Match</th><th>Score</th><th>Jeu</th><th>Tournoi</th><th>Résultat</th><th>Date</th>
+          </tr></thead>
+          <tbody id="results-tbody"></tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+</main>
+
+<script src="../js/components.js"></script>
+<script src="../js/loader.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', async () => {
+  const API = '../api/';
+  async function get(ep) {
+    try { const r=await fetch(API+ep); const j=await r.json(); return j.ok?j.data:[]; } catch{return[];}
+  }
+  const safe = s => { const d=document.createElement('div'); d.appendChild(document.createTextNode(String(s||''))); return d.innerHTML; };
+
+  const results = await get('results.php');
+
+  // Stats
+  const wins   = results.filter(r=>r.result==='win').length;
+  const losses = results.filter(r=>r.result==='loss').length;
+  const rate   = results.length ? Math.round(wins/results.length*100) : 0;
+  const statsEl = document.getElementById('results-stats');
+  if(statsEl) statsEl.innerHTML = [
+    ['Victoires', wins, 'color:var(--color-green)'],
+    ['Défaites',  losses, 'color:#cc4444'],
+    ['Taux de victoire', rate+'%', 'color:var(--color-red)'],
+  ].map(([l,v,s])=>`
+    <div style="background:var(--color-bg-3);border:1px solid rgba(229,0,10,.15);border-radius:8px;padding:1.5rem;text-align:center">
+      <div style="font-family:var(--font-display);font-style:italic;font-weight:900;font-size:2.5rem;${s}">${v}</div>
+      <div style="font-family:var(--font-mono);font-size:.7rem;text-transform:uppercase;letter-spacing:.1em;color:var(--color-gray);margin-top:.25rem">${l}</div>
+    </div>`).join('');
+
+  // Filtres par jeu
+  const games = ['Tous', ...new Set(results.map(r=>r.game))];
+  const filterBar = document.getElementById('results-filter');
+  games.forEach(game => {
+    const btn=document.createElement('button');
+    btn.className='filter-btn'+(game==='Tous'?' active':'');
+    btn.textContent=game;
+    btn.addEventListener('click',()=>{
+      filterBar.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));
+      btn.classList.add('active');
+      document.querySelectorAll('#results-tbody tr').forEach(tr=>{
+        tr.style.display=(game==='Tous'||tr.dataset.game===game)?'':'none';
+      });
+    });
+    filterBar.appendChild(btn);
+  });
+
+  // Tableau complet
+  const tbody = document.getElementById('results-tbody');
+  results.forEach((r,i)=>{
+    const tr=document.createElement('tr'); tr.className='reveal'; tr.dataset.game=r.game;
+    tr.style.transitionDelay=`${i*.04}s`;
+    const win=r.result==='win';
+    let ds=''; try{ds=new Date(r.date).toLocaleDateString('fr-FR',{day:'numeric',month:'short',year:'numeric'});}catch{}
+    tr.innerHTML=`
+      <td><div class="result-teams"><strong>Equally</strong><span class="result-vs">VS</span><span>${safe(r.opponent)}</span></div></td>
+      <td><span class="result-score ${win?'win':'loss'}">${safe(r.scoreUs)}-${safe(r.scoreThem)}</span></td>
+      <td><span class="result-game-tag">${safe(r.game)}</span></td>
+      <td style="font-size:.8rem;color:#888">${safe(r.tournament)}</td>
+      <td><span class="badge ${win?'badge-green':'badge-dark'}">${win?'Victoire':'Défaite'}</span></td>
+      <td style="font-family:var(--font-mono);font-size:.75rem;color:var(--color-gray)">${ds}</td>`;
+    tbody.appendChild(tr);
+  });
+
+  const obs=new IntersectionObserver(e=>{e.forEach(x=>{if(x.isIntersecting){x.target.classList.add('visible');obs.unobserve(x.target);}});},{threshold:.05});
+  document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
+});
+</script>
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/sw.js').catch(() => {});
+      });
+    }
+  </script>
+</body>
+</html>

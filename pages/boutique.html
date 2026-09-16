@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Boutique — Equally Esport</title>
+  <link rel="icon" type="image/png" href="../assets/images/logo.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/css/style.css">
+  <style>
+    .shop-notice {
+      background: rgba(204,17,17,0.06); border: 1px solid rgba(204,17,17,0.2);
+      border-radius: var(--radius); padding: 1rem 1.25rem;
+      display: flex; align-items: center; gap: 10px;
+      font-size: 13px; color: #bbb; margin-bottom: 2rem;
+    }
+    .shop-notice span { color: var(--red); font-size: 16px; }
+    .shop-fallback {
+      display: none; flex-direction: column;
+      align-items: center; justify-content: center;
+      gap: 1.5rem; padding: 5rem 2rem; text-align: center;
+    }
+    .shop-fallback img { width: 70px; opacity: 0.3; }
+    .shop-fallback h3 { font-size: 20px; font-weight: 600; }
+    .shop-fallback p { font-size: 14px; color: var(--text-muted); max-width: 380px; line-height: 1.7; }
+  </style>
+</head>
+<body>
+
+  <div id="page-loader"><img src="../assets/images/logo.png" alt="Equally Esport"><div class="loader-bar-wrap"><div class="loader-bar"></div></div><span class="loader-text-anim">Chargement…</span></div><div class="cursor"></div><div class="cursor-ring"></div>
+
+  <nav class="navbar">
+    <a href="../index.html" class="nav-brand">
+      <img src="../assets/images/logo.png" alt="Equally Esport">
+      <span>EQUALLY <em>ESPORT</em></span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="../index.html">Accueil</a></li>
+      <li><a href="equipes.html">Équipes</a></li>
+      <li><a href="actus.html">Actus</a></li>
+      <li><a href="boutique.html" class="active">Boutique</a></li>
+      <li><a href="staff.html">Staff</a></li>
+      <li><a href="contact.html">Contact</a></li>
+    </ul>
+    <div class="nav-right">
+      <div class="nav-socials">
+        <a href="https://x.com/equallyesport" target="_blank" aria-label="X">
+          <svg viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.748l7.73-8.835L1.254 2.25H8.08l4.253 5.622L18.244 2.25zm-1.161 17.52h1.833L7.084 4.126H5.117L17.083 19.77z"/></svg>
+        </a>
+      </div>
+      <a href="boutique.html" class="nav-btn">Shop</a>
+    </div>
+    <button class="nav-hamburger" aria-label="Menu"><span></span><span></span><span></span></button>
+  </nav>
+
+  <div class="nav-mobile">
+    <a href="../index.html">Accueil</a>
+    <a href="equipes.html">Équipes</a>
+    <a href="actus.html">Actus</a>
+    <a href="boutique.html">Boutique</a>
+    <a href="staff.html">Staff</a>
+    <a href="contact.html">Contact</a>
+  </div>
+
+  <div class="page">
+    <div class="page-header">
+      <div class="section-label">Merch officiel</div>
+      <h1>LA <em>BOUTIQUE</em></h1>
+      <p>Portez les couleurs d'Equally Esport</p>
+    </div>
+
+    <div class="section">
+      <div class="shop-notice">
+        <span>🛒</span>
+        La boutique est propulsée par TeamPulse. Les commandes et paiements sont gérés de façon sécurisée par notre partenaire.
+      </div>
+
+      <!-- IFRAME TEAMPULSE -->
+      <div class="shop-iframe-wrapper" id="shopWrapper">
+        <div class="shop-iframe-loader" id="shopLoader">
+          <img src="../assets/images/logo.png" alt="" class="loader-logo">
+          <div class="loader-spinner"></div>
+          <p class="loader-text">Chargement de la boutique…</p>
+        </div>
+
+        <iframe
+          id="shopIframe"
+          src="https://equallyesport.teampulseshop.com/catalogue/equally-esport"
+          title="Boutique Equally Esport"
+          loading="lazy"
+          allow="payment"
+          sandbox="allow-scripts allow-same-origin allow-forms allow-popups allow-top-navigation">
+        </iframe>
+
+        <!-- FALLBACK si iframe bloqué -->
+        <div class="shop-fallback" id="shopFallback">
+          <img src="../assets/images/logo.png" alt="Equally Esport">
+          <h3>Boutique TeamPulse</h3>
+          <p>La boutique s'ouvre dans un nouvel onglet pour vous offrir la meilleure expérience d'achat possible.</p>
+          <a href="https://equallyesport.teampulseshop.com/catalogue/equally-esport"
+             target="_blank" rel="noopener" class="btn-primary">
+            Ouvrir la boutique →
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <img src="../assets/images/logo.png" alt="Equally Esport">
+        <div class="footer-brand-name">EQUALLY <em>ESPORT</em></div>
+        <p>Organisation française d'esport basée à La Rochelle.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Navigation</h4>
+        <ul>
+          <li><a href="equipes.html">Équipes</a></li>
+          <li><a href="actus.html">Actualités</a></li>
+          <li><a href="boutique.html">Boutique</a></li>
+          <li><a href="contact.html">Contact</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Légal</h4>
+        <ul>
+          <li><a href="mentions-legales.html">Mentions légales</a></li>
+          <li><a href="confidentialite.html">Confidentialité</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2025 Equally Esport — La Rochelle, France. Tous droits réservés.</p>
+    </div>
+  </footer>
+
+  <script src="../assets/js/main.js"></script>
+  <script>
+    const iframe = document.getElementById('shopIframe');
+    const loader = document.getElementById('shopLoader');
+    const fallback = document.getElementById('shopFallback');
+
+    iframe.addEventListener('load', () => {
+      loader.classList.add('hidden');
+    });
+
+    /* Si l'iframe est bloqué (X-Frame-Options), on affiche le fallback */
+    setTimeout(() => {
+      try {
+        const doc = iframe.contentDocument || iframe.contentWindow.document;
+        if (!doc || !doc.body || doc.body.innerHTML.trim() === '') throw new Error();
+      } catch(e) {
+        loader.classList.add('hidden');
+        iframe.style.display = 'none';
+        fallback.style.display = 'flex';
+      }
+    }, 6000);
+  </script>
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/sw.js').catch(() => {});
+      });
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Équipes — Equally Esport</title>
+  <link rel="icon" type="image/x-icon" href="../favicon.ico"/>
+  <link rel="manifest" href="../manifest.json"/>
+  <meta name="theme-color" content="#e5000a"/>
+  <link rel="stylesheet" href="../css/variables.css"/>
+  <link rel="stylesheet" href="../css/reset.css"/>
+  <link rel="stylesheet" href="../css/components.css"/>
+  <link rel="stylesheet" href="../css/main.css"/>
+  <style>
+    /* ── Hero ── */
+    .page-hero { padding:5rem 0 3rem; text-align:center; position:relative; border-bottom:1px solid rgba(229,0,10,.1); }
+    .page-hero::before { content:''; position:absolute; inset:0; background:radial-gradient(ellipse 60% 80% at 50% 0%,rgba(229,0,10,.07) 0%,transparent 70%); pointer-events:none; }
+    .hero-eyebrow { font-family:var(--font-mono); font-size:.75rem; text-transform:uppercase; letter-spacing:.3em; color:var(--color-red); margin-bottom:.75rem; opacity:0; animation:fade-up .5s ease-out .1s forwards; }
+    .hero-title { font-family:var(--font-display); font-style:italic; font-weight:900; font-size:clamp(2.5rem,6vw,5rem); text-transform:uppercase; line-height:1; opacity:0; animation:fade-up .5s ease-out .2s forwards; }
+    @keyframes fade-up { from{opacity:0;transform:translateY(14px)} to{opacity:1;transform:translateY(0)} }
+
+    /* ── Filtres tabs ── */
+    .team-tabs {
+      display:flex; gap:.5rem; flex-wrap:wrap;
+      justify-content:center; margin-bottom:2.5rem;
+    }
+    .team-tab {
+      font-family:var(--font-mono); font-size:.72rem; font-weight:700;
+      text-transform:uppercase; letter-spacing:.1em;
+      padding:.45rem 1.2rem; border-radius:6px;
+      border:1px solid rgba(255,255,255,.08);
+      background:transparent; color:#555; cursor:pointer;
+      transition:all .2s;
+    }
+    .team-tab:hover { border-color:rgba(229,0,10,.3); color:#aaa; }
+    .team-tab.active { background:var(--color-red); border-color:var(--color-red); color:#fff; }
+
+    /* ── Filtres catégorie ── */
+    .cat-filters {
+      display:flex; gap:.4rem; justify-content:center;
+      margin-bottom:3rem; flex-wrap:wrap;
+    }
+    .cat-filter {
+      font-family:var(--font-mono); font-size:.65rem;
+      text-transform:uppercase; letter-spacing:.08em;
+      padding:.3rem .9rem; border-radius:20px;
+      border:1px solid rgba(255,255,255,.08);
+      background:transparent; color:#444; cursor:pointer;
+      transition:all .2s;
+    }
+    .cat-filter.active { border-color:var(--color-red); color:var(--color-red); background:rgba(229,0,10,.08); }
+
+    /* ── Section titre ── */
+    .section-label {
+      font-family:var(--font-display); font-style:italic; font-weight:900;
+      font-size:1.4rem; text-transform:uppercase;
+      display:flex; align-items:center; gap:.75rem;
+      margin-bottom:1.5rem; color:#fff;
+    }
+    .section-label::after { content:''; flex:1; height:1px; background:linear-gradient(90deg,rgba(229,0,10,.3),transparent); }
+
+    /* ── Grid joueurs ── */
+    .players-grid-new {
+      display:grid;
+      grid-template-columns:repeat(auto-fill, minmax(200px, 1fr));
+      gap:1.25rem;
+      margin-bottom:3rem;
+    }
+    @media(max-width:768px){ .players-grid-new { grid-template-columns:repeat(2,1fr); gap:.75rem; } }
+    @media(max-width:400px){ .players-grid-new { grid-template-columns:1fr; } }
+
+    /* ── Card joueur ── */
+    .player-card-gm {
+      position:relative; border-radius:12px; overflow:hidden;
+      cursor:pointer; aspect-ratio:.75;
+      background:#0a0a0a;
+      border:1px solid rgba(255,255,255,.06);
+      transition:all .35s;
+    }
+    .player-card-gm:hover { border-color:rgba(229,0,10,.4); transform:translateY(-6px); box-shadow:0 24px 50px rgba(0,0,0,.7); }
+
+    /* Image agent / placeholder */
+    .player-card-img {
+      width:100%; height:100%; object-fit:cover; object-position:top center;
+      display:block; transition:transform .4s, filter .4s;
+    }
+    .player-card-gm:hover .player-card-img { transform:scale(1.05); filter:brightness(.5); }
+
+    /* Placeholder si pas d'image */
+    .player-card-placeholder {
+      width:100%; height:100%;
+      display:flex; align-items:center; justify-content:center;
+      background:linear-gradient(135deg,#0d0d0d,#1a0a0a);
+      font-family:var(--font-display); font-style:italic; font-weight:900;
+      font-size:4rem; color:rgba(229,0,10,.15);
+      transition:filter .4s;
+    }
+    .player-card-gm:hover .player-card-placeholder { filter:brightness(.4); }
+
+    /* Badge numéro */
+    .player-num-badge {
+      position:absolute; top:.65rem; left:.65rem;
+      background:rgba(0,0,0,.7); backdrop-filter:blur(8px);
+      border:1px solid rgba(229,0,10,.3);
+      color:var(--color-red); font-family:var(--font-mono);
+      font-size:.65rem; font-weight:700;
+      padding:2px 8px; border-radius:4px;
+      z-index:2;
+    }
+
+    /* Badge catégorie */
+    .player-cat-badge {
+      position:absolute; top:.65rem; right:.65rem;
+      font-family:var(--font-mono); font-size:.58rem; font-weight:700;
+      text-transform:uppercase; letter-spacing:.06em;
+      padding:2px 8px; border-radius:4px; z-index:2;
+    }
+    .player-cat-badge.coach   { background:rgba(79,195,247,.15); color:#4fc3f7; border:1px solid rgba(79,195,247,.3); }
+    .player-cat-badge.manager { background:rgba(255,183,0,.15);  color:#ffb700; border:1px solid rgba(255,183,0,.3); }
+    .player-cat-badge.analyst { background:rgba(156,39,176,.15); color:#ce93d8; border:1px solid rgba(156,39,176,.3); }
+    .player-cat-badge.staff   { background:rgba(88,101,242,.15); color:#8b95f5; border:1px solid rgba(88,101,242,.3); }
+
+    /* Info bas de carte (toujours visible) */
+    .player-card-bottom {
+      position:absolute; bottom:0; left:0; right:0;
+      background:linear-gradient(0deg,rgba(0,0,0,.95) 60%,transparent);
+      padding:1.5rem .85rem .75rem;
+      transition:transform .3s;
+    }
+    .player-pseudo-gm {
+      font-family:var(--font-display); font-style:italic; font-weight:900;
+      font-size:1rem; text-transform:uppercase; color:#fff; line-height:1;
+      white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+    }
+    .player-role-gm {
+      font-family:var(--font-mono); font-size:.62rem; color:#666;
+      margin-top:.2rem; text-transform:uppercase; letter-spacing:.08em;
+    }
+
+    /* Overlay hover */
+    .player-card-overlay {
+      position:absolute; inset:0;
+      display:flex; flex-direction:column;
+      align-items:center; justify-content:center; gap:1rem;
+      opacity:0; transition:opacity .3s;
+      padding:1rem;
+    }
+    .player-card-gm:hover .player-card-overlay { opacity:1; }
+    .player-flag-big { font-size:2rem; }
+    .player-overlay-meta {
+      font-family:var(--font-mono); font-size:.68rem; color:var(--color-red);
+      text-transform:uppercase; letter-spacing:.08em; text-align:center;
+    }
+    .player-overlay-bio {
+      font-size:.78rem; color:#ccc; line-height:1.5; text-align:center;
+      max-width:220px; max-height:5.5em; overflow:hidden;
+      font-style:italic;
+    }
+    .btn-voir-profil {
+      display:inline-flex; align-items:center; gap:.5rem;
+      background:var(--color-red); color:#fff;
+      font-family:var(--font-display); font-style:italic; font-weight:700;
+      font-size:.85rem; text-transform:uppercase; text-decoration:none;
+      padding:.55rem 1.25rem; border-radius:6px;
+      border:none; cursor:pointer;
+      transition:background .2s, transform .2s;
+      margin-top:.25rem;
+    }
+    .btn-voir-profil:hover { background:#ff2030; transform:scale(1.04); }
+
+    /* Empty state */
+    .empty-state { text-align:center; padding:4rem 2rem; color:#333; font-family:var(--font-mono); font-size:.85rem; }
+  </style>
+</head>
+<body>
+<main style="padding-top:var(--navbar-h)">
+
+  <div class="page-hero">
+    <div class="container">
+      <p class="hero-eyebrow">Organisation</p>
+      <h1 class="hero-title">Nos <span style="color:var(--color-red)">Équipes</span></h1>
+    </div>
+  </div>
+
+  <section style="padding:3rem 0 5rem">
+    <div class="container">
+
+      <!-- Filtres jeux -->
+      <div class="team-tabs" id="team-tabs">
+        <button class="team-tab active" data-game="Tous">Tous</button>
+      </div>
+
+      <!-- Filtres catégorie -->
+      <div class="cat-filters" id="cat-filters">
+        <button class="cat-filter active" data-cat="all">Tous</button>
+        <button class="cat-filter" data-cat="player">Joueurs</button>
+        <button class="cat-filter" data-cat="coach">Coaching Staff</button>
+      </div>
+
+      <!-- Recherche par rôle -->
+      <div style="max-width:360px;margin:0 0 2rem;position:relative">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="position:absolute;left:14px;top:50%;transform:translateY(-50%);color:#555;pointer-events:none"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        <input type="text" id="role-search" placeholder="Rechercher un rôle (ex: Coach, Président, Duelist...)"
+          style="width:100%;padding:.7rem .9rem .7rem 2.5rem;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.1);border-radius:8px;color:#fff;font-size:.85rem;font-family:inherit"/>
+      </div>
+
+      <!-- Contenu dynamique -->
+      <div id="teams-content"></div>
+
+    </div>
+  </section>
+</main>
+
+<script src="../js/components.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', async () => {
+  const content   = document.getElementById('teams-content');
+  const tabsEl    = document.getElementById('team-tabs');
+  const catFilters= document.getElementById('cat-filters');
+
+  let allTeams   = [];
+  let activeGame = 'Tous';
+  let activeCat  = 'all';
+  let roleSearch = '';
+
+  function safeText(s) {
+    const d = document.createElement('div');
+    d.appendChild(document.createTextNode(String(s||'')));
+    return d.innerHTML;
+  }
+
+  function countryFlag(code) {
+    if (!code || code.length !== 2) return '';
+    return code.toUpperCase().replace(/./g, c => String.fromCodePoint(127397 + c.charCodeAt(0)));
+  }
+
+  function getPlayerPhoto(player) {
+    return player.photo_url ? `../${player.photo_url}` : '';
+  }
+
+  function computeAge(birthdate) {
+    if (!birthdate) return null;
+    const b = new Date(birthdate);
+    if (isNaN(b)) return null;
+    const now = new Date();
+    let age = now.getFullYear() - b.getFullYear();
+    const m = now.getMonth() - b.getMonth();
+    if (m < 0 || (m === 0 && now.getDate() < b.getDate())) age--;
+    return age;
+  }
+
+  function formatJoinedDate(dateStr) {
+    if (!dateStr) return '';
+    const d = new Date(dateStr);
+    if (isNaN(d)) return '';
+    return d.toLocaleDateString('fr-FR', { month: 'long', year: 'numeric' });
+  }
+
+  function renderAll() {
+    content.innerHTML = '';
+
+    let teams = allTeams;
+    if (activeGame !== 'Tous') teams = teams.filter(t => t.game === activeGame);
+
+    if (!teams.length) {
+      content.innerHTML = '<div class="empty-state">Aucune équipe trouvée.</div>';
+      return;
+    }
+
+    teams.forEach(team => {
+      const color = team.gameColor || '#e5000a';
+
+      // Filtrer par catégorie
+      let players = team.players || [];
+      if (activeCat !== 'all') {
+        if (activeCat === 'coach') {
+          players = players.filter(p => p.category === 'coach' || p.category === 'manager' || p.category === 'analyst');
+        } else {
+          players = players.filter(p => !p.category || p.category === 'player');
+        }
+      }
+
+      // Filtrer par recherche de rôle (texte libre, ex: "coach", "président", "duelist"...)
+      if (roleSearch) {
+        const q = roleSearch.toLowerCase();
+        players = players.filter(p => (p.role||'').toLowerCase().includes(q) || (p.pseudo||'').toLowerCase().includes(q));
+      }
+
+      if (!players.length) return;
+
+      // Section titre
+      const section = document.createElement('div');
+      section.innerHTML = `
+        <div class="section-label" style="--c:${safeText(color)}">
+          <span style="display:inline-block;width:10px;height:10px;border-radius:50%;background:${safeText(color)}"></span>
+          ${safeText(team.teamName)}
+          <span style="font-size:.75rem;color:#333;font-style:normal;font-weight:400">${safeText(team.game)}</span>
+        </div>`;
+
+      // Grid joueurs
+      const grid = document.createElement('div');
+      grid.className = 'players-grid-new';
+
+      players.forEach(p => {
+        const flag    = countryFlag(p.country);
+        const imgUrl  = getPlayerPhoto(p);
+        const initials = (p.pseudo||'?').slice(0,2).toUpperCase();
+        const catBadge = p.category && p.category !== 'player'
+          ? `<div class="player-cat-badge ${safeText(p.category)}">${safeText(p.category)}</div>` : '';
+        const numBadge = p.numero ? `<div class="player-num-badge">#${safeText(p.numero)}</div>` : '';
+
+        const age = computeAge(p.birthdate);
+        const joined = formatJoinedDate(p.joined_date);
+        const bio = (p.bio || '').trim();
+
+        // Overlay : uniquement des infos qui n'apparaissent PAS déjà sur la face de la carte
+        const metaLine = [
+          age ? `${age} ans` : '',
+          joined ? `Chez Equally depuis ${joined}` : ''
+        ].filter(Boolean).join(' · ');
+
+        const card = document.createElement('div');
+        card.className = 'player-card-gm reveal';
+        card.innerHTML = `
+          ${numBadge}
+          ${catBadge}
+          ${imgUrl
+            ? `<img class="player-card-img" src="${safeText(imgUrl)}" alt="${safeText(p.pseudo)}" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"/>
+               <div class="player-card-placeholder" style="display:none">${safeText(initials)}</div>`
+            : `<div class="player-card-placeholder">${safeText(initials)}</div>`
+          }
+          <!-- Info bas (toujours visible) -->
+          <div class="player-card-bottom">
+            <div class="player-pseudo-gm">${safeText(p.pseudo)}</div>
+            <div class="player-role-gm">${safeText(p.role||'Joueur')}</div>
+          </div>
+          <!-- Overlay hover : infos complémentaires, jamais de doublon avec la face -->
+          <div class="player-card-overlay">
+            ${flag ? `<div class="player-flag-big">${flag}</div>` : ''}
+            ${metaLine ? `<div class="player-overlay-meta">${safeText(metaLine)}</div>` : ''}
+            ${bio ? `<div class="player-overlay-bio">${safeText(bio)}</div>` : ''}
+            <a href="joueur.html?id=${safeText(p.pseudo)}&team=${encodeURIComponent(team.id)}" class="btn-voir-profil">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+              Voir le profil
+            </a>
+          </div>`;
+
+        grid.appendChild(card);
+      });
+
+      section.appendChild(grid);
+      content.appendChild(section);
+    });
+
+    if (!content.children.length) {
+      const msg = roleSearch ? `Aucun résultat pour "${safeText(roleSearch)}".` : 'Aucune équipe trouvée.';
+      content.innerHTML = `<div class="empty-state">${msg}</div>`;
+    }
+
+    // Reveal
+    const obs = new IntersectionObserver(e=>{e.forEach(x=>{if(x.isIntersecting){x.target.classList.add('visible');obs.unobserve(x.target);}});},{threshold:.05});
+    content.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
+  }
+
+  // Charger les équipes + le staff
+  try {
+    const [rTeams, rStaff] = await Promise.all([
+      fetch('../api/teams.php'),
+      fetch('../api/staff.php')
+    ]);
+    const jTeams = await rTeams.json();
+    const jStaff = await rStaff.json();
+    allTeams = jTeams.ok ? jTeams.data : [];
+
+    const staffList = jStaff.ok ? jStaff.data : [];
+    if (staffList.length) {
+      allTeams.push({
+        id: 'staff-equally',
+        game: 'Staff',
+        teamName: 'Direction Equally Esport',
+        gameIcon: 'STF',
+        gameColor: '#5865F2',
+        players: staffList.map(s => ({
+          pseudo: s.name,
+          role: s.role,
+          category: 'staff',
+          twitter: s.twitter,
+          birthdate: s.birthdate,
+          joined_date: s.joined_date,
+          bio: s.bio,
+          photo_url: s.photo_url,
+        }))
+      });
+    }
+
+    // Générer les tabs jeux
+    const games = [...new Set(allTeams.map(t => t.game))];
+    games.forEach(g => {
+      const btn = document.createElement('button');
+      btn.className = 'team-tab';
+      btn.dataset.game = g;
+      btn.textContent = g;
+      tabsEl.appendChild(btn);
+    });
+
+    renderAll();
+  } catch(e) {
+    content.innerHTML = '<div class="empty-state">Erreur de chargement.</div>';
+  }
+
+  // Filtres jeux
+  tabsEl.addEventListener('click', e => {
+    const btn = e.target.closest('.team-tab');
+    if (!btn) return;
+    tabsEl.querySelectorAll('.team-tab').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    activeGame = btn.dataset.game;
+    renderAll();
+  });
+
+  // Filtres catégorie
+  catFilters.addEventListener('click', e => {
+    const btn = e.target.closest('.cat-filter');
+    if (!btn) return;
+    catFilters.querySelectorAll('.cat-filter').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    activeCat = btn.dataset.cat;
+    renderAll();
+  });
+
+  // Recherche par rôle
+  const roleSearchEl = document.getElementById('role-search');
+  let roleSearchDebounce = null;
+  roleSearchEl?.addEventListener('input', () => {
+    clearTimeout(roleSearchDebounce);
+    roleSearchDebounce = setTimeout(() => {
+      roleSearch = roleSearchEl.value.trim();
+      renderAll();
+    }, 150);
+  });
+});
+</script>
+</body>
+</html>

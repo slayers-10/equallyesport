@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Profil joueur — Equally Esport</title>
+  <link rel="icon" type="image/x-icon" href="../favicon.ico"/>
+  <link rel="manifest" href="../manifest.json"/>
+  <meta name="theme-color" content="#e5000a"/>
+  <link rel="stylesheet" href="../css/variables.css"/>
+  <link rel="stylesheet" href="../css/reset.css"/>
+  <link rel="stylesheet" href="../css/components.css"/>
+  <link rel="stylesheet" href="../css/main.css"/>
+  <style>
+    @keyframes fade-up { from{opacity:0;transform:translateY(20px)} to{opacity:1;transform:translateY(0)} }
+
+    /* Hero joueur */
+    .player-hero {
+      min-height:70vh; position:relative; display:flex;
+      align-items:flex-end; overflow:hidden;
+    }
+    .player-hero-bg {
+      position:absolute; inset:0;
+      background:linear-gradient(135deg,#050505 0%,#1a0505 100%);
+    }
+    .player-hero-img {
+      position:absolute; right:0; bottom:0;
+      height:100%; max-height:600px;
+      object-fit:contain; object-position:bottom right;
+      opacity:.7; filter:drop-shadow(-20px 0 40px rgba(229,0,10,.3));
+      animation:fade-up .8s ease-out .3s both;
+    }
+    .player-hero-gradient {
+      position:absolute; inset:0;
+      background:linear-gradient(90deg,#050505 40%,transparent 80%),
+                 linear-gradient(0deg,#050505 0%,transparent 60%);
+    }
+    .player-hero-content {
+      position:relative; z-index:2; padding:0 0 3rem;
+      max-width:600px;
+    }
+    .player-hero-num {
+      font-family:var(--font-display); font-style:italic; font-weight:900;
+      font-size:clamp(5rem,15vw,10rem); color:rgba(229,0,10,.08);
+      line-height:1; margin-bottom:-.5rem;
+      opacity:0; animation:fade-up .6s ease-out .1s forwards;
+    }
+    .player-hero-pseudo {
+      font-family:var(--font-display); font-style:italic; font-weight:900;
+      font-size:clamp(2.5rem,7vw,5rem); text-transform:uppercase;
+      color:#fff; line-height:1;
+      opacity:0; animation:fade-up .6s ease-out .2s forwards;
+    }
+    .player-hero-real {
+      font-family:var(--font-mono); font-size:.85rem; color:#555;
+      margin-top:.4rem; text-transform:uppercase; letter-spacing:.15em;
+      opacity:0; animation:fade-up .6s ease-out .3s forwards;
+    }
+    .player-hero-badges {
+      display:flex; flex-wrap:wrap; gap:.5rem; margin-top:1.25rem;
+      opacity:0; animation:fade-up .6s ease-out .4s forwards;
+    }
+    .hero-badge {
+      display:inline-flex; align-items:center; gap:.4rem;
+      font-family:var(--font-mono); font-size:.7rem; font-weight:700;
+      text-transform:uppercase; letter-spacing:.08em;
+      padding:.3rem .9rem; border-radius:6px;
+    }
+    .hero-badge.role  { background:rgba(229,0,10,.12); color:var(--color-red); border:1px solid rgba(229,0,10,.25); }
+    .hero-badge.game  { background:rgba(255,255,255,.06); color:#888; border:1px solid rgba(255,255,255,.1); }
+    .hero-badge.cat   { background:rgba(79,195,247,.1); color:#4fc3f7; border:1px solid rgba(79,195,247,.2); }
+
+    /* Stats infos */
+    .player-info-grid {
+      display:grid; grid-template-columns:repeat(auto-fill,minmax(180px,1fr));
+      gap:1rem; margin-bottom:2rem;
+    }
+    .info-card {
+      background:var(--color-bg-3);
+      border:1px solid rgba(255,255,255,.06);
+      border-radius:10px; padding:1.25rem;
+      transition:border-color .2s;
+    }
+    .info-card:hover { border-color:rgba(229,0,10,.2); }
+    .info-card-label {
+      font-family:var(--font-mono); font-size:.65rem;
+      text-transform:uppercase; letter-spacing:.1em; color:#444;
+      margin-bottom:.4rem;
+    }
+    .info-card-value {
+      font-family:var(--font-display); font-style:italic; font-weight:900;
+      font-size:1.4rem; text-transform:uppercase; color:#fff;
+    }
+    .info-card-sub {
+      font-family:var(--font-mono); font-size:.72rem; color:#555;
+      margin-top:.2rem;
+    }
+
+    /* Réseaux sociaux */
+    .social-links-player { display:flex; flex-wrap:wrap; gap:.75rem; }
+    .social-link-player {
+      display:flex; align-items:center; gap:.6rem;
+      background:var(--color-bg-3); border:1px solid rgba(255,255,255,.08);
+      border-radius:8px; padding:.6rem 1rem;
+      text-decoration:none; color:#888;
+      font-family:var(--font-mono); font-size:.75rem;
+      transition:all .2s;
+    }
+    .social-link-player:hover { border-color:rgba(229,0,10,.3); color:#fff; background:rgba(229,0,10,.06); }
+    .social-link-player.twitter:hover  { border-color:#1da1f2; color:#1da1f2; background:rgba(29,161,242,.06); }
+    .social-link-player.twitch:hover   { border-color:#9146ff; color:#9146ff; background:rgba(145,70,255,.06); }
+    .social-link-player.youtube:hover  { border-color:#ff0000; color:#ff0000; background:rgba(255,0,0,.06); }
+
+    /* Retour */
+    .back-btn {
+      display:inline-flex; align-items:center; gap:.5rem;
+      font-family:var(--font-mono); font-size:.72rem;
+      color:#444; text-decoration:none;
+      transition:color .2s; margin-bottom:2rem;
+    }
+    .back-btn:hover { color:var(--color-red); }
+  </style>
+</head>
+<body>
+<main style="padding-top:var(--navbar-h)">
+
+  <!-- Hero joueur -->
+  <div class="player-hero" id="player-hero">
+    <div class="player-hero-bg" id="hero-bg"></div>
+    <img class="player-hero-img" id="hero-img" src="" alt="" style="display:none"/>
+    <div class="player-hero-gradient"></div>
+    <div class="container">
+      <div class="player-hero-content">
+        <div class="player-hero-num" id="hero-num"></div>
+        <div class="player-hero-pseudo" id="hero-pseudo">Chargement…</div>
+        <div class="player-hero-real" id="hero-real"></div>
+        <div class="player-hero-badges" id="hero-badges"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Infos -->
+  <section style="padding:3rem 0 5rem;background:var(--color-bg-2)">
+    <div class="container">
+      <a href="equipes.html" class="back-btn">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>
+        Retour aux équipes
+      </a>
+
+      <div class="player-info-grid" id="player-info-grid"></div>
+
+      <div id="player-socials-section" style="display:none">
+        <h3 style="font-family:var(--font-display);font-style:italic;font-weight:700;font-size:1.1rem;text-transform:uppercase;margin-bottom:1rem">
+          Réseaux sociaux
+        </h3>
+        <div class="social-links-player" id="player-socials"></div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<script src="../js/components.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', async () => {
+  const params  = new URLSearchParams(window.location.search);
+  const pseudo  = params.get('id');
+  const teamId  = params.get('team');
+
+  if (!pseudo || !teamId) { window.location.href='equipes.html'; return; }
+
+  function safeText(s) {
+    const d=document.createElement('div'); d.appendChild(document.createTextNode(String(s||''))); return d.innerHTML;
+  }
+  function countryFlag(code) {
+    if (!code||code.length!==2) return '';
+    return code.toUpperCase().replace(/./g,c=>String.fromCodePoint(127397+c.charCodeAt(0)));
+  }
+  // Décode les entités HTML, y compris si elles ont été encodées plusieurs fois par erreur (&amp;amp;amp; -> &)
+  function decodeEntities(str) {
+    if (!str) return '';
+    let curr = String(str);
+    for (let i = 0; i < 10; i++) {
+      const next = curr
+        .replace(/&amp;/g, '&')
+        .replace(/&#x2F;/gi, '/')
+        .replace(/&#x27;/gi, "'")
+        .replace(/&quot;/g, '"')
+        .replace(/&lt;/g, '<')
+        .replace(/&gt;/g, '>');
+      if (next === curr) break;
+      curr = next;
+    }
+    return curr;
+  }
+  // Nettoie un champ réseau social : accepte un pseudo seul OU une URL complète collée par erreur, renvoie juste le pseudo
+  function extractHandle(str) {
+    if (!str) return '';
+    str = decodeEntities(str).trim();
+    const m = str.match(/(?:twitter\.com|x\.com|twitch\.tv|youtube\.com\/@?)\/?([A-Za-z0-9_.\-]+)/i);
+    if (m) return m[1];
+    return str.replace(/^@/, '');
+  }
+  function computeAge(birthdate) {
+    if (!birthdate) return null;
+    const b = new Date(birthdate);
+    if (isNaN(b)) return null;
+    const now = new Date();
+    let age = now.getFullYear() - b.getFullYear();
+    const m = now.getMonth() - b.getMonth();
+    if (m < 0 || (m === 0 && now.getDate() < b.getDate())) age--;
+    return age;
+  }
+  function formatDateLong(dateStr) {
+    if (!dateStr) return '';
+    const d = new Date(dateStr);
+    if (isNaN(d)) return '';
+    return d.toLocaleDateString('fr-FR', { day:'numeric', month: 'long', year: 'numeric' });
+  }
+
+  try {
+    const isStaff = teamId === 'staff-equally';
+    let person, team, color, flag;
+
+    if (isStaff) {
+      const r = await fetch('../api/staff.php');
+      const j = await r.json();
+      const staffList = j.ok ? j.data : [];
+      const s = staffList.find(x => x.name === pseudo);
+      if (!s) { window.location.href='equipes.html'; return; }
+
+      person = {
+        pseudo: s.name, role: s.role, twitter: s.twitter,
+        birthdate: s.birthdate, joined_date: s.joined_date, bio: s.bio, photo_url: s.photo_url,
+        country: '', numero: null, category: 'staff', twitch: '', youtube: ''
+      };
+      team = { game: 'Staff', teamName: 'Direction Equally Esport', gameColor: '#5865F2' };
+      color = '#5865F2'; flag = '';
+    } else {
+      const r = await fetch('../api/teams.php');
+      const j = await r.json();
+      const teams = j.ok ? j.data : [];
+      team = teams.find(t => t.id === teamId);
+      if (!team) { window.location.href='equipes.html'; return; }
+
+      person = (team.players||[]).find(p => p.pseudo === pseudo);
+      if (!person) { window.location.href='equipes.html'; return; }
+
+      color = team.gameColor || '#e5000a';
+      flag  = countryFlag(person.country);
+    }
+
+    // Titre page
+    document.title = `${person.pseudo} — Equally Esport`;
+
+    // Hero
+    document.getElementById('hero-bg').style.background = `linear-gradient(135deg,#050505 0%,${color}22 100%)`;
+    if (person.numero) document.getElementById('hero-num').textContent = '#' + person.numero;
+    document.getElementById('hero-pseudo').textContent = person.pseudo;
+    document.getElementById('hero-real').style.display = 'none'; // évite la redondance avec la carte "Pays" plus bas
+
+    // Photo (vraie photo uploadée, plus de devinette d'icône)
+    if (person.photo_url) {
+      const img = document.getElementById('hero-img');
+      img.src = person.photo_url.startsWith('http') ? person.photo_url : `../${person.photo_url}`;
+      img.alt = person.pseudo; img.style.display = 'block';
+      img.onerror = () => { img.style.display='none'; };
+    }
+
+    // Badges
+    const badgesEl = document.getElementById('hero-badges');
+    if (person.role) badgesEl.innerHTML += `<span class="hero-badge role">${safeText(person.role)}</span>`;
+    badgesEl.innerHTML += `<span class="hero-badge game">${safeText(team.game)}</span>`;
+    if (person.category && person.category !== 'player' && !isStaff) {
+      badgesEl.innerHTML += `<span class="hero-badge cat">${safeText(person.category)}</span>`;
+    }
+
+    // Infos grid
+    const grid = document.getElementById('player-info-grid');
+    const age = computeAge(person.birthdate);
+    const joined = formatDateLong(person.joined_date);
+    const infos = [
+      { label: isStaff ? 'Structure' : 'Jeu', value: team.game, sub: team.teamName !== team.game ? team.teamName : '' },
+      { label:'Pseudo', value: person.pseudo, sub: '' },
+      { label:'Rôle',   value: person.role||'—', sub: '' },
+      (!isStaff && person.country) ? { label:'Pays', value: flag ? flag + ' ' + person.country : person.country, sub: '' } : null,
+      age    ? { label:'Âge', value: age + ' ans', sub: '' } : null,
+      joined ? { label:'Chez Equally depuis', value: joined, sub: '' } : null,
+      (!isStaff && person.numero) ? { label:'Numéro', value: '#' + person.numero, sub: '' } : null,
+    ].filter(Boolean);
+
+    grid.innerHTML = infos.map(i => `
+      <div class="info-card reveal">
+        <div class="info-card-label">${safeText(i.label)}</div>
+        <div class="info-card-value">${safeText(i.value)}</div>
+        ${i.sub ? `<div class="info-card-sub">${safeText(i.sub)}</div>` : ''}
+      </div>`).join('');
+
+    // Bio
+    const bio = decodeEntities(person.bio || '').trim();
+    if (bio) {
+      const bioSection = document.createElement('div');
+      bioSection.className = 'reveal';
+      bioSection.style.cssText = 'margin-bottom:2.5rem;max-width:640px';
+      bioSection.innerHTML = `
+        <h3 style="font-family:var(--font-display);font-style:italic;font-weight:700;font-size:1.1rem;text-transform:uppercase;margin-bottom:.75rem">À propos</h3>
+        <p style="color:#aaa;font-size:.92rem;line-height:1.7">${safeText(bio)}</p>`;
+      grid.insertAdjacentElement('afterend', bioSection);
+    }
+
+    // Réseaux sociaux
+    const twitterSVG = `<svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>`;
+    const twitchSVG  = `<svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M11.571 4.714h1.715v5.143H11.57zm4.715 0H18v5.143h-1.714zM6 0L1.714 4.286v15.428h5.143V24l4.286-4.286h3.428L22.286 12V0zm14.571 11.143l-3.428 3.428h-3.429l-3 3v-3H6.857V1.714h13.714z"/></svg>`;
+    const youtubeSVG = `<svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>`;
+
+    const socialsEl  = document.getElementById('player-socials');
+    const socialsSection = document.getElementById('player-socials-section');
+    let hasSocials = false;
+
+    const twitterHandle = extractHandle(person.twitter);
+    const twitchHandle  = extractHandle(person.twitch);
+    const youtubeHandle = extractHandle(person.youtube);
+
+    if (twitterHandle) { hasSocials=true; socialsEl.innerHTML += `<a href="https://twitter.com/${safeText(twitterHandle)}" target="_blank" rel="noopener" class="social-link-player twitter">${twitterSVG} @${safeText(twitterHandle)}</a>`; }
+    if (twitchHandle)  { hasSocials=true; socialsEl.innerHTML += `<a href="https://twitch.tv/${safeText(twitchHandle)}"   target="_blank" rel="noopener" class="social-link-player twitch">${twitchSVG} ${safeText(twitchHandle)}</a>`; }
+    if (youtubeHandle) { hasSocials=true; socialsEl.innerHTML += `<a href="https://youtube.com/@${safeText(youtubeHandle)}" target="_blank" rel="noopener" class="social-link-player youtube">${youtubeSVG} ${safeText(youtubeHandle)}</a>`; }
+    if (hasSocials) socialsSection.style.display = 'block';
+
+    // Reveal
+    const obs = new IntersectionObserver(e=>{e.forEach(x=>{if(x.isIntersecting){x.target.classList.add('visible');obs.unobserve(x.target);}});},{threshold:.1});
+    document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
+
+  } catch(e) {
+    console.error(e);
+    window.location.href='equipes.html';
+  }
+});
+</script>
+</body>
+</html>

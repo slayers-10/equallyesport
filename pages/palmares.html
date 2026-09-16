@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Palmarès — Equally Esport</title>
+  <link rel="stylesheet" href="../css/variables.css" />
+  <link rel="stylesheet" href="../css/reset.css" />
+  <link rel="stylesheet" href="../css/components.css" />
+  <link rel="stylesheet" href="../css/main.css" />
+</head>
+<body>
+<main style="padding-top:var(--navbar-h)">
+
+  <div class="page-hero" style="background:var(--color-bg-3)">
+    <div class="container">
+      <p class="page-hero-eyebrow">Trophées</p>
+      <h1 class="page-hero-title">Notre <span class="text-red">Palmarès</span></h1>
+      <p class="page-hero-sub">Les titres et trophées remportés par Equally Esport depuis sa création.</p>
+    </div>
+  </div>
+
+  <section style="padding:4rem 0;background:var(--color-bg-3)">
+    <div class="container">
+      <div id="achievements-grid" class="achievements-grid"></div>
+    </div>
+  </section>
+</main>
+
+<script src="../js/components.js"></script>
+<script src="../js/loader.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', async () => {
+  const API='../api/';
+  async function get(ep){try{const r=await fetch(API+ep);const j=await r.json();return j.ok?j.data:[];}catch{return[];}}
+  const safe=s=>{const d=document.createElement('div');d.appendChild(document.createTextNode(String(s||'')));return d.innerHTML;};
+
+  let ach = await get('achievements.php');
+  if(!ach.length) ach=[
+    {id:'d1',year:'2025',name:'Open Series S2',game:'CS2',icon:'🏆'},
+    {id:'d2',year:'2025',name:'VCT Challengers Phase 1',game:'Valorant',icon:'🥇'},
+    {id:'d3',year:'2024',name:'RLCS Open Qualifier',game:'Rocket League',icon:'🏆'},
+    {id:'d4',year:'2024',name:'LFL Division 2',game:'League of Legends',icon:'🥇'},
+  ];
+
+  const grid=document.getElementById('achievements-grid');
+  ach.forEach((a,i)=>{
+    const card=document.createElement('div');
+    card.className=`trophy-card ${i%2===0?'reveal-left':'reveal-right'}`;
+    card.style.transitionDelay=`${i*.1}s`;
+    card.innerHTML=`
+      <div class="trophy-icon">${safe(a.icon)}</div>
+      <div class="trophy-year">${safe(a.year)}</div>
+      <div class="trophy-name">${safe(a.name)}</div>
+      <div class="trophy-game">${safe(a.game)}</div>`;
+    grid.appendChild(card);
+  });
+
+  const obs=new IntersectionObserver(e=>{e.forEach(x=>{if(x.isIntersecting){x.target.classList.add('visible');obs.unobserve(x.target);}});},{threshold:.1});
+  document.querySelectorAll('.reveal-left,.reveal-right').forEach(el=>obs.observe(el));
+});
+</script>
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/sw.js').catch(() => {});
+      });
+    }
+  </script>
+</body>
+</html>

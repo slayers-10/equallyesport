@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8"/>
+  <link rel="manifest" href="../manifest.json"/>
+  <meta name="theme-color" content="#e5000a"/>
+  <meta name="apple-mobile-web-app-capable" content="yes"/>
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
+  <meta name="apple-mobile-web-app-title" content="Equally"/>
+  <link rel="apple-touch-icon" href="../assets/icons/icon-192x192.png"/>
+  <link rel="icon" type="image/x-icon" href="../favicon.ico"/>
+  <link rel="shortcut icon" type="image/x-icon" href="../favicon.ico"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="description" content="Rejoindre Equally Esport — Candidature joueur"/>
+  <title>Recrutement — Equally Esport</title>
+  <link rel="stylesheet" href="../css/variables.css"/>
+  <link rel="stylesheet" href="../css/reset.css"/>
+  <link rel="stylesheet" href="../css/components.css"/>
+  <link rel="stylesheet" href="../css/main.css"/>
+  <style>
+    /* ── Page hero ── */
+    .page-hero { background:linear-gradient(180deg,rgba(229,0,10,.06) 0%,transparent 100%); border-bottom:1px solid rgba(229,0,10,.15); padding:5rem 0 4rem; text-align:center; position:relative; overflow:hidden; }
+    .page-hero::before { content:''; position:absolute; inset:0; background:radial-gradient(ellipse 60% 80% at 50% 0%,rgba(229,0,10,.08) 0%,transparent 70%); pointer-events:none; }
+    .page-hero-eyebrow { font-family:var(--font-mono); font-size:.75rem; text-transform:uppercase; letter-spacing:.3em; color:var(--color-red); margin-bottom:1rem; opacity:0; animation:fade-up .6s ease-out .1s forwards; }
+    .page-hero-title { font-family:var(--font-display); font-style:italic; font-weight:900; font-size:clamp(2.5rem,6vw,5rem); text-transform:uppercase; line-height:1; margin-bottom:1rem; opacity:0; animation:fade-up .6s ease-out .2s forwards; }
+    .page-hero-sub { font-size:1.1rem; color:var(--color-gray); max-width:560px; margin:0 auto; opacity:0; animation:fade-up .6s ease-out .3s forwards; }
+    .text-red { color:var(--color-red); }
+
+    /* ── Grille 2 col ── */
+    .recrut-grid { display:grid; grid-template-columns:1fr 1.4fr; gap:3rem; align-items:start; }
+    @media(max-width:768px){ .recrut-grid{grid-template-columns:1fr;} }
+
+    /* ── Postes ouverts ── */
+    .positions-grid { display:flex; flex-direction:column; gap:.75rem; }
+    .position-card {
+      display:flex; align-items:center; gap:1rem;
+      padding:1rem 1.25rem;
+      background:var(--color-bg-3);
+      border:1px solid rgba(229,0,10,.1);
+      border-radius:8px;
+      transition:all .25s;
+    }
+    .position-card:hover { border-color:rgba(229,0,10,.35); transform:translateX(4px); }
+    .position-game-tag {
+      font-family:var(--font-mono); font-size:.65rem; font-weight:700;
+      text-transform:uppercase; letter-spacing:.08em;
+      padding:3px 8px; border-radius:4px;
+      background:rgba(229,0,10,.15); color:var(--color-red);
+      flex-shrink:0; min-width:38px; text-align:center;
+    }
+    .position-info { flex:1; }
+    .position-role { font-family:var(--font-display); font-style:italic; font-weight:700; font-size:.95rem; text-transform:uppercase; color:#fff; }
+    .position-level { font-family:var(--font-mono); font-size:.7rem; color:var(--color-gray); margin-top:2px; }
+    .position-status { width:8px; height:8px; border-radius:50%; background:#00c853; box-shadow:0 0 6px #00c853; flex-shrink:0; animation:blink 2s infinite; }
+    @keyframes blink { 0%,100%{opacity:1}50%{opacity:.3} }
+
+    /* ── Formulaire ── */
+    .recrut-form-wrap {
+      background:var(--color-bg-3);
+      border:1px solid rgba(229,0,10,.15);
+      border-radius:12px;
+      padding:2.5rem;
+      position:relative;
+      overflow:hidden;
+    }
+    .recrut-form-wrap::before {
+      content:'';
+      position:absolute; top:0; left:0; right:0; height:3px;
+      background:linear-gradient(90deg,var(--color-red),transparent);
+    }
+    .form-title {
+      font-family:var(--font-display); font-style:italic; font-weight:900;
+      font-size:1.4rem; text-transform:uppercase; margin-bottom:.25rem;
+    }
+    .form-subtitle { font-family:var(--font-mono); font-size:.72rem; color:var(--color-gray); margin-bottom:2rem; }
+    .form-group { margin-bottom:1.25rem; }
+    .form-label { display:block; font-family:var(--font-mono); font-size:.72rem; text-transform:uppercase; letter-spacing:.1em; color:#888; margin-bottom:.5rem; }
+    .form-label span { color:var(--color-red); }
+    .form-input, .form-select, .form-textarea {
+      width:100%; padding:.75rem 1rem;
+      background:rgba(255,255,255,.04);
+      border:1px solid rgba(255,255,255,.08);
+      border-radius:8px; color:#fff;
+      font-family:var(--font-mono); font-size:.85rem;
+      transition:border-color .2s, box-shadow .2s;
+      outline:none; box-sizing:border-box;
+    }
+    .form-input:focus, .form-select:focus, .form-textarea:focus {
+      border-color:rgba(229,0,10,.5);
+      box-shadow:0 0 0 3px rgba(229,0,10,.08);
+    }
+    .form-input.error, .form-select.error, .form-textarea.error {
+      border-color:#cc4444;
+      box-shadow:0 0 0 3px rgba(204,68,68,.08);
+    }
+    .form-select { appearance:none; background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23666' fill='none' stroke-width='1.5' stroke-linecap='round'/%3E%3C/svg%3E"); background-repeat:no-repeat; background-position:right 1rem center; padding-right:2.5rem; }
+    .form-select option { background:#1a1a1a; }
+    .form-textarea { min-height:130px; resize:vertical; line-height:1.6; }
+    .form-error { display:none; font-family:var(--font-mono); font-size:.7rem; color:#ff6666; margin-top:.35rem; }
+    .form-error.show { display:block; }
+    .form-row { display:grid; grid-template-columns:1fr 1fr; gap:1rem; }
+    @media(max-width:600px){ .form-row{grid-template-columns:1fr;} }
+
+    /* Compteur textarea */
+    .char-counter { font-family:var(--font-mono); font-size:.65rem; color:#444; text-align:right; margin-top:.3rem; }
+    .char-counter.warn { color:#ff9800; }
+    .char-counter.limit { color:#cc4444; }
+
+    /* Bouton submit */
+    .submit-btn {
+      width:100%; padding:1rem;
+      background:var(--color-red);
+      border:none; border-radius:8px;
+      color:#fff; font-family:var(--font-display); font-style:italic; font-weight:900;
+      font-size:1.1rem; text-transform:uppercase; letter-spacing:.05em;
+      cursor:pointer; transition:all .25s;
+      display:flex; align-items:center; justify-content:center; gap:.75rem;
+      margin-top:1.5rem;
+    }
+    .submit-btn:hover:not(:disabled) { background:#ff2030; transform:translateY(-2px); box-shadow:0 8px 24px rgba(229,0,10,.35); }
+    .submit-btn:disabled { opacity:.6; cursor:not-allowed; transform:none; }
+
+    /* États du formulaire */
+    .form-success {
+      display:none; text-align:center; padding:2rem;
+    }
+    .form-success.show { display:block; }
+    .success-icon { font-size:3rem; margin-bottom:1rem; }
+    .success-title { font-family:var(--font-display); font-style:italic; font-weight:900; font-size:1.5rem; text-transform:uppercase; color:#00c853; margin-bottom:.5rem; }
+    .success-sub { color:var(--color-gray); font-size:.9rem; }
+
+    /* Alerte erreur globale */
+    .form-alert { display:none; background:rgba(204,68,68,.1); border:1px solid rgba(204,68,68,.3); border-radius:6px; padding:.75rem 1rem; font-family:var(--font-mono); font-size:.8rem; color:#ff8888; margin-bottom:1rem; }
+    .form-alert.show { display:block; }
+
+    /* Badge anti-spam */
+    .security-badge {
+      display:flex; align-items:center; gap:.5rem;
+      font-family:var(--font-mono); font-size:.65rem; color:#444;
+      margin-top:1rem; justify-content:center;
+    }
+    .security-badge svg { opacity:.4; }
+  </style>
+</head>
+<body>
+<main style="padding-top:var(--navbar-h)">
+
+  <div class="page-hero">
+    <div class="container">
+      <p class="page-hero-eyebrow">Rejoindre l'équipe</p>
+      <h1 class="page-hero-title">Tu as le <span class="text-red">niveau ?</span></h1>
+      <p class="page-hero-sub">Nous recrutons les meilleurs joueurs pour renforcer nos rangs.</p>
+    </div>
+  </div>
+
+  <section style="padding:4rem 0">
+    <div class="container">
+      <div class="recrut-grid">
+
+        <!-- Postes ouverts -->
+        <div>
+          <h2 class="section-title reveal" style="margin-bottom:1.5rem">Postes ouverts</h2>
+          <div id="positions-grid" class="positions-grid reveal"></div>
+
+          <div style="margin-top:2.5rem;padding:1.5rem;background:rgba(229,0,10,.05);border:1px solid rgba(229,0,10,.12);border-radius:8px" class="reveal">
+            <div style="font-family:var(--font-mono);font-size:.7rem;text-transform:uppercase;letter-spacing:.1em;color:var(--color-red);margin-bottom:.75rem">ℹ️ Critères généraux</div>
+            <ul style="list-style:none;display:flex;flex-direction:column;gap:.5rem">
+              <li style="font-size:.85rem;color:#888;display:flex;align-items:center;gap:.5rem"><span style="color:var(--color-red)">▸</span> Disponibilité pour les entraînements</li>
+              <li style="font-size:.85rem;color:#888;display:flex;align-items:center;gap:.5rem"><span style="color:var(--color-red)">▸</span> Mentalité compétitive et esprit d'équipe</li>
+              <li style="font-size:.85rem;color:#888;display:flex;align-items:center;gap:.5rem"><span style="color:var(--color-red)">▸</span> Rang minimum requis selon le jeu</li>
+              <li style="font-size:.85rem;color:#888;display:flex;align-items:center;gap:.5rem"><span style="color:var(--color-red)">▸</span> Micro obligatoire pour la communication</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Formulaire -->
+        <div class="reveal" style="transition-delay:.15s">
+          <div class="recrut-form-wrap">
+            <!-- Formulaire principal -->
+            <div id="form-container">
+              <div class="form-title">Candidater</div>
+              <div class="form-subtitle">Tous les champs marqués * sont obligatoires</div>
+
+              <!-- Alerte erreur -->
+              <div class="form-alert" id="form-alert"></div>
+
+              <form id="recrut-form" novalidate autocomplete="off">
+                <!-- Honeypot anti-bot (invisible) -->
+                <input type="text" name="_hp" id="_hp" style="display:none;position:absolute;left:-9999px" tabindex="-1" autocomplete="off"/>
+                <input type="text" name="website" id="website" style="display:none;position:absolute;left:-9999px" tabindex="-1"/>
+                <input type="hidden" id="csrf-token" name="token"/>
+
+                <div class="form-row">
+                  <div class="form-group">
+                    <label class="form-label" for="f-pseudo">Pseudo in-game <span>*</span></label>
+                    <input id="f-pseudo" class="form-input" type="text" placeholder="Ex: R3dShadow" maxlength="50" autocomplete="off"/>
+                    <div class="form-error" id="e-pseudo">Ton pseudo est requis.</div>
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label" for="f-game">Jeu visé <span>*</span></label>
+                    <select id="f-game" class="form-select">
+                      <option value="">— Choisir —</option>
+                    </select>
+                    <div class="form-error" id="e-game">Choisis un jeu.</div>
+                  </div>
+                </div>
+
+                <div class="form-row">
+                  <div class="form-group">
+                    <label class="form-label" for="f-rank">Rang / Niveau <span>*</span></label>
+                    <input id="f-rank" class="form-input" type="text" placeholder="Ex: Immortal 2, Faceit 9" maxlength="100"/>
+                    <div class="form-error" id="e-rank">Indique ton rang.</div>
+                  </div>
+                  <div class="form-group">
+                    <label class="form-label" for="f-profile">Lien profil <span style="color:#555">(optionnel)</span></label>
+                    <input id="f-profile" class="form-input" type="url" placeholder="tracker.gg / op.gg…" maxlength="200"/>
+                    <div class="form-error" id="e-profile">URL invalide.</div>
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label class="form-label" for="f-message">Présentation <span>*</span></label>
+                  <textarea id="f-message" class="form-textarea" placeholder="Parle-nous de toi : ton expérience, tes disponibilités, pourquoi rejoindre Equally…" maxlength="2000"></textarea>
+                  <div class="char-counter" id="char-count">0 / 2000</div>
+                  <div class="form-error" id="e-message">Une présentation est requise (min. 30 caractères).</div>
+                </div>
+
+                <button type="submit" class="submit-btn" id="submit-btn">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+                  Envoyer ma candidature
+                </button>
+
+                <div class="security-badge">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                  Formulaire sécurisé — anti-spam actif
+                </div>
+              </form>
+            </div>
+
+            <!-- Message succès -->
+            <div class="form-success" id="form-success">
+              <div class="success-icon">✅</div>
+              <div class="success-title">Candidature envoyée !</div>
+              <p class="success-sub">Nous avons bien reçu ta candidature.<br>Notre staff te contactera dans les meilleurs délais.</p>
+              <button onclick="resetForm()" style="margin-top:1.5rem;background:transparent;border:1px solid rgba(229,0,10,.3);border-radius:6px;color:var(--color-red);font-family:var(--font-mono);font-size:.8rem;padding:.5rem 1.25rem;cursor:pointer;transition:all .2s" onmouseover="this.style.background='rgba(229,0,10,.08)'" onmouseout="this.style.background='transparent'">
+                Envoyer une autre candidature
+              </button>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+</main>
+
+<script src="../js/components.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', async () => {
+
+  /* ── Générer token CSRF ── */
+  const token = btoa(Math.floor(Date.now() / 1000).toString());
+  const csrfInput = document.getElementById('csrf-token');
+  if (csrfInput) csrfInput.value = token;
+
+  /* ── Charger les jeux actifs ── */
+  try {
+    const r = await fetch('../api/games.php');
+    const j = await r.json();
+    const sel = document.getElementById('f-game');
+    if (j.ok && sel) {
+      j.data.forEach(g => {
+        const o = document.createElement('option');
+        o.value = g.name; o.textContent = g.name;
+        sel.appendChild(o);
+      });
+    }
+  } catch {}
+
+  /* ── Postes ouverts ── */
+  const positions = [
+    {tag:'VAL', role:'Duelist',     level:'Immortal 2+'},
+    {tag:'VAL', role:'Controller',  level:'Immortal 1+'},
+    {tag:'CS2', role:'AWPer',       level:'Faceit 9+'},
+    {tag:'CS2', role:'Entry Fragger',level:'Faceit 8+'},
+    {tag:'LOL', role:'Jungler',     level:'Diamond 2+'},
+    {tag:'RL',  role:'Attaquant',   level:'Champion+'},
+  ];
+  const grid = document.getElementById('positions-grid');
+  if (grid) positions.forEach(p => {
+    const div = document.createElement('div');
+    div.className = 'position-card reveal';
+    div.innerHTML = `
+      <div class="position-game-tag">${p.tag}</div>
+      <div class="position-info">
+        <div class="position-role">${p.role}</div>
+        <div class="position-level">${p.level}</div>
+      </div>
+      <div class="position-status" title="Poste ouvert"></div>`;
+    grid.appendChild(div);
+  });
+
+  /* ── Compteur textarea ── */
+  const textarea = document.getElementById('f-message');
+  const counter  = document.getElementById('char-count');
+  textarea?.addEventListener('input', () => {
+    const len = textarea.value.length;
+    if (counter) {
+      counter.textContent = `${len} / 2000`;
+      counter.className = 'char-counter' + (len > 1800 ? ' limit' : len > 1500 ? ' warn' : '');
+    }
+  });
+
+  /* ── Validation en temps réel ── */
+  function clearError(id) {
+    const el = document.getElementById(id);
+    if (el) { el.style.display='none'; }
+    const input = document.getElementById(id.replace('e-','f-'));
+    if (input) input.classList.remove('error');
+  }
+  ['pseudo','game','rank','message'].forEach(f => {
+    document.getElementById('f-'+f)?.addEventListener('input', () => clearError('e-'+f));
+    document.getElementById('f-'+f)?.addEventListener('change', () => clearError('e-'+f));
+  });
+
+  /* ── Soumission ── */
+  const form      = document.getElementById('recrut-form');
+  const submitBtn = document.getElementById('submit-btn');
+  const alertEl   = document.getElementById('form-alert');
+
+  form?.addEventListener('submit', async e => {
+    e.preventDefault();
+
+    // Anti double-clic
+    if (submitBtn.disabled) return;
+
+    const pseudo  = document.getElementById('f-pseudo')?.value.trim()  || '';
+    const game    = document.getElementById('f-game')?.value.trim()    || '';
+    const rank    = document.getElementById('f-rank')?.value.trim()    || '';
+    const message = document.getElementById('f-message')?.value.trim() || '';
+    const profile = document.getElementById('f-profile')?.value.trim() || '';
+    const hp      = document.getElementById('_hp')?.value || '';
+    const website = document.getElementById('website')?.value || '';
+
+    // Validation
+    let valid = true;
+    const showErr = (id, show) => {
+      const err = document.getElementById(id);
+      const inp = document.getElementById(id.replace('e-','f-'));
+      if (err) err.style.display = show ? 'block' : 'none';
+      if (inp) inp.classList.toggle('error', show);
+      if (show) valid = false;
+    };
+
+    showErr('e-pseudo',  !pseudo);
+    showErr('e-game',    !game);
+    showErr('e-rank',    !rank);
+    showErr('e-message', !message || message.length < 30);
+
+    // Valider URL si remplie
+    if (profile && !profile.match(/^https?:\/\/.+/)) {
+      showErr('e-profile', true);
+      valid = false;
+    }
+
+    if (!valid) return;
+
+    // Désactiver le bouton
+    submitBtn.disabled = true;
+    submitBtn.innerHTML = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="animation:spin 1s linear infinite"><path d="M21 12a9 9 0 1 1-6.219-8.56"/></svg> Envoi en cours…';
+
+    if (alertEl) alertEl.style.display = 'none';
+
+    try {
+      const res = await fetch('../api/recruitment.php', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({
+          pseudo, game, rank, message, profile,
+          _hp: hp, website: website,
+          token: document.getElementById('csrf-token')?.value || ''
+        })
+      });
+      const data = await res.json();
+
+      if (data.ok) {
+        document.getElementById('form-container').style.display = 'none';
+        document.getElementById('form-success').classList.add('show');
+      } else {
+        if (alertEl) { alertEl.textContent = data.error || 'Une erreur est survenue.'; alertEl.style.display = 'block'; }
+        submitBtn.disabled = false;
+        submitBtn.innerHTML = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg> Envoyer ma candidature';
+      }
+    } catch {
+      if (alertEl) { alertEl.textContent = 'Impossible de contacter le serveur. Réessayez.'; alertEl.style.display = 'block'; }
+      submitBtn.disabled = false;
+      submitBtn.innerHTML = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg> Envoyer ma candidature';
+    }
+  });
+
+  /* ── Reset formulaire ── */
+  window.resetForm = () => {
+    document.getElementById('form-container').style.display = 'block';
+    document.getElementById('form-success').classList.remove('show');
+    form?.reset();
+    if (counter) counter.textContent = '0 / 2000';
+    // Nouveau token
+    if (csrfInput) csrfInput.value = btoa(Math.floor(Date.now()/1000).toString());
+  };
+
+  /* Reveal */
+  const obs = new IntersectionObserver(e=>{e.forEach(x=>{if(x.isIntersecting){x.target.classList.add('visible');obs.unobserve(x.target);}});},{threshold:.1});
+  document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
+});
+</script>
+<style>
+  @keyframes spin { to { transform: rotate(360deg); } }
+  @keyframes fade-up { from{opacity:0;transform:translateY(16px)} to{opacity:1;transform:translateY(0)} }
+</style>
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/sw.js').catch(() => {});
+      });
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,2118 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="noindex, nofollow, noarchive, nosnippet" />
+  <meta name="referrer" content="no-referrer" />
+  <title>Admin — Equally Esport</title>
+  <link rel="stylesheet" href="css/variables.css" />
+  <link rel="stylesheet" href="css/reset.css" />
+  <style>
+    /* ════════════════════════════════
+       ADMIN PANEL — styles dédiés
+    ════════════════════════════════ */
+
+    body {
+      background: #050505;
+      font-family: var(--font-body);
+      color: var(--color-white);
+      min-height: 100vh;
+    }
+
+    /* ── Écran login ── */
+    #login-screen {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem;
+      background:
+        radial-gradient(ellipse 60% 50% at 50% 0%, rgba(229,0,10,0.08) 0%, transparent 70%),
+        #050505;
+    }
+
+    .login-box {
+      width: 100%;
+      max-width: 420px;
+      background: #0f0f0f;
+      border: 1px solid rgba(229,0,10,0.25);
+      border-radius: 12px;
+      padding: 2.5rem;
+      box-shadow: 0 0 60px rgba(229,0,10,0.08);
+    }
+
+    .login-logo {
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+    .login-logo img {
+      width: 64px;
+      height: 64px;
+      object-fit: contain;
+      filter: drop-shadow(0 0 16px rgba(229,0,10,0.5));
+      margin: 0 auto 1rem;
+    }
+    .login-logo h1 {
+      font-family: var(--font-display);
+      font-style: italic;
+      font-weight: 900;
+      font-size: 1.6rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    .login-logo h1 span { color: var(--color-red); }
+    .login-logo p {
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.2em;
+      color: #555;
+      margin-top: 0.25rem;
+    }
+
+    .login-form-title {
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      color: #555;
+      margin-bottom: 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+    .login-form-title::before,
+    .login-form-title::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: rgba(255,255,255,0.06);
+    }
+
+    .a-form-group { margin-bottom: 1.25rem; }
+    .a-label {
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: #666;
+      margin-bottom: 0.5rem;
+    }
+    .a-input {
+      width: 100%;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 6px;
+      padding: 0.75rem 1rem;
+      color: var(--color-white);
+      font-size: 0.95rem;
+      font-family: var(--font-body);
+      transition: all 0.2s ease-out;
+    }
+    .a-input:focus {
+      outline: none;
+      border-color: var(--color-red);
+      background: rgba(229,0,10,0.04);
+      box-shadow: 0 0 0 3px rgba(229,0,10,0.12);
+    }
+    .a-input.error { border-color: var(--color-red); }
+
+    .a-btn {
+      width: 100%;
+      padding: 0.85rem;
+      background: var(--color-red);
+      color: white;
+      border: none;
+      border-radius: 6px;
+      font-family: var(--font-display);
+      font-style: italic;
+      font-weight: 700;
+      font-size: 1.1rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      cursor: pointer;
+      transition: all 0.2s ease-out;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      margin-top: 1.5rem;
+    }
+    .a-btn:hover:not(:disabled) {
+      background: var(--color-red-hover);
+      box-shadow: 0 0 20px rgba(229,0,10,0.4);
+      transform: translateY(-1px);
+    }
+    .a-btn:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+      transform: none;
+    }
+    .a-btn.secondary {
+      background: transparent;
+      border: 1px solid rgba(229,0,10,0.4);
+      color: var(--color-red);
+      width: auto;
+      padding: 0.5rem 1.25rem;
+      font-size: 0.85rem;
+      margin-top: 0;
+    }
+    .a-btn.secondary:hover {
+      background: rgba(229,0,10,0.1);
+      box-shadow: 0 0 10px rgba(229,0,10,0.2);
+    }
+    .a-btn.danger {
+      background: #7a0000;
+      width: auto;
+      padding: 0.5rem 1rem;
+      font-size: 0.8rem;
+      margin-top: 0;
+    }
+    .a-btn.danger:hover { background: #a00000; box-shadow: none; }
+    .a-btn.success-btn {
+      background: #006627;
+      width: auto;
+      padding: 0.5rem 1.25rem;
+      font-size: 0.85rem;
+      margin-top: 0;
+    }
+
+    #login-error {
+      display: none;
+      background: rgba(229,0,10,0.1);
+      border: 1px solid rgba(229,0,10,0.3);
+      border-radius: 6px;
+      padding: 0.75rem 1rem;
+      font-family: var(--font-mono);
+      font-size: 0.78rem;
+      color: #ff6666;
+      margin-top: 1rem;
+      text-align: center;
+    }
+    #login-error.show { display: block; }
+
+    .lockout-msg {
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      color: #ff6666;
+      text-align: center;
+      margin-top: 0.75rem;
+    }
+
+    .security-badge {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.4rem;
+      margin-top: 1.5rem;
+      font-family: var(--font-mono);
+      font-size: 0.65rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: #333;
+    }
+    .security-badge svg { color: #2a5a2a; }
+
+    /* ════════════════════════════════
+       DASHBOARD
+    ════════════════════════════════ */
+    #admin-screen { display: none; min-height: 100vh; }
+
+    /* Sidebar */
+    .admin-layout {
+      display: grid;
+      grid-template-columns: 240px 1fr;
+      min-height: 100vh;
+    }
+
+    .admin-sidebar {
+      background: #0a0a0a;
+      border-right: 1px solid rgba(229,0,10,0.15);
+      display: flex;
+      flex-direction: column;
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      overflow-y: auto;
+    }
+
+    .sidebar-header {
+      padding: 1.5rem;
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+    .sidebar-header img {
+      width: 32px;
+      height: 32px;
+      object-fit: contain;
+      filter: drop-shadow(0 0 6px rgba(229,0,10,0.4));
+    }
+    .sidebar-header .brand {
+      font-family: var(--font-display);
+      font-style: italic;
+      font-weight: 900;
+      font-size: 1.1rem;
+      text-transform: uppercase;
+    }
+    .sidebar-header .brand span { color: var(--color-red); }
+    .sidebar-header .admin-tag {
+      font-family: var(--font-mono);
+      font-size: 0.6rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: #444;
+      display: block;
+    }
+
+    .sidebar-nav {
+      padding: 1rem 0;
+      flex: 1;
+    }
+
+    .nav-section-label {
+      font-family: var(--font-mono);
+      font-size: 0.6rem;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      color: #333;
+      padding: 0.75rem 1.25rem 0.25rem;
+    }
+
+    .sidebar-link {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 0.65rem 1.25rem;
+      font-family: var(--font-body);
+      font-size: 0.88rem;
+      color: #666;
+      cursor: pointer;
+      transition: all 0.15s ease-out;
+      border-left: 3px solid transparent;
+      user-select: none;
+    }
+    .sidebar-link:hover {
+      color: var(--color-white);
+      background: rgba(255,255,255,0.03);
+    }
+    .sidebar-link.active {
+      color: var(--color-red);
+      background: rgba(229,0,10,0.06);
+      border-left-color: var(--color-red);
+    }
+    .sidebar-link svg { flex-shrink: 0; opacity: 0.7; }
+    .sidebar-link.active svg { opacity: 1; }
+
+    .sidebar-footer {
+      padding: 1rem 1.25rem;
+      border-top: 1px solid rgba(255,255,255,0.05);
+    }
+    .admin-user-info {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      margin-bottom: 0.75rem;
+    }
+    .admin-avatar {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: rgba(229,0,10,0.2);
+      border: 1px solid rgba(229,0,10,0.4);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--font-display);
+      font-style: italic;
+      font-weight: 700;
+      font-size: 0.85rem;
+      color: var(--color-red);
+    }
+    .admin-name {
+      font-size: 0.82rem;
+      font-weight: 600;
+    }
+    .admin-role {
+      font-family: var(--font-mono);
+      font-size: 0.6rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: #444;
+    }
+
+    /* Main content */
+    .admin-main {
+      background: #080808;
+      overflow-y: auto;
+    }
+
+    .admin-topbar {
+      background: rgba(10,10,10,0.95);
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+      padding: 1rem 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+
+    .topbar-title {
+      font-family: var(--font-display);
+      font-style: italic;
+      font-weight: 700;
+      font-size: 1.3rem;
+      text-transform: uppercase;
+    }
+
+    .topbar-actions { display: flex; align-items: center; gap: 1rem; }
+
+    .session-timer {
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      color: #444;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+    .session-timer .dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: #00c853;
+      animation: blink 2s infinite;
+    }
+    @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.3} }
+
+    .admin-content { padding: 2rem; }
+
+    /* Panel pages */
+    .admin-panel { display: none; }
+    .admin-panel.active { display: block; }
+
+    /* Stats cards */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1rem;
+      margin-bottom: 2rem;
+    }
+    .stat-card {
+      background: #0f0f0f;
+      border: 1px solid rgba(255,255,255,0.06);
+      border-radius: 8px;
+      padding: 1.25rem;
+      transition: all 0.2s ease-out;
+    }
+    .stat-card:hover {
+      border-color: rgba(229,0,10,0.3);
+      box-shadow: 0 0 20px rgba(229,0,10,0.05);
+    }
+    .stat-card-label {
+      font-family: var(--font-mono);
+      font-size: 0.65rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: #444;
+      margin-bottom: 0.5rem;
+    }
+    .stat-card-value {
+      font-family: var(--font-display);
+      font-style: italic;
+      font-weight: 900;
+      font-size: 2rem;
+      color: var(--color-red);
+      line-height: 1;
+    }
+    .stat-card-sub {
+      font-size: 0.75rem;
+      color: #444;
+      margin-top: 0.25rem;
+    }
+
+    /* Section title */
+    .a-section-title {
+      font-family: var(--font-display);
+      font-style: italic;
+      font-weight: 700;
+      font-size: 1.1rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 1.25rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .a-section-title::before {
+      content: none;
+    }
+
+    /* Cards */
+    .a-card {
+      background: #0f0f0f;
+      border: 1px solid rgba(255,255,255,0.06);
+      border-radius: 8px;
+      padding: 1.5rem;
+      margin-bottom: 1.5rem;
+    }
+    .a-card-title {
+      font-family: var(--font-display);
+      font-style: italic;
+      font-weight: 700;
+      font-size: 1rem;
+      text-transform: uppercase;
+      color: var(--color-red);
+      margin-bottom: 1.25rem;
+      padding-bottom: 0.75rem;
+      border-bottom: 1px solid rgba(229,0,10,0.15);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    /* Form grid */
+    .a-grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+    .a-grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1rem; }
+    .a-select {
+      width: 100%;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 6px;
+      padding: 0.75rem 1rem;
+      color: var(--color-white);
+      font-size: 0.9rem;
+      font-family: var(--font-body);
+      transition: all 0.2s ease-out;
+      cursor: pointer;
+    }
+    .a-select option { background: #111; }
+    .a-select:focus {
+      outline: none;
+      border-color: var(--color-red);
+      box-shadow: 0 0 0 3px rgba(229,0,10,0.12);
+    }
+    .a-textarea {
+      width: 100%;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 6px;
+      padding: 0.75rem 1rem;
+      color: var(--color-white);
+      font-size: 0.9rem;
+      font-family: var(--font-body);
+      resize: vertical;
+      min-height: 100px;
+      transition: all 0.2s ease-out;
+    }
+    .a-textarea:focus {
+      outline: none;
+      border-color: var(--color-red);
+      box-shadow: 0 0 0 3px rgba(229,0,10,0.12);
+    }
+
+    /* Joueurs dynamiques */
+    .players-builder { margin-top: 1rem; }
+    .player-row-admin {
+      display: grid;
+      grid-template-columns: 1fr 1fr auto;
+      gap: 0.75rem;
+      align-items: center;
+      margin-bottom: 0.6rem;
+    }
+    .remove-player-btn {
+      background: rgba(139,0,0,0.3);
+      border: 1px solid rgba(139,0,0,0.5);
+      border-radius: 4px;
+      color: #ff6666;
+      width: 34px;
+      height: 34px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.15s;
+      flex-shrink: 0;
+      font-size: 1rem;
+      font-family: monospace;
+    }
+    .remove-player-btn:hover { background: rgba(139,0,0,0.6); }
+
+    .add-player-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      padding: 0.45rem 0.9rem;
+      background: rgba(255,255,255,0.04);
+      border: 1px dashed rgba(255,255,255,0.15);
+      border-radius: 5px;
+      color: #666;
+      font-size: 0.8rem;
+      cursor: pointer;
+      transition: all 0.15s;
+      margin-top: 0.5rem;
+    }
+    .add-player-btn:hover { border-color: var(--color-red); color: var(--color-red); }
+
+    /* Table liste */
+    .a-table { width: 100%; border-collapse: collapse; }
+    .a-table th {
+      font-family: var(--font-mono);
+      font-size: 0.65rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: #444;
+      padding: 0.6rem 0.75rem;
+      text-align: left;
+      border-bottom: 1px solid rgba(229,0,10,0.15);
+    }
+    .a-table td {
+      padding: 0.75rem;
+      font-size: 0.85rem;
+      border-bottom: 1px solid rgba(255,255,255,0.03);
+      vertical-align: middle;
+    }
+    .a-table tr:hover td { background: rgba(255,255,255,0.02); }
+    .a-table .actions { display: flex; gap: 0.4rem; }
+
+    /* Toast notifications */
+    #toast-container {
+      position: fixed;
+      top: 1.5rem;
+      right: 1.5rem;
+      z-index: 9999;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      pointer-events: none;
+    }
+    .toast {
+      background: #111;
+      border-radius: 6px;
+      padding: 0.75rem 1.25rem;
+      font-size: 0.82rem;
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+      animation: slide-in 0.3s ease-out;
+      pointer-events: all;
+      min-width: 280px;
+      border-left: 3px solid;
+    }
+    .toast.toast-success { border-color: #00c853; }
+    .toast.toast-error { border-color: var(--color-red); }
+    .toast.toast-info { border-color: #2979ff; }
+    .toast.fade-out { animation: fade-out 0.3s ease-out forwards; }
+    @keyframes slide-in { from { opacity:0; transform: translateX(20px); } to { opacity:1; transform:translateX(0); } }
+    @keyframes fade-out { to { opacity:0; transform: translateX(20px); } }
+
+    /* Modal confirmation */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.85);
+      z-index: 8000;
+      align-items: center;
+      justify-content: center;
+    }
+    .modal-overlay.show { display: flex; }
+    .modal-box {
+      background: #111;
+      border: 1px solid rgba(229,0,10,0.3);
+      border-radius: 10px;
+      padding: 2rem;
+      max-width: 420px;
+      width: 90%;
+      text-align: center;
+    }
+    .modal-icon { font-size: 2.5rem; margin-bottom: 1rem; }
+    .modal-title {
+      font-family: var(--font-display);
+      font-style: italic;
+      font-weight: 700;
+      font-size: 1.3rem;
+      text-transform: uppercase;
+      margin-bottom: 0.5rem;
+    }
+    .modal-msg { color: #888; font-size: 0.88rem; margin-bottom: 1.5rem; }
+    .modal-actions { display: flex; gap: 0.75rem; justify-content: center; }
+
+    /* Modal prévisualisation logo */
+    .logo-preview-box { max-width: 360px; }
+    .logo-preview-img-wrap {
+      width: 100%;
+      aspect-ratio: 1;
+      border-radius: 10px;
+      margin-bottom: 1.25rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      background-image:
+        linear-gradient(45deg, rgba(255,255,255,.05) 25%, transparent 25%),
+        linear-gradient(-45deg, rgba(255,255,255,.05) 25%, transparent 25%),
+        linear-gradient(45deg, transparent 75%, rgba(255,255,255,.05) 75%),
+        linear-gradient(-45deg, transparent 75%, rgba(255,255,255,.05) 75%);
+      background-size: 24px 24px;
+      background-position: 0 0, 0 12px, 12px -12px, -12px 0;
+      background-color: #0a0a0a;
+      border: 1px solid rgba(255,255,255,.08);
+    }
+    .logo-preview-img-wrap img {
+      max-width: 82%;
+      max-height: 82%;
+      object-fit: contain;
+      margin: 0 auto;
+    }
+
+    /* Dropzone logo partenaire */
+    .logo-dropzone {
+      border: 2px dashed rgba(255,255,255,.15);
+      border-radius: 10px;
+      min-height: 110px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      background: rgba(255,255,255,.02);
+      transition: border-color .2s, background .2s;
+      padding: 1rem;
+    }
+    .logo-dropzone:hover {
+      border-color: rgba(229,0,10,.4);
+      background: rgba(229,0,10,.03);
+    }
+    .logo-dropzone.dragover {
+      border-color: #e5000a;
+      background: rgba(229,0,10,.1);
+    }
+    .logo-dropzone-content { width: 100%; display: flex; align-items: center; justify-content: center; }
+    .logo-dropzone-empty {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: .35rem;
+      color: #666;
+      font-size: .78rem;
+      text-align: center;
+      pointer-events: none;
+    }
+    .logo-dropzone-empty svg { opacity: .6; margin-bottom: .15rem; }
+    .logo-dropzone-empty u { color: #e5000a; text-decoration: none; }
+    .logo-dropzone-empty small { color: #444; font-size: .68rem; }
+    .logo-dropzone-content img { max-width: 140px; max-height: 90px; object-fit: contain; pointer-events: none; }
+
+    /* Badge */
+    .a-badge {
+      display: inline-block;
+      padding: 2px 8px;
+      border-radius: 4px;
+      font-family: var(--font-mono);
+      font-size: 0.65rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    .a-badge-win { background: rgba(0,200,83,0.12); color: #00c853; border: 1px solid rgba(0,200,83,0.3); }
+    .a-badge-loss { background: rgba(139,0,0,0.2); color: #cc4444; border: 1px solid rgba(139,0,0,0.4); }
+    .a-badge-gold { background: rgba(240,192,80,0.1); color: #f0c050; border: 1px solid rgba(240,192,80,0.3); }
+    .a-badge-red { background: rgba(229,0,10,0.1); color: var(--color-red-hover); border: 1px solid rgba(229,0,10,0.3); }
+
+    /* Change password form */
+    .password-strength {
+      height: 3px;
+      border-radius: 2px;
+      margin-top: 0.4rem;
+      transition: all 0.3s;
+      background: #222;
+    }
+    .strength-weak { background: #aa0000; width: 30%; }
+    .strength-medium { background: #e5a000; width: 65%; }
+    .strength-strong { background: #00c853; width: 100%; }
+    .strength-label {
+      font-family: var(--font-mono);
+      font-size: 0.65rem;
+      margin-top: 0.3rem;
+    }
+
+    /* Log securité */
+    .security-log {
+      background: #070707;
+      border: 1px solid rgba(255,255,255,0.05);
+      border-radius: 6px;
+      padding: 1rem;
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      color: #444;
+      max-height: 200px;
+      overflow-y: auto;
+    }
+    .log-entry { padding: 0.2rem 0; border-bottom: 1px solid rgba(255,255,255,0.02); }
+    .log-entry .log-time { color: #2979ff; margin-right: 0.5rem; }
+    .log-entry .log-ok { color: #00c853; }
+    .log-entry .log-warn { color: #ff9800; }
+    .log-entry .log-err { color: var(--color-red); }
+
+    /* Responsive sidebar collapse */
+    @media (max-width: 900px) {
+      .admin-layout { grid-template-columns: 1fr; }
+      .admin-sidebar { display: none; }
+      .stats-grid { grid-template-columns: repeat(2, 1fr); }
+      .a-grid-2, .a-grid-3 { grid-template-columns: 1fr; }
+    }
+
+    /* Empty state */
+    .empty-state {
+      text-align: center;
+      padding: 3rem 1rem;
+      color: #333;
+    }
+    .empty-state svg { margin: 0 auto 1rem; opacity: 0.3; }
+    .empty-state p { font-size: 0.85rem; }
+
+    /* Divider */
+    .a-divider {
+      height: 1px;
+      background: rgba(255,255,255,0.05);
+      margin: 1.5rem 0;
+    }
+  </style>
+</head>
+<body>
+
+<!-- Toast container -->
+<div id="toast-container" aria-live="polite"></div>
+
+<!-- Modal confirmation suppression -->
+<div class="modal-overlay" id="confirm-modal" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+  <div class="modal-box">
+    <div class="modal-icon">⚠️</div>
+    <div class="modal-title" id="modal-title">Confirmer la suppression</div>
+    <p class="modal-msg" id="modal-msg">Cette action est irréversible.</p>
+    <div class="modal-actions">
+      <button class="a-btn secondary" onclick="closeModal()">Annuler</button>
+      <button class="a-btn danger" id="modal-confirm-btn">Supprimer</button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal prévisualisation logo partenaire -->
+<div class="modal-overlay" id="logo-preview-modal" role="dialog" aria-modal="true" aria-labelledby="logo-preview-title" onclick="if(event.target===this) closeLogoPreview()">
+  <div class="modal-box logo-preview-box">
+    <div class="logo-preview-img-wrap">
+      <img id="logo-preview-img" src="" alt="" />
+      <div id="logo-preview-initials" style="font-size:2.5rem;font-weight:900;color:#666;font-family:var(--font-display);display:none"></div>
+    </div>
+    <div class="modal-title" id="logo-preview-title">—</div>
+    <p class="modal-msg" id="logo-preview-sub">—</p>
+    <div class="modal-actions">
+      <button class="a-btn secondary" onclick="closeLogoPreview()">Fermer</button>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════
+     ÉCRAN LOGIN
+════════════════════════════════ -->
+<div id="login-screen">
+  <div class="login-box">
+    <div class="login-logo">
+      <img src="assets/logo/logo.png" alt="Equally Esport" />
+      <h1>Equally<span>Esport</span></h1>
+      <p>Panneau d'administration</p>
+    </div>
+
+    <div class="login-form-title">Connexion sécurisée</div>
+
+    <form id="login-form" novalidate autocomplete="off">
+      <!-- Honeypot anti-bot (caché) -->
+      <input type="text" name="website" id="hp-field" style="display:none;position:absolute;left:-9999px" tabindex="-1" aria-hidden="true" />
+
+      <div class="a-form-group">
+        <label class="a-label" for="login-user">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+          Identifiant
+        </label>
+        <input id="login-user" class="a-input" type="text"
+               placeholder="admin" autocomplete="off"
+               maxlength="32" spellcheck="false" />
+      </div>
+
+      <div class="a-form-group">
+        <label class="a-label" for="login-pass">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+          Mot de passe
+        </label>
+        <div style="position:relative">
+          <input id="login-pass" class="a-input" type="password"
+                 placeholder="••••••••" autocomplete="current-password"
+                 maxlength="64" style="padding-right:3rem" />
+          <button type="button" id="toggle-pass"
+                  style="position:absolute;right:0.75rem;top:50%;transform:translateY(-50%);background:none;border:none;color:#444;cursor:pointer;padding:0.25rem;"
+                  aria-label="Afficher/masquer le mot de passe">
+            <svg id="eye-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+          </button>
+        </div>
+      </div>
+
+      <div id="login-error" role="alert"></div>
+      <div id="lockout-display" class="lockout-msg" style="display:none"></div>
+
+      <button type="submit" class="a-btn" id="login-btn">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/><polyline points="10 17 15 12 10 7"/><line x1="15" y1="12" x2="3" y2="12"/></svg>
+        Accéder au panneau
+      </button>
+    </form>
+
+    <div class="security-badge">
+      <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+      Connexion chiffrée — Accès restreint
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════
+     DASHBOARD ADMIN
+════════════════════════════════ -->
+<div id="admin-screen">
+  <div class="admin-layout">
+
+    <!-- SIDEBAR -->
+    <aside class="admin-sidebar" role="navigation" aria-label="Navigation admin">
+      <div class="sidebar-header">
+        <img src="assets/logo/logo.png" alt="Logo" />
+        <div>
+          <div class="brand">Equally<span>.</span></div>
+          <span class="admin-tag">Admin Panel v1.0</span>
+        </div>
+      </div>
+
+      <nav class="sidebar-nav">
+        <div class="nav-section-label">Tableau de bord</div>
+        <div class="sidebar-link active" data-panel="dashboard">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+          Vue d'ensemble
+        </div>
+
+        <div class="nav-section-label">Équipes & Compétition</div>
+        <div class="sidebar-link" data-panel="teams">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+          Équipes & Rosters
+        </div>
+        <div class="sidebar-link" data-panel="staff">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+          Staff (Direction)
+        </div>
+        <div class="sidebar-link" data-panel="games">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="6" width="20" height="12" rx="2"/><path d="M6 12h4M8 10v4M15 11h.01M18 13h.01"/></svg>
+          Jeux & Catégories
+        </div>
+        <div class="sidebar-link" data-panel="results">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+          Résultats de matchs
+        </div>
+        <div class="sidebar-link" data-panel="tournaments">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+          Tournois à venir
+        </div>
+        <div class="sidebar-link" data-panel="achievements">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="6"/><path d="M15.477 12.89L17 22l-5-3-5 3 1.523-9.11"/></svg>
+          Palmarès
+        </div>
+
+        <div class="nav-section-label">Communication</div>
+        <div class="sidebar-link" data-panel="news">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 22h16a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2z"/><line x1="8" y1="6" x2="20" y2="6"/><line x1="8" y1="10" x2="20" y2="10"/><line x1="8" y1="14" x2="14" y2="14"/></svg>
+          Actualités
+        </div>
+        <div class="sidebar-link" data-panel="applications" style="position:relative">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+          Candidatures
+          <span id="sidebar-apps-badge" style="display:none;background:var(--color-red);color:#fff;font-size:.6rem;font-weight:700;padding:1px 6px;border-radius:20px;margin-left:auto;animation:pulse-badge .8s ease-in-out infinite alternate">0</span>
+        </div>
+        <div class="sidebar-link" data-panel="feed">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="4 17 10 11 4 5"/><line x1="12" y1="19" x2="20" y2="19"/></svg>
+          Feed d'activité
+        </div>
+        <div class="sidebar-link" data-panel="partners">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+          Partenaires
+        </div>
+        <div class="sidebar-link" data-panel="newsletter">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16v16H4z"/><path d="M22 6l-10 7L2 6"/></svg>
+          Newsletter
+        </div>
+
+        <div class="sidebar-link" data-panel="notes">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+          Notes internes
+        </div>
+
+        <div class="nav-section-label">Système</div>
+        <div class="sidebar-link" data-panel="socials">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+          Réseaux sociaux
+        </div>
+        <div class="sidebar-link" data-panel="maintenance">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M4.93 4.93a10 10 0 0 0 0 14.14"/></svg>
+          Maintenance
+        </div>
+        <div class="sidebar-link" data-panel="site-visits">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7z"/><circle cx="12" cy="12" r="3"/></svg>
+          Visiteurs du site
+        </div>
+        <div class="sidebar-link" data-panel="login-history">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          Connexions admin
+        </div>
+        <div class="sidebar-link" data-panel="trash">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
+          Corbeille
+        </div>
+        <div class="sidebar-link" data-panel="security" style="position:relative">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+          Sécurité
+          <span id="sidebar-sessions-badge" style="display:none;background:#00c853;color:#031a0d;font-size:.6rem;font-weight:700;padding:1px 6px;border-radius:20px;margin-left:auto">0</span>
+        </div>
+      </nav>
+
+      <div class="sidebar-footer">
+        <div class="admin-user-info">
+          <div class="admin-avatar" id="sidebar-avatar">A</div>
+          <div>
+            <div class="admin-name" id="sidebar-name">Admin</div>
+            <div class="admin-role">Super Administrateur</div>
+          </div>
+        </div>
+        <button class="a-btn danger" style="width:100%" onclick="logout()">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+          Déconnexion
+        </button>
+      </div>
+    </aside>
+
+    <!-- MAIN -->
+    <main class="admin-main">
+      <div class="admin-topbar">
+        <div class="topbar-title" id="topbar-title">Vue d'ensemble</div>
+        <div style="position:relative;flex:1;max-width:340px;margin:0 1.5rem">
+          <input id="global-search" class="a-input" type="text" placeholder="🔍 Rechercher (joueur, actu, partenaire...)" autocomplete="off"
+                 style="font-size:.8rem;padding:.55rem .9rem" oninput="handleGlobalSearch(this.value)" onfocus="handleGlobalSearch(this.value)" />
+          <div id="global-search-results" style="display:none;position:absolute;top:calc(100% + 6px);left:0;right:0;background:#111;border:1px solid rgba(229,0,10,.25);border-radius:8px;max-height:400px;overflow-y:auto;z-index:200;box-shadow:0 10px 30px rgba(0,0,0,.5)"></div>
+        </div>
+        <div class="topbar-actions">
+          <div class="session-timer">
+            <div class="dot"></div>
+            Session active — <span id="session-countdown">30:00</span>
+          </div>
+          <a href="index.html" target="_blank" class="a-btn secondary" style="font-size:0.75rem;padding:0.4rem 0.9rem;" aria-label="Voir le site public">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+            Voir le site public
+          </a>
+          <a href="index.html" class="a-btn secondary" style="font-size:0.75rem;padding:0.4rem 0.9rem;" aria-label="Retour au site">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>
+            Retour
+          </a>
+        </div>
+      </div>
+
+      <div class="admin-content">
+
+        <!-- ── DASHBOARD ── -->
+        <div id="panel-dashboard" class="admin-panel active">
+
+          <!-- Stats principales -->
+          <div class="stats-grid">
+            <div class="stat-card">
+              <div class="stat-card-label">Équipes</div>
+              <div class="stat-card-value" id="stat-teams">0</div>
+              <div class="stat-card-sub">Actives</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-card-label">Résultats</div>
+              <div class="stat-card-value" id="stat-results">0</div>
+              <div class="stat-card-sub">Enregistrés</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-card-label">Actualités</div>
+              <div class="stat-card-value" id="stat-news">0</div>
+              <div class="stat-card-sub">Publiées</div>
+            </div>
+            <div class="stat-card" style="position:relative;cursor:pointer" onclick="document.querySelector('[data-panel=applications]').click()">
+              <div class="stat-card-label">Candidatures</div>
+              <div class="stat-card-value" id="stat-applications">0</div>
+              <div class="stat-card-sub">Reçues</div>
+              <div id="applications-badge" style="display:none;position:absolute;top:-6px;right:-6px;background:var(--color-red);color:#fff;font-size:.65rem;font-weight:700;font-family:var(--font-mono);padding:2px 7px;border-radius:20px;animation:pulse-badge .8s ease-in-out infinite alternate">NEW</div>
+            </div>
+          </div>
+
+          <!-- Graphique victoires/défaites par mois -->
+          <div class="a-card" style="margin-bottom:1.5rem">
+            <div class="a-card-title">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+              Victoires / Défaites par mois
+            </div>
+            <div id="results-chart" style="height:160px;display:flex;align-items:flex-end;gap:6px;padding:1rem 0 0;min-height:160px"></div>
+            <div id="results-chart-legend" style="display:flex;gap:1.5rem;margin-top:.75rem;font-family:var(--font-mono);font-size:.7rem;color:#555">
+              <span style="display:flex;align-items:center;gap:.4rem"><span style="width:10px;height:10px;border-radius:2px;background:#00c853;display:inline-block"></span>Victoires</span>
+              <span style="display:flex;align-items:center;gap:.4rem"><span style="width:10px;height:10px;border-radius:2px;background:#cc4444;display:inline-block"></span>Défaites</span>
+            </div>
+          </div>
+
+          <!-- Top jeux + Activité côte à côte -->
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.5rem">
+
+            <!-- Top 3 jeux -->
+            <div class="a-card">
+              <div class="a-card-title">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="6"/><path d="M15.477 12.89L17 22l-5-3-5 3 1.523-9.11"/></svg>
+                Top jeux actifs
+              </div>
+              <div id="top-games" style="display:flex;flex-direction:column;gap:.75rem"></div>
+            </div>
+
+            <!-- Activité récente -->
+            <div class="a-card">
+              <div class="a-card-title">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                Activité récente
+              </div>
+              <div id="recent-activity" class="security-log"></div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- ── ÉQUIPES ── -->
+        <div id="panel-teams" class="admin-panel">
+          <div class="a-section-title">
+            Équipes & Rosters
+            <button class="a-btn secondary" onclick="showForm('team-form')">+ Nouvelle équipe</button>
+          </div>
+
+          <div id="team-form" class="a-card" style="display:none">
+            <div class="a-card-title">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>
+              <span id="team-form-title">Nouvelle équipe</span>
+            </div>
+            <div class="a-grid-2" style="margin-bottom:1rem">
+              <div>
+                <label class="a-label">Jeu *</label>
+                <div style="display:flex;gap:0.5rem;align-items:center">
+                  <select id="tf-game" class="a-select" style="flex:1"></select>
+                  <button type="button" onclick="openAddGameModal()" title="Ajouter un nouveau jeu"
+                    style="background:var(--color-red);border:none;border-radius:6px;color:white;width:40px;height:40px;font-size:1.3rem;cursor:pointer;flex-shrink:0;transition:all 0.2s;display:flex;align-items:center;justify-content:center;">
+                    +
+                  </button>
+                </div>
+              </div>
+              <div>
+                <label class="a-label">Nom de l'équipe *</label>
+                <input id="tf-name" class="a-input" type="text" placeholder="Equally Red Force" maxlength="60" />
+              </div>
+            </div>
+
+            <!-- Modal ajout jeu -->
+            <div id="add-game-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.85);z-index:9000;align-items:center;justify-content:center;">
+              <div style="background:#111;border:1px solid rgba(229,0,10,0.4);border-radius:10px;padding:2rem;max-width:440px;width:90%">
+                <div style="font-family:var(--font-display);font-style:italic;font-weight:700;font-size:1.3rem;text-transform:uppercase;color:var(--color-red);margin-bottom:1.25rem;">
+                  ➕ Nouveau jeu
+                </div>
+                <div class="a-form-group">
+                  <label class="a-label">Nom du jeu *</label>
+                  <input id="new-game-name" class="a-input" type="text" placeholder="Ex: Overwatch 2" maxlength="50" />
+                </div>
+                <div class="a-grid-2" style="margin-bottom:1rem">
+                  <div>
+                    <label class="a-label">Icône (3-4 lettres)</label>
+                    <input id="new-game-icon" class="a-input" type="text" placeholder="OW2" maxlength="4" />
+                  </div>
+                  <div>
+                    <label class="a-label">Couleur</label>
+                    <div style="display:flex;gap:0.5rem;align-items:center">
+                      <input id="new-game-color" type="color" value="#E5000A"
+                        style="width:44px;height:40px;padding:2px;border:1px solid rgba(255,255,255,0.1);border-radius:6px;background:transparent;cursor:pointer;"
+                        oninput="document.getElementById('new-game-color-hex').value=this.value" />
+                      <input id="new-game-color-hex" class="a-input" type="text" value="#E5000A" maxlength="7"
+                        style="flex:1" oninput="if(/^#[0-9A-Fa-f]{6}$/.test(this.value)) document.getElementById('new-game-color').value=this.value" />
+                    </div>
+                  </div>
+                </div>
+                <!-- Liste jeux existants -->
+                <div style="margin-bottom:1rem">
+                  <div class="a-label" style="margin-bottom:0.5rem">Jeux enregistrés</div>
+                  <div id="games-list-modal" style="background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.06);border-radius:6px;padding:0.5rem;max-height:160px;overflow-y:auto;"></div>
+                </div>
+                <div style="display:flex;gap:0.75rem;justify-content:flex-end">
+                  <button class="a-btn secondary" onclick="closeAddGameModal()">Fermer</button>
+                  <button class="a-btn success-btn" onclick="saveNewGame()">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+                    Enregistrer le jeu
+                  </button>
+                </div>
+              </div>
+            </div>
+            <div style="margin-bottom:1rem;max-width:260px">
+              <label class="a-label">Couleur du jeu</label>
+              <div style="display:flex;gap:0.5rem;align-items:center">
+                <input id="tf-color" class="a-input" type="color" value="#E5000A" style="width:50px;height:40px;padding:2px;cursor:pointer" />
+                <input id="tf-color-hex" class="a-input" type="text" placeholder="#E5000A" maxlength="7" style="flex:1" />
+              </div>
+            </div>
+
+            <div class="a-label" style="margin-bottom:0.5rem">Joueurs du roster</div>
+            <div id="players-builder" class="players-builder"></div>
+            <button type="button" class="add-player-btn" onclick="addPlayerRow()">+ Ajouter un joueur</button>
+
+            <div class="a-divider"></div>
+            <div style="display:flex;gap:0.75rem;justify-content:flex-end">
+              <button class="a-btn secondary" onclick="hideForm('team-form');clearTeamForm()">Annuler</button>
+              <button class="a-btn success-btn" onclick="saveTeam()">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+                Enregistrer l'équipe
+              </button>
+            </div>
+          </div>
+
+          <div class="a-card">
+            <div class="a-card-title">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>
+              Liste des équipes
+            </div>
+            <div id="teams-list-admin"></div>
+          </div>
+        </div>
+
+        <!-- ── STAFF (DIRECTION) ── -->
+        <div id="panel-staff" class="admin-panel">
+          <div class="a-section-title">Staff — Équipe dirigeante</div>
+          <p style="font-size:.82rem;color:#666;margin-bottom:1.5rem;max-width:640px">
+            Les membres de la direction d'Equally Esport (président, community manager, etc.), affichés dans une section
+            "Staff" dédiée sur la page publique Équipes — séparée des rosters de jeu.
+          </p>
+
+          <div class="a-card" style="margin-bottom:1.5rem">
+            <div class="a-card-title" id="sf-title">Nouveau membre du staff</div>
+            <div class="a-grid-2">
+              <div>
+                <label class="a-label">Nom *</label>
+                <input id="sf-name" class="a-input" type="text" placeholder="Rémi Billeaud" maxlength="100"/>
+              </div>
+              <div>
+                <label class="a-label">Rôle *</label>
+                <input id="sf-role" class="a-input" type="text" placeholder="Président, Community Manager..." maxlength="100"/>
+              </div>
+            </div>
+            <div class="a-grid-2" style="margin-top:1rem">
+              <div>
+                <label class="a-label">🎂 Date de naissance</label>
+                <input id="sf-birthdate" class="a-input" type="date"/>
+              </div>
+              <div>
+                <label class="a-label">📅 Arrivée chez Equally</label>
+                <input id="sf-joined" class="a-input" type="date"/>
+              </div>
+            </div>
+            <div style="margin-top:1rem">
+              <label class="a-label">📸 Photo</label>
+              <div id="sf-photo-dropzone" class="logo-dropzone" onclick="document.getElementById('sf-photo-file').click()">
+                <div id="sf-photo-preview" class="logo-dropzone-content">
+                  <div class="logo-dropzone-empty">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
+                    <span>Glisse une photo ici ou <u>clique pour parcourir</u></span>
+                    <small>PNG, JPG ou WEBP — 2 Mo max</small>
+                  </div>
+                </div>
+                <input id="sf-photo-file" type="file" accept="image/png,image/jpeg,image/webp" onchange="handleStaffPhotoUpload(event)" style="display:none"/>
+              </div>
+              <div style="display:flex;justify-content:space-between;align-items:center;margin-top:.5rem">
+                <div id="sf-photo-status" style="font-size:.75rem;color:#555"></div>
+                <button type="button" class="a-btn secondary" onclick="clearStaffPhoto()" id="sf-photo-clear-btn" style="display:none">Retirer</button>
+              </div>
+              <input id="sf-photo-url" type="hidden"/>
+            </div>
+            <div style="margin-top:1rem">
+              <label class="a-label">🐦 Twitter/X (pseudo, optionnel)</label>
+              <input id="sf-twitter" class="a-input" type="text" placeholder="pseudo_twitter" maxlength="50"/>
+            </div>
+            <div style="margin-top:1rem">
+              <label class="a-label">📝 Mini description</label>
+              <textarea id="sf-bio" class="a-input" placeholder="Quelques mots sur cette personne..." maxlength="400" rows="3" style="resize:vertical"></textarea>
+            </div>
+            <div style="margin-top:1.25rem;display:flex;gap:.6rem;justify-content:flex-end">
+              <button class="a-btn secondary" id="sf-cancel-btn" onclick="clearStaffForm()" style="display:none">Annuler</button>
+              <button class="a-btn" onclick="saveStaffMember()">💾 Enregistrer</button>
+            </div>
+            <input id="sf-id" type="hidden"/>
+          </div>
+
+          <div class="a-card">
+            <div class="a-card-title">Membres du staff</div>
+            <div id="staff-list-admin"></div>
+          </div>
+        </div>
+
+        <!-- ── JEUX & CATÉGORIES ── -->
+        <div id="panel-games" class="admin-panel">
+          <div class="a-section-title">Jeux & Catégories</div>
+          <p style="font-size:.82rem;color:#666;margin-bottom:1.5rem;max-width:640px">
+            Cette liste alimente le menu "Jeu" quand tu crées une équipe. Tu peux y ajouter tes vrais jeux (Valorant, CS2...)
+            mais aussi des catégories non-esport comme <strong>"Staff"</strong> pour lister l'équipe dirigeante de l'association
+            (président, community manager, etc.) séparément des rosters de jeu.
+          </p>
+
+          <div class="a-card" style="margin-bottom:1.5rem">
+            <div class="a-card-title" id="gf-title">Nouveau jeu / catégorie</div>
+            <div class="a-grid-2" style="align-items:end">
+              <div>
+                <label class="a-label">Nom *</label>
+                <input id="gf-name" class="a-input" type="text" placeholder="Ex: Valorant, CS2, Staff..." maxlength="40"/>
+              </div>
+              <div>
+                <label class="a-label">Couleur</label>
+                <input id="gf-color" class="a-input" type="color" value="#e5000a" style="height:42px;padding:.3rem"/>
+              </div>
+            </div>
+            <div style="display:flex;align-items:center;gap:.6rem;margin-top:1rem">
+              <input id="gf-active" type="checkbox" checked style="width:16px;height:16px;accent-color:var(--color-red)"/>
+              <label for="gf-active" style="font-size:.8rem;color:#999;cursor:pointer">Actif (visible sur le site public)</label>
+            </div>
+            <div style="margin-top:1.25rem;display:flex;gap:.6rem;justify-content:flex-end">
+              <button class="a-btn secondary" id="gf-cancel-btn" onclick="clearGameForm()" style="display:none">Annuler</button>
+              <button class="a-btn" onclick="saveGame()">💾 Enregistrer</button>
+            </div>
+            <input id="gf-id" type="hidden"/>
+          </div>
+
+          <div class="a-card">
+            <div class="a-card-title">Jeux & catégories existants</div>
+            <div id="games-list-admin"></div>
+          </div>
+        </div>
+
+        <!-- ── RÉSULTATS ── -->
+        <div id="panel-results" class="admin-panel">
+          <div class="a-section-title">
+            Résultats de matchs
+            <button class="a-btn secondary" onclick="showForm('result-form')">+ Nouveau résultat</button>
+          </div>
+
+          <div id="result-form" class="a-card" style="display:none">
+            <div class="a-card-title">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+              <span id="result-form-title">Nouveau résultat</span>
+            </div>
+            <div class="a-grid-3" style="margin-bottom:1rem">
+              <div>
+                <label class="a-label">Jeu *</label>
+                <select id="rf-game" class="a-select">
+                  <option value="">— Choisir —</option>
+                  <option>Valorant</option><option>CS2</option>
+                  <option>League of Legends</option><option>Rocket League</option>
+                  <option>Fortnite</option><option>Apex Legends</option>
+                </select>
+              </div>
+              <div>
+                <label class="a-label">Adversaire *</label>
+                <input id="rf-opponent" class="a-input" type="text" placeholder="Team XYZ" maxlength="50" />
+              </div>
+              <div>
+                <label class="a-label">Tournoi *</label>
+                <input id="rf-tournament" class="a-input" type="text" placeholder="VCT Challengers..." maxlength="80" />
+              </div>
+            </div>
+            <div class="a-grid-3" style="margin-bottom:1rem">
+              <div>
+                <label class="a-label">Score Equally</label>
+                <input id="rf-score-us" class="a-input" type="number" min="0" max="999" placeholder="13" />
+              </div>
+              <div>
+                <label class="a-label">Score Adversaire</label>
+                <input id="rf-score-them" class="a-input" type="number" min="0" max="999" placeholder="7" />
+              </div>
+              <div>
+                <label class="a-label">Date du match</label>
+                <input id="rf-date" class="a-input" type="date" />
+              </div>
+            </div>
+            <div style="margin-bottom:1rem">
+              <label class="a-label">Résultat *</label>
+              <select id="rf-result" class="a-select">
+                <option value="win">✅ Victoire</option>
+                <option value="loss">❌ Défaite</option>
+              </select>
+            </div>
+            <div style="display:flex;gap:0.75rem;justify-content:flex-end">
+              <button class="a-btn secondary" onclick="hideForm('result-form');clearResultForm()">Annuler</button>
+              <button class="a-btn success-btn" onclick="saveResult()">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+                Enregistrer
+              </button>
+            </div>
+          </div>
+
+          <div class="a-card">
+            <div class="a-card-title">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+              Historique des matchs
+            </div>
+            <div id="results-list-admin" style="overflow-x:auto"></div>
+          </div>
+        </div>
+
+        <!-- ── ACTUALITÉS ── -->
+        <div id="panel-news" class="admin-panel">
+          <div class="a-section-title">
+            Actualités
+            <button class="a-btn secondary" onclick="showForm('news-form')">+ Nouvelle actu</button>
+          </div>
+
+          <div id="news-form" class="a-card" style="display:none">
+            <div class="a-card-title">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+              <span id="news-form-title">Nouvelle actualité</span>
+            </div>
+            <div class="a-grid-2" style="margin-bottom:1rem">
+              <div>
+                <label class="a-label">Titre *</label>
+                <input id="nf-title" class="a-input" type="text" placeholder="Equally remporte..." maxlength="120" />
+              </div>
+              <div>
+                <label class="a-label">Catégorie *</label>
+                <select id="nf-category" class="a-select">
+                  <option value="">— Choisir —</option>
+                  <option>Victoire</option><option>Transfert</option>
+                  <option>Qualification</option><option>Partenariat</option>
+                  <option>Analyse</option><option>Annonce</option>
+                </select>
+              </div>
+            </div>
+            <div class="a-grid-2" style="margin-bottom:1rem">
+              <div>
+                <label class="a-label">Date de publication</label>
+                <input id="nf-date" class="a-input" type="date" />
+              </div>
+            </div>
+            <div style="margin-bottom:1rem">
+              <label class="a-label">Image de l'actualité</label>
+              <div id="nf-image-dropzone" class="logo-dropzone" onclick="document.getElementById('nf-image-file').click()">
+                <div id="nf-image-preview" class="logo-dropzone-content">
+                  <div class="logo-dropzone-empty">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
+                    <span>Glisse une image ici ou <u>clique pour parcourir</u></span>
+                    <small>PNG, JPG ou WEBP — 2 Mo max — format paysage recommandé</small>
+                  </div>
+                </div>
+                <input id="nf-image-file" type="file" accept="image/png,image/jpeg,image/webp" onchange="handleNewsImageUpload(event)" style="display:none" />
+              </div>
+              <div style="display:flex;justify-content:space-between;align-items:center;margin-top:.5rem">
+                <div id="nf-image-status" style="font-size:.75rem;color:#555"></div>
+                <button type="button" class="a-btn secondary" onclick="clearNewsImage()" id="nf-image-clear-btn" style="display:none">Retirer</button>
+              </div>
+              <input id="nf-image-url" type="hidden" />
+            </div>
+            <div style="margin-bottom:1rem">
+              <label class="a-label">Résumé *</label>
+              <textarea id="nf-summary" class="a-textarea" placeholder="Description courte de l'actualité..." maxlength="500"></textarea>
+              <div style="font-family:var(--font-mono);font-size:0.65rem;color:#444;text-align:right;margin-top:0.25rem">
+                <span id="nf-char-count">0</span>/500
+              </div>
+            </div>
+            <div style="display:flex;gap:0.75rem;justify-content:flex-end">
+              <button class="a-btn secondary" onclick="hideForm('news-form');clearNewsForm()">Annuler</button>
+              <button class="a-btn success-btn" onclick="saveNews()">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+                Publier l'actu
+              </button>
+            </div>
+          </div>
+
+          <div class="a-card">
+            <div class="a-card-title">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 22h16a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2z"/></svg>
+              Actualités publiées
+            </div>
+            <div id="news-list-admin"></div>
+          </div>
+        </div>
+
+        <!-- ── PALMARÈS ── -->
+        <div id="panel-achievements" class="admin-panel">
+          <div class="a-section-title">
+            Palmarès
+            <button class="a-btn secondary" onclick="showForm('achievement-form')">+ Nouveau trophée</button>
+          </div>
+
+          <div id="achievement-form" class="a-card" style="display:none">
+            <div class="a-card-title">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="6"/><path d="M15.477 12.89L17 22l-5-3-5 3 1.523-9.11"/></svg>
+              <span id="achievement-form-title">Nouveau trophée</span>
+            </div>
+            <div class="a-grid-3" style="margin-bottom:1rem">
+              <div>
+                <label class="a-label">Nom du tournoi *</label>
+                <input id="af-name" class="a-input" type="text" placeholder="VCT Challengers France" maxlength="80" />
+              </div>
+              <div>
+                <label class="a-label">Jeu *</label>
+                <select id="af-game" class="a-select">
+                  <option value="">— Choisir —</option>
+                  <option>Valorant</option><option>CS2</option>
+                  <option>League of Legends</option><option>Rocket League</option>
+                </select>
+              </div>
+              <div>
+                <label class="a-label">Année *</label>
+                <input id="af-year" class="a-input" type="number" min="2015" max="2099" placeholder="2025" />
+              </div>
+            </div>
+            <div style="margin-bottom:1rem">
+              <label class="a-label">Médaille</label>
+              <select id="af-icon" class="a-select">
+                <option value="🏆">🏆 Trophée (1ère place)</option>
+                <option value="🥇">🥇 Médaille d'Or</option>
+                <option value="🥈">🥈 Médaille d'Argent</option>
+                <option value="🥉">🥉 Médaille de Bronze</option>
+              </select>
+            </div>
+            <div style="display:flex;gap:0.75rem;justify-content:flex-end">
+              <button class="a-btn secondary" onclick="hideForm('achievement-form');clearAchievementForm()">Annuler</button>
+              <button class="a-btn success-btn" onclick="saveAchievement()">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+                Ajouter au palmarès
+              </button>
+            </div>
+          </div>
+
+          <div class="a-card">
+            <div class="a-card-title">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="6"/><path d="M15.477 12.89L17 22l-5-3-5 3 1.523-9.11"/></svg>
+              Titres et trophées
+            </div>
+            <div id="achievements-list-admin" style="overflow-x:auto"></div>
+          </div>
+        </div>
+
+        <!-- ── PARTENAIRES ── -->
+        <div id="panel-partners" class="admin-panel">
+          <div class="a-section-title">
+            Partenaires
+            <button class="a-btn secondary" onclick="showForm('partner-form')">+ Nouveau partenaire</button>
+          </div>
+
+          <div id="partner-form" class="a-card" style="display:none">
+            <div class="a-card-title">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>
+              <span id="partner-form-title">Nouveau partenaire</span>
+            </div>
+            <div class="a-grid-3" style="margin-bottom:1rem">
+              <div>
+                <label class="a-label">Nom *</label>
+                <input id="pf-name" class="a-input" type="text" placeholder="GearUp" maxlength="50" />
+              </div>
+              <div>
+                <label class="a-label">Initiales (repli si pas de logo)</label>
+                <input id="pf-initials" class="a-input" type="text" placeholder="GU" maxlength="4" />
+              </div>
+              <div>
+                <label class="a-label">Tier</label>
+                <select id="pf-tier" class="a-select">
+                  <option value="gold">🥇 Gold</option>
+                  <option value="silver">🥈 Silver</option>
+                  <option value="bronze">🥉 Bronze</option>
+                </select>
+              </div>
+            </div>
+            <div style="margin-bottom:1rem">
+              <label class="a-label">Logo du partenaire</label>
+              <div id="pf-logo-dropzone" class="logo-dropzone" onclick="document.getElementById('pf-logo-file').click()">
+                <div id="pf-logo-preview" class="logo-dropzone-content">
+                  <div class="logo-dropzone-empty">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+                    <span>Glisse un logo ici ou <u>clique pour parcourir</u></span>
+                    <small>PNG, JPG, WEBP ou SVG — 2 Mo max</small>
+                  </div>
+                </div>
+                <input id="pf-logo-file" type="file" accept="image/png,image/jpeg,image/webp,image/svg+xml" onchange="handlePartnerLogoUpload(event)" style="display:none" />
+              </div>
+              <div style="display:flex;justify-content:space-between;align-items:center;margin-top:.5rem">
+                <div id="pf-logo-status" style="font-size:.75rem;color:#555"></div>
+                <button type="button" class="a-btn secondary" onclick="clearPartnerLogo()" id="pf-logo-clear-btn" style="display:none">Retirer</button>
+              </div>
+              <input id="pf-logo-url" type="hidden" />
+            </div>
+            <div style="margin-bottom:1rem">
+              <label class="a-label">URL du site</label>
+              <input id="pf-url" class="a-input" type="url" placeholder="https://..." maxlength="200" />
+            </div>
+            <div style="display:flex;gap:0.75rem;justify-content:flex-end">
+              <button class="a-btn secondary" onclick="hideForm('partner-form');clearPartnerForm()">Annuler</button>
+              <button class="a-btn success-btn" onclick="savePartner()">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+                Ajouter le partenaire
+              </button>
+            </div>
+          </div>
+
+          <div class="a-card">
+            <div class="a-card-title" style="justify-content:space-between;display:flex;align-items:center">
+              <span>Partenaires actifs</span>
+              <button class="a-btn secondary" onclick="exportPartnersCSV()" style="font-size:.68rem;padding:.3rem .65rem">⬇ Export CSV</button>
+            </div>
+            <div id="partners-list-admin" style="overflow-x:auto"></div>
+          </div>
+        </div>
+
+        <!-- ── NEWSLETTER ── -->
+        <div id="panel-newsletter" class="admin-panel">
+          <div class="a-section-title">Newsletter</div>
+
+          <div class="a-card" style="text-align:center;padding:1.25rem;margin-bottom:1.5rem;max-width:260px">
+            <div style="font-size:1.8rem;font-weight:900;font-family:var(--font-display);font-style:italic;color:#fff" id="nl-stat-total">—</div>
+            <div style="font-size:.7rem;color:#666;text-transform:uppercase;letter-spacing:.08em;margin-top:.25rem">Inscrits au total</div>
+          </div>
+
+          <div class="a-card">
+            <div class="a-card-title" style="justify-content:space-between;display:flex;align-items:center">
+              <span style="display:flex;align-items:center;gap:.5rem">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16v16H4z"/><path d="M22 6l-10 7L2 6"/></svg>
+                Inscrits à la newsletter
+              </span>
+              <button class="a-btn secondary" onclick="exportNewsletterCSV()" style="font-size:.68rem;padding:.3rem .65rem">⬇ Export CSV</button>
+            </div>
+            <p style="font-size:.78rem;color:#666;margin-bottom:0">
+              Ces adresses se sont inscrites via le formulaire en bas du site public pour être prévenues des actus et matchs importants.
+            </p>
+            <div id="newsletter-list" style="overflow-x:auto;margin-top:1rem"></div>
+          </div>
+        </div>
+
+        <!-- ── SÉCURITÉ ── -->
+        <!-- ── TOURNOIS ── -->
+        <div id="panel-tournaments" class="admin-panel">
+          <div class="a-section-title">
+            Tournois à venir
+            <button class="a-btn secondary" onclick="showForm('tournament-form')">+ Nouveau tournoi</button>
+          </div>
+
+          <div id="tournament-form" class="a-card" style="display:none">
+            <div class="a-card-title">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+              <span id="tournament-form-title">Nouveau tournoi</span>
+            </div>
+            <div class="a-grid-2" style="margin-bottom:1rem">
+              <div>
+                <label class="a-label">Nom du tournoi *</label>
+                <input id="tf2-name" class="a-input" type="text" placeholder="VCT Challengers France" maxlength="100"/>
+              </div>
+              <div>
+                <label class="a-label">Jeu</label>
+                <select id="tf2-game" class="a-select">
+                  <option value="">— Choisir —</option>
+                  <option>Valorant</option><option>CS2</option>
+                  <option>League of Legends</option><option>Rocket League</option>
+                  <option>Fortnite</option><option>Apex Legends</option>
+                </select>
+              </div>
+            </div>
+            <div class="a-grid-2" style="margin-bottom:1rem">
+              <div>
+                <label class="a-label">Date & Heure *</label>
+                <input id="tf2-date" class="a-input" type="datetime-local"/>
+              </div>
+              <div>
+                <label class="a-label">Lieu</label>
+                <input id="tf2-location" class="a-input" type="text" placeholder="Paris, France / En ligne" maxlength="100"/>
+              </div>
+            </div>
+            <div style="display:flex;gap:.75rem;justify-content:flex-end">
+              <button class="a-btn secondary" onclick="hideForm('tournament-form');clearTournamentForm()">Annuler</button>
+              <button class="a-btn success-btn" onclick="saveTournament()">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+                Enregistrer
+              </button>
+            </div>
+          </div>
+
+          <div class="a-card">
+            <div class="a-card-title" style="justify-content:space-between;display:flex;align-items:center">
+              <span style="display:flex;align-items:center;gap:.5rem">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+                Tournois planifiés
+              </span>
+              <span style="display:flex;gap:.4rem">
+                <button class="a-btn secondary" id="tv-btn-list" onclick="switchTournamentsView('list')" style="font-size:.7rem;padding:.3rem .75rem">☰ Liste</button>
+                <button class="a-btn secondary" id="tv-btn-calendar" onclick="switchTournamentsView('calendar')" style="font-size:.7rem;padding:.3rem .75rem">📅 Calendrier</button>
+              </span>
+            </div>
+            <div id="tournaments-list-admin"></div>
+            <div id="tournaments-calendar" style="display:none"></div>
+          </div>
+        </div>
+
+        <!-- ── CANDIDATURES ── -->
+        <div id="panel-applications" class="admin-panel">
+          <div class="a-section-title">Candidatures reçues</div>
+          <div class="a-card">
+            <div class="a-card-title" style="justify-content:space-between">
+              <div style="display:flex;align-items:center;gap:.5rem">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/></svg>
+                Liste des candidatures
+              </div>
+              <div style="display:flex;gap:.5rem;flex-wrap:wrap">
+                <button class="a-btn secondary" onclick="filterApplications('all')"    id="app-filter-all"     style="font-size:.7rem;padding:.3rem .75rem">Toutes</button>
+                <button class="a-btn secondary" onclick="filterApplications('pending')" id="app-filter-pending" style="font-size:.7rem;padding:.3rem .75rem">En attente</button>
+                <button class="a-btn secondary" onclick="filterApplications('accepted')" id="app-filter-accepted" style="font-size:.7rem;padding:.3rem .75rem">Acceptées</button>
+                <button class="a-btn secondary" onclick="filterApplications('refused')" id="app-filter-refused" style="font-size:.7rem;padding:.3rem .75rem">Refusées</button>
+                <button class="a-btn secondary" onclick="exportApplicationsCSV()" style="font-size:.7rem;padding:.3rem .75rem">⬇ Export CSV</button>
+              </div>
+            </div>
+            <div id="applications-list"></div>
+          </div>
+        </div>
+
+        <!-- ── FEED D'ACTIVITÉ ── -->
+        <div id="panel-feed" class="admin-panel">
+          <div class="a-section-title">Feed d'activité</div>
+          <div class="a-card">
+            <div class="a-card-title">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="4 17 10 11 4 5"/><line x1="12" y1="19" x2="20" y2="19"/></svg>
+              Aperçu du feed (page d'accueil)
+            </div>
+            <p style="color:#888;font-size:.85rem;margin-bottom:1.5rem;line-height:1.6">Le feed affiche automatiquement les données depuis vos sections.</p>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1.5rem">
+              <div style="background:rgba(0,200,83,.06);border:1px solid rgba(0,200,83,.2);border-radius:8px;padding:1rem">
+                <div style="font-family:var(--font-mono);font-size:.7rem;color:#00c853;margin-bottom:.4rem">[WIN] / [LOSS]</div>
+                <div style="font-size:.82rem;color:#aaa">Résultats → gérer dans <strong>"Résultats"</strong></div>
+              </div>
+              <div style="background:rgba(79,195,247,.06);border:1px solid rgba(79,195,247,.2);border-radius:8px;padding:1rem">
+                <div style="font-family:var(--font-mono);font-size:.7rem;color:#4fc3f7;margin-bottom:.4rem">[NEWS]</div>
+                <div style="font-size:.82rem;color:#aaa">Actualités → gérer dans <strong>"Actualités"</strong></div>
+              </div>
+              <div style="background:rgba(255,215,0,.06);border:1px solid rgba(255,215,0,.2);border-radius:8px;padding:1rem">
+                <div style="font-family:var(--font-mono);font-size:.7rem;color:#ffd700;margin-bottom:.4rem">[TROPHY]</div>
+                <div style="font-size:.82rem;color:#aaa">Palmarès → gérer dans <strong>"Palmarès"</strong></div>
+              </div>
+              <div style="background:rgba(229,0,10,.06);border:1px solid rgba(229,0,10,.2);border-radius:8px;padding:1rem">
+                <div style="font-family:var(--font-mono);font-size:.7rem;color:var(--color-red);margin-bottom:.4rem">Tri automatique</div>
+                <div style="font-size:.82rem;color:#aaa">Les entrées sont triées par <strong>date décroissante</strong></div>
+              </div>
+            </div>
+            <div style="background:#050505;border:1px solid rgba(229,0,10,.2);border-radius:8px;overflow:hidden">
+              <div style="background:#111;padding:.5rem 1rem;font-family:var(--font-mono);font-size:.7rem;color:#444;display:flex;align-items:center;gap:.5rem">
+                <span style="width:8px;height:8px;border-radius:50%;background:#ff5f57;display:inline-block"></span>
+                <span style="width:8px;height:8px;border-radius:50%;background:#febc2e;display:inline-block"></span>
+                <span style="width:8px;height:8px;border-radius:50%;background:#28c840;display:inline-block"></span>
+                <span style="margin-left:.5rem">equally-esport — preview</span>
+              </div>
+              <div id="feed-preview" style="padding:1rem;min-height:120px;font-family:var(--font-mono);font-size:.78rem;color:#444">
+                Cliquez sur "Actualiser" pour voir le feed…
+              </div>
+            </div>
+            <div style="margin-top:1rem;text-align:right">
+              <button class="a-btn secondary" onclick="loadFeedPreview()">🔄 Actualiser le preview</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- ── NOTES INTERNES ── -->
+        <div id="panel-notes" class="admin-panel">
+          <div class="a-section-title">Notes internes</div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1rem" id="notes-grid"></div>
+          <button class="a-btn primary" onclick="addNote()" style="margin-bottom:1.5rem">+ Nouvelle note</button>
+          <div class="a-card" style="background:rgba(255,255,255,.02)">
+            <div style="font-family:var(--font-mono);font-size:.7rem;color:#333;text-align:center">
+              Les notes sont sauvegardées localement dans votre navigateur.
+            </div>
+          </div>
+        </div>
+
+        <!-- ── RÉSEAUX SOCIAUX ── -->
+        <div id="panel-socials" class="admin-panel">
+          <div class="a-section-title">Réseaux sociaux & Bannière</div>
+
+          <!-- Bannière annonce -->
+          <div class="a-card" style="margin-bottom:1.5rem;border-color:rgba(229,0,10,.2)">
+            <div class="a-card-title">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+              Bannière d'annonce
+            </div>
+            <p style="color:#666;font-size:.82rem;margin-bottom:1.25rem">Affiche un bandeau en haut du site sur toutes les pages.</p>
+
+            <div style="display:flex;align-items:center;justify-content:space-between;padding:1rem 1.25rem;background:rgba(255,255,255,.03);border-radius:8px;border:1px solid rgba(255,255,255,.06);margin-bottom:1.25rem">
+              <div>
+                <div style="font-family:var(--font-display);font-style:italic;font-weight:700;font-size:1rem;text-transform:uppercase;margin-bottom:.2rem">Bannière active</div>
+                <div id="banner-status-label" style="font-family:var(--font-mono);font-size:.72rem;color:#555">● Désactivée</div>
+              </div>
+              <label style="position:relative;display:inline-block;width:56px;height:28px;cursor:pointer">
+                <input type="checkbox" id="banner-toggle" style="opacity:0;width:0;height:0" onchange="toggleBanner(this.checked)"/>
+                <span id="banner-slider" style="position:absolute;inset:0;background:#2a2a2a;border-radius:28px;transition:.3s;border:1px solid rgba(255,255,255,.1)">
+                  <span id="banner-knob" style="position:absolute;height:20px;width:20px;left:4px;bottom:3px;background:#fff;border-radius:50%;transition:.3s;display:block"></span>
+                </span>
+              </label>
+            </div>
+
+            <div class="a-grid-2" style="margin-bottom:1rem">
+              <div class="a-form-group" style="grid-column:1/-1">
+                <label class="a-label">Texte de la bannière</label>
+                <input id="banner-text" class="a-input" type="text" placeholder="Ex: 🏆 Tournoi Valorant ce soir à 20h — Venez nous supporter !" maxlength="200"/>
+              </div>
+              <div class="a-form-group">
+                <label class="a-label">Couleur de fond</label>
+                <div style="display:flex;gap:.5rem;align-items:center">
+                  <input id="banner-color" class="a-input" type="color" value="#e5000a" style="width:50px;height:38px;padding:2px;cursor:pointer"/>
+                  <div style="display:flex;gap:.4rem;flex-wrap:wrap">
+                    <button onclick="document.getElementById('banner-color').value='#e5000a'" style="width:24px;height:24px;border-radius:4px;background:#e5000a;border:none;cursor:pointer"></button>
+                    <button onclick="document.getElementById('banner-color').value='#00c853'" style="width:24px;height:24px;border-radius:4px;background:#00c853;border:none;cursor:pointer"></button>
+                    <button onclick="document.getElementById('banner-color').value='#ff9800'" style="width:24px;height:24px;border-radius:4px;background:#ff9800;border:none;cursor:pointer"></button>
+                    <button onclick="document.getElementById('banner-color').value='#5865F2'" style="width:24px;height:24px;border-radius:4px;background:#5865F2;border:none;cursor:pointer"></button>
+                    <button onclick="document.getElementById('banner-color').value='#111111'" style="width:24px;height:24px;border-radius:4px;background:#111;border:2px solid #444;cursor:pointer"></button>
+                  </div>
+                </div>
+              </div>
+              <div class="a-form-group">
+                <label class="a-label">Aperçu</label>
+                <div id="banner-preview" style="padding:.5rem 1rem;border-radius:6px;background:#e5000a;color:#fff;font-family:var(--font-mono);font-size:.75rem;text-align:center;min-height:34px;display:flex;align-items:center;justify-content:center">
+                  Aperçu de la bannière
+                </div>
+              </div>
+            </div>
+            <div style="text-align:right">
+              <button class="a-btn primary" onclick="saveBanner()">💾 Enregistrer la bannière</button>
+            </div>
+          </div>
+
+          <!-- Réseaux sociaux -->
+          <div class="a-card">
+            <div class="a-card-title">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+              Liens réseaux
+            </div>
+            <p style="color:#666;font-size:.82rem;margin-bottom:1.5rem">Ces liens sont utilisés dans la navbar, le footer et les pages du site.</p>
+            <div class="a-grid-2">
+              <div class="a-form-group">
+                <label class="a-label">🐦 Twitter / X</label>
+                <input id="s-twitter" class="a-input" type="url" placeholder="https://x.com/EquallyEsport"/>
+              </div>
+              <div class="a-form-group">
+                <label class="a-label">💬 Discord (lien invitation)</label>
+                <input id="s-discord" class="a-input" type="url" placeholder="https://discord.gg/equally"/>
+              </div>
+              <div class="a-form-group">
+                <label class="a-label">🎮 Twitch</label>
+                <input id="s-twitch" class="a-input" type="url" placeholder="https://twitch.tv/equallyesport"/>
+              </div>
+              <div class="a-form-group">
+                <label class="a-label">▶️ YouTube</label>
+                <input id="s-youtube" class="a-input" type="url" placeholder="https://youtube.com/@equallyesport"/>
+              </div>
+              <div class="a-form-group">
+                <label class="a-label">📸 Instagram</label>
+                <input id="s-instagram" class="a-input" type="url" placeholder="https://instagram.com/equallyesport"/>
+              </div>
+              <div class="a-form-group">
+                <label class="a-label">🎯 Widget Discord (ID serveur)</label>
+                <input id="s-discord-widget" class="a-input" type="text" placeholder="1387554505121333318"/>
+              </div>
+            </div>
+            <div style="margin-top:1.5rem;text-align:right">
+              <button class="a-btn primary" onclick="saveSocials()">💾 Enregistrer les liens</button>
+            </div>
+          </div>
+
+          <!-- Webhook Discord (notifications) -->
+          <div class="a-card" style="margin-top:1.5rem;border-color:rgba(88,101,242,.25)">
+            <div class="a-card-title">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+              Notifications Discord
+            </div>
+            <p style="color:#666;font-size:.82rem;margin-bottom:1.25rem">
+              Colle ici l'URL d'un webhook Discord pour recevoir automatiquement une notification dans ton salon à chaque nouvelle candidature reçue.
+              <br>Pour l'obtenir : dans Discord, <strong>Paramètres du salon</strong> → <strong>Intégrations</strong> → <strong>Webhooks</strong> → <strong>Nouveau webhook</strong> → <strong>Copier l'URL</strong>.
+            </p>
+            <div class="a-form-group">
+              <label class="a-label">URL du webhook</label>
+              <input id="s-discord-webhook" class="a-input" type="url" placeholder="https://discord.com/api/webhooks/..." autocomplete="off"/>
+            </div>
+            <div style="margin-top:1rem;display:flex;gap:.75rem;justify-content:flex-end">
+              <button class="a-btn secondary" onclick="testDiscordWebhook()">🔔 Envoyer un test</button>
+              <button class="a-btn primary" onclick="saveSocials()">💾 Enregistrer</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- ── MAINTENANCE ── -->
+        <div id="panel-maintenance" class="admin-panel">
+          <div class="a-section-title">Mode maintenance</div>
+          <div class="a-card">
+            <div class="a-card-title">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M4.93 4.93a10 10 0 0 0 0 14.14"/></svg>
+              Statut du site
+            </div>
+            <div style="display:flex;align-items:center;justify-content:space-between;padding:1.5rem;background:rgba(255,255,255,.03);border-radius:8px;border:1px solid rgba(255,255,255,.06);margin-bottom:1.5rem">
+              <div>
+                <div style="font-family:var(--font-display);font-style:italic;font-weight:700;font-size:1.1rem;text-transform:uppercase;margin-bottom:.3rem">Site public</div>
+                <div id="maintenance-status-label" style="font-family:var(--font-mono);font-size:.75rem;color:#00c853">● En ligne</div>
+              </div>
+              <label style="position:relative;display:inline-block;width:56px;height:28px;cursor:pointer">
+                <input type="checkbox" id="maintenance-toggle" style="opacity:0;width:0;height:0" onchange="toggleMaintenance(this.checked)"/>
+                <span id="maintenance-slider" style="position:absolute;inset:0;background:#2a2a2a;border-radius:28px;transition:.3s;border:1px solid rgba(255,255,255,.1)">
+                  <span style="position:absolute;height:20px;width:20px;left:4px;bottom:3px;background:#fff;border-radius:50%;transition:.3s;display:block" id="maintenance-knob"></span>
+                </span>
+              </label>
+            </div>
+            <div id="maintenance-warning" style="display:none;background:rgba(229,0,10,.08);border:1px solid rgba(229,0,10,.3);border-radius:8px;padding:1rem;margin-bottom:1rem">
+              <div style="font-family:var(--font-mono);font-size:.8rem;color:var(--color-red);font-weight:700;margin-bottom:.4rem">⚠️ Mode maintenance activé</div>
+              <div style="font-size:.82rem;color:#888">Les visiteurs voient une page "Site en maintenance". L'admin reste accessible.</div>
+            </div>
+            <div style="background:rgba(255,255,255,.03);border-radius:8px;padding:1.25rem;border:1px solid rgba(255,255,255,.06)">
+              <div style="font-family:var(--font-mono);font-size:.7rem;color:#555;text-transform:uppercase;letter-spacing:.1em;margin-bottom:.75rem">Page maintenance affichée aux visiteurs</div>
+              <div style="text-align:center;padding:1.5rem;background:#0a0a0a;border-radius:6px">
+                <div style="font-size:2rem;margin-bottom:.5rem">🔧</div>
+                <div style="font-family:var(--font-display);font-style:italic;font-weight:900;font-size:1.2rem;text-transform:uppercase;color:var(--color-red)">Site en maintenance</div>
+                <div style="font-family:var(--font-mono);font-size:.75rem;color:#555;margin-top:.4rem">Nous revenons bientôt.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ── VISITEURS DU SITE ── -->
+        <div id="panel-site-visits" class="admin-panel">
+          <div class="a-section-title">Visiteurs du site</div>
+
+          <div class="a-grid-3" style="margin-bottom:1.5rem">
+            <div class="a-card" style="text-align:center;padding:1.25rem">
+              <div style="font-size:1.8rem;font-weight:900;font-family:var(--font-display);font-style:italic;color:#fff" id="sv-stat-24h">—</div>
+              <div style="font-size:.7rem;color:#666;text-transform:uppercase;letter-spacing:.08em;margin-top:.25rem">Visites (24h)</div>
+            </div>
+            <div class="a-card" style="text-align:center;padding:1.25rem">
+              <div style="font-size:1.8rem;font-weight:900;font-family:var(--font-display);font-style:italic;color:#fff" id="sv-stat-unique">—</div>
+              <div style="font-size:.7rem;color:#666;text-transform:uppercase;letter-spacing:.08em;margin-top:.25rem">IP uniques (24h)</div>
+            </div>
+            <div class="a-card" style="text-align:center;padding:1.25rem">
+              <div style="font-size:1.8rem;font-weight:900;font-family:var(--font-display);font-style:italic;color:#fff" id="sv-stat-total">—</div>
+              <div style="font-size:.7rem;color:#666;text-transform:uppercase;letter-spacing:.08em;margin-top:.25rem">Total enregistré</div>
+            </div>
+          </div>
+
+          <div class="a-grid-2" style="margin-bottom:1.5rem">
+            <div class="a-card">
+              <div class="a-card-title">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+                Évolution des visites (14 derniers jours)
+              </div>
+              <div id="sv-daily-chart" style="min-height:160px"></div>
+            </div>
+            <div class="a-card">
+              <div class="a-card-title">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3v18h18"/><path d="M18.7 8l-5.1 5.2-2.8-2.7L7 14.3"/></svg>
+                Pages les plus visitées (7 jours)
+              </div>
+              <div id="sv-top-pages"></div>
+            </div>
+          </div>
+
+          <div class="a-card">
+            <div class="a-card-title" style="justify-content:space-between;display:flex;align-items:center">
+              <span style="display:flex;align-items:center;gap:.5rem">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7z"/><circle cx="12" cy="12" r="3"/></svg>
+                200 dernières visites (tout le site)
+              </span>
+              <span style="display:flex;align-items:center;gap:.75rem">
+                <span id="sv-refresh-countdown" style="font-family:var(--font-mono);font-size:.68rem;color:#555">Actualisation dans 20s</span>
+                <button class="a-btn secondary" onclick="exportSiteVisitsCSV()" style="font-size:.68rem;padding:.3rem .65rem">⬇ Export CSV</button>
+              </span>
+            </div>
+            <div id="site-visits-list" style="overflow-x:auto;max-height:600px;overflow-y:auto"></div>
+          </div>
+        </div>
+
+        <!-- ── HISTORIQUE CONNEXIONS ── -->
+        <div id="panel-login-history" class="admin-panel">
+          <div class="a-section-title">Connexions à l'admin</div>
+          <div class="a-card">
+            <div class="a-card-title" style="justify-content:space-between;display:flex;align-items:center">
+              <span style="display:flex;align-items:center;gap:.5rem">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                50 dernières tentatives de connexion au panneau admin
+              </span>
+              <span id="lh-refresh-countdown" style="font-family:var(--font-mono);font-size:.68rem;color:#555;text-transform:none;letter-spacing:0;font-weight:400">Actualisation dans 10s</span>
+            </div>
+            <div id="login-history-list" class="security-log" style="max-height:500px;overflow-y:auto"></div>
+          </div>
+        </div>
+
+        <!-- ── CORBEILLE ── -->
+        <div id="panel-trash" class="admin-panel">
+          <div class="a-section-title">Corbeille</div>
+          <div class="a-card">
+            <div class="a-card-title">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
+              200 derniers éléments supprimés
+            </div>
+            <p style="font-size:.78rem;color:#666;margin-bottom:1rem">
+              Actualités, équipes, résultats, palmarès, partenaires et candidatures supprimés récemment. Restaure-les avant qu'ils ne soient perdus, ou supprime-les définitivement.
+            </p>
+            <div id="trash-list" style="overflow-x:auto"></div>
+          </div>
+        </div>
+
+        <!-- ── SÉCURITÉ ── -->
+        <div id="panel-security" class="admin-panel">
+          <div class="a-section-title">Sécurité du compte</div>
+          <div class="a-card" style="margin-bottom:1.5rem">
+            <div class="a-card-title">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+              Tests rapides
+            </div>
+            <div style="display:flex;gap:1rem;flex-wrap:wrap">
+              <a href="../404.html" target="_blank" class="a-btn secondary" style="text-decoration:none;font-size:.8rem">
+                🔍 Tester la page 404
+              </a>
+              <a href="../pages/contact.html" target="_blank" class="a-btn secondary" style="text-decoration:none;font-size:.8rem">
+                📨 Tester le formulaire contact
+              </a>
+              <a href="../pages/recrutement.html" target="_blank" class="a-btn secondary" style="text-decoration:none;font-size:.8rem">
+                📝 Tester le formulaire recrutement
+              </a>
+              <a href="../api/socials.php" target="_blank" class="a-btn secondary" style="text-decoration:none;font-size:.8rem">
+                🔌 Tester l'API
+              </a>
+            </div>
+          </div>
+
+          <div class="a-card" id="card-manage-accounts" style="margin-bottom:1.5rem">
+            <div class="a-card-title">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+              Comptes administrateurs
+            </div>
+            <p style="font-size:.78rem;color:#666;margin-bottom:1.25rem">
+              Crée un compte par personne pour savoir précisément qui se connecte. Le mot de passe maître (défini dans la config du serveur) continue de fonctionner en plus de ces comptes, pour ne jamais te bloquer l'accès.
+            </p>
+
+            <div class="a-grid-3" style="margin-bottom:1rem;align-items:end">
+              <div>
+                <label class="a-label">Identifiant</label>
+                <input id="nu-username" class="a-input" type="text" placeholder="marie" maxlength="32" autocomplete="off" />
+              </div>
+              <div>
+                <label class="a-label">Mot de passe</label>
+                <input id="nu-password" class="a-input" type="password" placeholder="Minimum 10 caractères" maxlength="64" autocomplete="new-password" />
+              </div>
+              <div>
+                <label class="a-label">Rôle</label>
+                <select id="nu-role" class="a-select">
+                  <option value="manager">Manager</option>
+                  <option value="admin">Admin</option>
+                </select>
+              </div>
+            </div>
+            <div style="text-align:right;margin-bottom:.5rem">
+              <button class="a-btn" onclick="createUserAccount()">+ Créer le compte</button>
+            </div>
+
+            <div id="users-list" style="overflow-x:auto;margin-top:1rem"></div>
+
+            <div style="margin-top:1.25rem;padding-top:1rem;border-top:1px solid rgba(255,255,255,.06);font-size:.72rem;color:#555">
+              <strong style="color:#888">Admin</strong> : accès complet à tout le panneau.<br>
+              <strong style="color:#888">Manager</strong> : peut gérer les actualités, équipes, résultats, palmarès et candidatures — pas accès aux réglages, comptes, partenaires, sécurité ni statistiques.
+            </div>
+          </div>
+
+          <div class="a-card" id="card-manage-sessions" style="margin-bottom:1.5rem">
+            <div class="a-card-title">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+              Sessions actives
+            </div>
+            <p style="font-size:.78rem;color:#666;margin-bottom:1rem">
+              Tous les appareils actuellement connectés à l'admin, tous comptes confondus. Tu peux forcer la déconnexion d'un appareil à distance.
+            </p>
+            <div id="sessions-list" style="overflow-x:auto"></div>
+          </div>
+
+          <div class="a-grid-2">
+            <div class="a-card">
+              <div class="a-card-title">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+                Changer le mot de passe
+              </div>
+              <div class="a-form-group">
+                <label class="a-label">Mot de passe actuel</label>
+                <input id="cp-current" class="a-input" type="password" placeholder="••••••••" maxlength="64" />
+              </div>
+              <div class="a-form-group">
+                <label class="a-label">Nouveau mot de passe</label>
+                <input id="cp-new" class="a-input" type="password" placeholder="Minimum 10 caractères" maxlength="64"
+                       oninput="checkPasswordStrength(this.value)" />
+                <div class="password-strength" id="pw-strength-bar"></div>
+                <div class="strength-label" id="pw-strength-label" style="color:#444"></div>
+              </div>
+              <div class="a-form-group">
+                <label class="a-label">Confirmer le nouveau mot de passe</label>
+                <input id="cp-confirm" class="a-input" type="password" placeholder="••••••••" maxlength="64" />
+              </div>
+              <button class="a-btn" style="margin-top:0.5rem" onclick="changePassword()">Mettre à jour</button>
+            </div>
+
+            <div class="a-card">
+              <div class="a-card-title">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                Informations du compte
+              </div>
+              <div class="a-form-group">
+                <label class="a-label">Identifiant</label>
+                <input id="sec-username" class="a-input" type="text" placeholder="admin" maxlength="32" />
+              </div>
+              <button class="a-btn" style="margin-top:0.5rem" onclick="changeUsername()">Mettre à jour</button>
+
+              <div class="a-divider"></div>
+
+              <div class="a-card-title">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                Journal de sécurité
+              </div>
+              <div id="security-log" class="security-log"></div>
+            </div>
+          </div>
+
+          <div class="a-card">
+            <div class="a-card-title">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+              Règles de sécurité actives
+            </div>
+            <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:0.75rem;font-size:0.82rem">
+              <div style="color:#00c853">✅ Comptes individuels avec mots de passe hashés</div>
+              <div style="color:#00c853">✅ Session expire après 30 minutes d'inactivité</div>
+              <div style="color:#00c853">✅ Honeypot anti-bot actif</div>
+              <div style="color:#00c853">✅ Protection XSS sur toutes les saisies</div>
+              <div style="color:#00c853">✅ noindex / nofollow sur la page admin</div>
+              <div style="color:#00c853">✅ Historique des connexions avec IP</div>
+              <div style="color:#00c853">✅ Déconnexion auto à la fermeture d'onglet</div>
+              <div style="color:#00c853">✅ Mots de passe hashés (bcrypt)</div>
+            </div>
+          </div>
+        </div>
+
+      </div><!-- /admin-content -->
+    </main>
+  </div>
+</div>
+
+<script src="js/admin-security.js"></script>
+<script src="js/admin.js"></script>
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/sw.js').catch(() => {});
+      });
+    }
+  </script>
+</body>
+</html>

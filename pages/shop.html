@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8"/>
+  <link rel="manifest" href="../manifest.json"/>
+  <meta name="theme-color" content="#e5000a"/>
+  <meta name="apple-mobile-web-app-capable" content="yes"/>
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
+  <meta name="apple-mobile-web-app-title" content="Equally"/>
+  <link rel="apple-touch-icon" href="../assets/icons/icon-192x192.png"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Shop — Equally Esport</title>
+  <link rel="icon" type="image/x-icon" href="../favicon.ico"/>
+  <link rel="stylesheet" href="../css/variables.css"/>
+  <link rel="stylesheet" href="../css/reset.css"/>
+  <link rel="stylesheet" href="../css/components.css"/>
+  <link rel="stylesheet" href="../css/main.css"/>
+  <style>
+    .page-hero { background:linear-gradient(180deg,rgba(229,0,10,.06) 0%,transparent 100%); border-bottom:1px solid rgba(229,0,10,.15); padding:5rem 0 4rem; text-align:center; position:relative; overflow:hidden; }
+    .page-hero::before { content:''; position:absolute; inset:0; background:radial-gradient(ellipse 60% 80% at 50% 0%,rgba(229,0,10,.08) 0%,transparent 70%); pointer-events:none; }
+    .page-hero-eyebrow { font-family:var(--font-mono); font-size:.75rem; text-transform:uppercase; letter-spacing:.3em; color:var(--color-red); margin-bottom:1rem; opacity:0; animation:fade-up .6s ease-out .1s forwards; }
+    .page-hero-title { font-family:var(--font-display); font-style:italic; font-weight:900; font-size:clamp(2.5rem,6vw,5rem); text-transform:uppercase; line-height:1; margin-bottom:1rem; opacity:0; animation:fade-up .6s ease-out .2s forwards; }
+    .page-hero-sub { font-size:1rem; color:var(--color-gray); max-width:560px; margin:0 auto; opacity:0; animation:fade-up .6s ease-out .3s forwards; }
+    @keyframes fade-up { from{opacity:0;transform:translateY(16px)} to{opacity:1;transform:translateY(0)} }
+
+    /* Grid produits */
+    .shop-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(320px,1fr)); gap:1.5rem; }
+    @media(max-width:768px){ .shop-grid { grid-template-columns:1fr; } }
+
+    /* Card produit */
+    .product-card {
+      background:var(--color-bg-3);
+      border:1px solid rgba(229,0,10,.1);
+      border-radius:12px;
+      overflow:hidden;
+      transition:all .3s;
+      display:flex;
+      flex-direction:column;
+    }
+    .product-card:hover {
+      border-color:rgba(229,0,10,.4);
+      transform:translateY(-4px);
+      box-shadow:0 20px 40px rgba(0,0,0,.5), 0 0 0 1px rgba(229,0,10,.15);
+    }
+    .product-img-wrap {
+      position:relative;
+      background:#0a0a0a;
+      aspect-ratio:1;
+      overflow:hidden;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+    }
+    .product-img-wrap img {
+      width:100%;
+      height:100%;
+      object-fit:cover;
+      transition:transform .4s;
+    }
+    .product-card:hover .product-img-wrap img { transform:scale(1.05); }
+    .product-badge {
+      position:absolute;
+      top:.75rem; left:.75rem;
+      background:var(--color-red);
+      color:#fff;
+      font-family:var(--font-mono);
+      font-size:.62rem;
+      font-weight:700;
+      text-transform:uppercase;
+      letter-spacing:.08em;
+      padding:3px 10px;
+      border-radius:20px;
+    }
+    .product-body { padding:1.25rem; flex:1; display:flex; flex-direction:column; gap:1rem; }
+    .product-category { font-family:var(--font-mono); font-size:.65rem; text-transform:uppercase; letter-spacing:.12em; color:var(--color-red); }
+    .product-name { font-family:var(--font-display); font-style:italic; font-weight:900; font-size:1.25rem; text-transform:uppercase; color:#fff; line-height:1.1; }
+    .product-price { font-family:var(--font-display); font-style:italic; font-weight:900; font-size:1.6rem; color:var(--color-red); }
+
+    /* Sélecteur de taille */
+    .size-label { font-family:var(--font-mono); font-size:.65rem; text-transform:uppercase; letter-spacing:.1em; color:#666; margin-bottom:.5rem; }
+    .size-grid { display:flex; flex-wrap:wrap; gap:.4rem; }
+    .size-btn {
+      font-family:var(--font-mono);
+      font-size:.7rem;
+      font-weight:700;
+      padding:.3rem .65rem;
+      border:1px solid rgba(255,255,255,.1);
+      border-radius:5px;
+      background:transparent;
+      color:#666;
+      cursor:pointer;
+      transition:all .2s;
+      text-decoration:none;
+      display:inline-block;
+      text-align:center;
+    }
+    .size-btn:hover {
+      border-color:var(--color-red);
+      color:#fff;
+      background:rgba(229,0,10,.1);
+    }
+    .size-btn.selected {
+      border-color:var(--color-red);
+      background:var(--color-red);
+      color:#fff;
+    }
+
+    /* Bouton acheter */
+    .buy-btn {
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      gap:.6rem;
+      background:var(--color-red);
+      color:#fff;
+      font-family:var(--font-display);
+      font-style:italic;
+      font-weight:900;
+      font-size:1rem;
+      text-transform:uppercase;
+      text-decoration:none;
+      padding:.8rem 1.5rem;
+      border-radius:8px;
+      transition:all .25s;
+      margin-top:auto;
+      border:none;
+      cursor:pointer;
+      width:100%;
+    }
+    .buy-btn:hover { background:#ff2030; transform:translateY(-1px); box-shadow:0 8px 20px rgba(229,0,10,.4); }
+    .buy-btn:disabled { opacity:.4; cursor:not-allowed; transform:none; box-shadow:none; }
+
+    /* Notice shop */
+    .shop-notice {
+      background:rgba(229,0,10,.06);
+      border:1px solid rgba(229,0,10,.15);
+      border-radius:10px;
+      padding:1rem 1.5rem;
+      display:flex;
+      align-items:center;
+      gap:1rem;
+      margin-bottom:2rem;
+      font-family:var(--font-mono);
+      font-size:.78rem;
+      color:#888;
+    }
+    .shop-notice svg { flex-shrink:0; color:var(--color-red); }
+  </style>
+</head>
+<body>
+<main style="padding-top:var(--navbar-h)">
+
+  <div class="page-hero">
+    <div class="container">
+      <p class="page-hero-eyebrow">Boutique officielle</p>
+      <h1 class="page-hero-title">EQUALLY <span style="color:var(--color-red)">SHOP</span></h1>
+      <p class="page-hero-sub">Porte les couleurs d'Equally Esport. Commande sur notre boutique officielle TeamPulse.</p>
+    </div>
+  </div>
+
+  <section style="padding:4rem 0;background:var(--color-bg-2)">
+    <div class="container">
+
+      <div class="shop-notice">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+        Sélectionne ta taille puis clique sur "Commander" pour être redirigé vers la boutique officielle TeamPulse.
+      </div>
+
+      <div class="shop-grid">
+
+        <!-- ── MAILLOT EQUALLY ESPORT ── -->
+        <div class="product-card reveal">
+          <div class="product-img-wrap">
+            <img src="../assets/images/shop/maillot1.png" 
+                 onerror="this.src='../assets/logo/logo.png';this.style.objectFit='contain';this.style.padding='2rem'"
+                 alt="Maillot Equally Esport"/>
+            <div class="product-badge">Best-seller</div>
+          </div>
+          <div class="product-body">
+            <div class="product-category">Maillot</div>
+            <div class="product-name">Maillot Equally Esport</div>
+            <div class="product-price">39,90 €</div>
+            <div>
+              <div class="size-label">Taille</div>
+              <div class="size-grid" id="sizes-maillot1">
+                <button class="size-btn" data-product="maillot1" data-size="XS" data-suffix="1">XS</button>
+                <button class="size-btn" data-product="maillot1" data-size="S" data-suffix="2">S</button>
+                <button class="size-btn" data-product="maillot1" data-size="M" data-suffix="3">M</button>
+                <button class="size-btn" data-product="maillot1" data-size="L" data-suffix="4">L</button>
+                <button class="size-btn" data-product="maillot1" data-size="XL" data-suffix="5">XL</button>
+                <button class="size-btn" data-product="maillot1" data-size="XXL" data-suffix="6">XXL</button>
+                <button class="size-btn" data-product="maillot1" data-size="3XL" data-suffix="7">3XL</button>
+                <button class="size-btn" data-product="maillot1" data-size="4XL" data-suffix="8">4XL</button>
+                <button class="size-btn" data-product="maillot1" data-size="5XL" data-suffix="9">5XL</button>
+                <button class="size-btn" data-product="maillot1" data-size="8ans" data-suffix="10">8 ans</button>
+                <button class="size-btn" data-product="maillot1" data-size="10ans" data-suffix="11">10 ans</button>
+                <button class="size-btn" data-product="maillot1" data-size="12ans" data-suffix="12">12 ans</button>
+              </div>
+            </div>
+            <a class="buy-btn" id="buy-maillot1" href="#" target="_blank" rel="noopener" disabled>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+              Sélectionne une taille
+            </a>
+          </div>
+        </div>
+
+        <!-- ── MAILLOT 2025 ── -->
+        <div class="product-card reveal" style="transition-delay:.05s">
+          <div class="product-img-wrap">
+            <img src="../assets/images/shop/maillot2025.png"
+                 onerror="this.src='../assets/logo/logo.png';this.style.objectFit='contain';this.style.padding='2rem'"
+                 alt="Maillot Equally Esport 2025"/>
+            <div class="product-badge" style="background:#ff9800">Nouveau</div>
+          </div>
+          <div class="product-body">
+            <div class="product-category">Maillot</div>
+            <div class="product-name">Maillot Equally Esport 2025</div>
+            <div class="product-price">35,00 €</div>
+            <div>
+              <div class="size-label">Taille</div>
+              <div class="size-grid" id="sizes-maillot2025">
+                <button class="size-btn" data-product="maillot2025" data-size="XS" data-suffix="1">XS</button>
+                <button class="size-btn" data-product="maillot2025" data-size="S" data-suffix="2">S</button>
+                <button class="size-btn" data-product="maillot2025" data-size="M" data-suffix="3">M</button>
+                <button class="size-btn" data-product="maillot2025" data-size="L" data-suffix="4">L</button>
+                <button class="size-btn" data-product="maillot2025" data-size="XL" data-suffix="5">XL</button>
+                <button class="size-btn" data-product="maillot2025" data-size="XXL" data-suffix="6">XXL</button>
+                <button class="size-btn" data-product="maillot2025" data-size="3XL" data-suffix="7">3XL</button>
+                <button class="size-btn" data-product="maillot2025" data-size="4XL" data-suffix="8">4XL</button>
+                <button class="size-btn" data-product="maillot2025" data-size="5XL" data-suffix="9">5XL</button>
+                <button class="size-btn" data-product="maillot2025" data-size="8ans" data-suffix="10">8 ans</button>
+                <button class="size-btn" data-product="maillot2025" data-size="10ans" data-suffix="11">10 ans</button>
+                <button class="size-btn" data-product="maillot2025" data-size="12ans" data-suffix="12">12 ans</button>
+              </div>
+            </div>
+            <a class="buy-btn" id="buy-maillot2025" href="#" target="_blank" rel="noopener" disabled>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+              Sélectionne une taille
+            </a>
+          </div>
+        </div>
+
+        <!-- ── HOODIE ── -->
+        <div class="product-card reveal" style="transition-delay:.1s">
+          <div class="product-img-wrap">
+            <img src="../assets/images/shop/hoodie.png"
+                 onerror="this.src='../assets/logo/logo.png';this.style.objectFit='contain';this.style.padding='2rem'"
+                 alt="Hoodie Equally Esport"/>
+          </div>
+          <div class="product-body">
+            <div class="product-category">Veste & Sweat</div>
+            <div class="product-name">Hoodie Equally Esport</div>
+            <div class="product-price">40,00 €</div>
+            <div>
+              <div class="size-label">Taille</div>
+              <div class="size-grid" id="sizes-hoodie">
+                <button class="size-btn" data-product="hoodie" data-size="XS" data-suffix="1">XS</button>
+                <button class="size-btn" data-product="hoodie" data-size="S" data-suffix="2">S</button>
+                <button class="size-btn" data-product="hoodie" data-size="M" data-suffix="3">M</button>
+                <button class="size-btn" data-product="hoodie" data-size="L" data-suffix="4">L</button>
+                <button class="size-btn" data-product="hoodie" data-size="XL" data-suffix="5">XL</button>
+                <button class="size-btn" data-product="hoodie" data-size="XXL" data-suffix="6">XXL</button>
+                <button class="size-btn" data-product="hoodie" data-size="3XL" data-suffix="7">3XL</button>
+                <button class="size-btn" data-product="hoodie" data-size="4XL" data-suffix="8">4XL</button>
+                <button class="size-btn" data-product="hoodie" data-size="5XL" data-suffix="9">5XL</button>
+                <button class="size-btn" data-product="hoodie" data-size="8ans" data-suffix="10">8 ans</button>
+                <button class="size-btn" data-product="hoodie" data-size="10ans" data-suffix="11">10 ans</button>
+                <button class="size-btn" data-product="hoodie" data-size="12ans" data-suffix="12">12 ans</button>
+              </div>
+            </div>
+            <a class="buy-btn" id="buy-hoodie" href="#" target="_blank" rel="noopener" disabled>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+              Sélectionne une taille
+            </a>
+          </div>
+        </div>
+
+        <!-- ── VESTE ── -->
+        <div class="product-card reveal" style="transition-delay:.15s">
+          <div class="product-img-wrap">
+            <img src="../assets/images/shop/veste.png"
+                 onerror="this.src='../assets/logo/logo.png';this.style.objectFit='contain';this.style.padding='2rem'"
+                 alt="Veste Equally Esport"/>
+          </div>
+          <div class="product-body">
+            <div class="product-category">Veste & Sweat</div>
+            <div class="product-name">Veste Equally Esport</div>
+            <div class="product-price">49,90 €</div>
+            <div>
+              <div class="size-label">Taille</div>
+              <div class="size-grid" id="sizes-veste">
+                <button class="size-btn" data-product="veste" data-size="XS" data-suffix="1">XS</button>
+                <button class="size-btn" data-product="veste" data-size="S" data-suffix="2">S</button>
+                <button class="size-btn" data-product="veste" data-size="M" data-suffix="3">M</button>
+                <button class="size-btn" data-product="veste" data-size="L" data-suffix="4">L</button>
+                <button class="size-btn" data-product="veste" data-size="XL" data-suffix="5">XL</button>
+                <button class="size-btn" data-product="veste" data-size="XXL" data-suffix="6">XXL</button>
+                <button class="size-btn" data-product="veste" data-size="3XL" data-suffix="7">3XL</button>
+                <button class="size-btn" data-product="veste" data-size="4XL" data-suffix="8">4XL</button>
+                <button class="size-btn" data-product="veste" data-size="5XL" data-suffix="9">5XL</button>
+                <button class="size-btn" data-product="veste" data-size="8ans" data-suffix="10">8 ans</button>
+                <button class="size-btn" data-product="veste" data-size="10ans" data-suffix="11">10 ans</button>
+                <button class="size-btn" data-product="veste" data-size="12ans" data-suffix="12">12 ans</button>
+              </div>
+            </div>
+            <a class="buy-btn" id="buy-veste" href="#" target="_blank" rel="noopener" disabled>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+              Sélectionne une taille
+            </a>
+          </div>
+        </div>
+
+        <!-- ── MANCHETTES ── -->
+        <div class="product-card reveal" style="transition-delay:.2s">
+          <div class="product-img-wrap">
+            <img src="../assets/images/shop/manchettes.png"
+                 onerror="this.src='../assets/logo/logo.png';this.style.objectFit='contain';this.style.padding='2rem'"
+                 alt="Manchettes Equally Esport"/>
+          </div>
+          <div class="product-body">
+            <div class="product-category">Manchettes</div>
+            <div class="product-name">Manchettes Equally Esport</div>
+            <div class="product-price">18,90 €</div>
+            <div>
+              <div class="size-label">Taille</div>
+              <div class="size-grid" id="sizes-manchettes">
+                <button class="size-btn" data-product="manchettes" data-size="S/M" data-suffix="1">S/M</button>
+                <button class="size-btn" data-product="manchettes" data-size="L/XL" data-suffix="2">L/XL</button>
+              </div>
+            </div>
+            <a class="buy-btn" id="buy-manchettes" href="#" target="_blank" rel="noopener" disabled>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+              Sélectionne une taille
+            </a>
+          </div>
+        </div>
+
+        <!-- ── MANCHETTES 2025 ── -->
+        <div class="product-card reveal" style="transition-delay:.25s">
+          <div class="product-img-wrap">
+            <img src="../assets/images/shop/manchettes2025.png"
+                 onerror="this.src='../assets/logo/logo.png';this.style.objectFit='contain';this.style.padding='2rem'"
+                 alt="Manchettes Equally Esport 2025"/>
+            <div class="product-badge" style="background:#ff9800">Nouveau</div>
+          </div>
+          <div class="product-body">
+            <div class="product-category">Manchettes</div>
+            <div class="product-name">Manchettes Equally Esport 2025</div>
+            <div class="product-price">18,90 €</div>
+            <div>
+              <div class="size-label">Taille</div>
+              <div class="size-grid" id="sizes-manchettes2025">
+                <button class="size-btn" data-product="manchettes2025" data-size="S/M" data-suffix="1">S/M</button>
+                <button class="size-btn" data-product="manchettes2025" data-size="L/XL" data-suffix="2">L/XL</button>
+              </div>
+            </div>
+            <a class="buy-btn" id="buy-manchettes2025" href="#" target="_blank" rel="noopener" disabled>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+              Sélectionne une taille
+            </a>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+</main>
+
+<script src="../js/components.js"></script>
+<script>
+// URLs de base pour chaque produit sur TeamPulse
+const BASE_URLS = {
+  maillot1:      'https://equallyesport.teampulseshop.com/catalogue/equally-esport/maillot-equally-esport',
+  maillot2025:   'https://equallyesport.teampulseshop.com/catalogue/equally-esport/maillot-equally-esport-2025-',
+  hoodie:        'https://equallyesport.teampulseshop.com/catalogue/equally-esport/hoodie-equally-esport',
+  veste:         'https://equallyesport.teampulseshop.com/catalogue/equally-esport/veste-equally-esport13-',
+  manchettes:    'https://equallyesport.teampulseshop.com/catalogue/equally-esport/manchettes-equally-esport',
+  manchettes2025:'https://equallyesport.teampulseshop.com/catalogue/equally-esport/manchettes-equally-esport-2025-',
+};
+
+// Gestion des boutons de taille
+document.querySelectorAll('.size-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const product = btn.dataset.product;
+    const suffix  = btn.dataset.suffix;
+    const size    = btn.dataset.size;
+
+    // Désélectionner les autres tailles du même produit
+    document.querySelectorAll(`.size-btn[data-product="${product}"]`).forEach(b => b.classList.remove('selected'));
+    btn.classList.add('selected');
+
+    // Construire l'URL — suffix=1 → URL sans suffixe pour certains, avec suffixe pour autres
+    let url = BASE_URLS[product];
+    if (suffix === '1') {
+      url += '.html'; // XS = pas de suffixe numérique pour le premier
+    } else {
+      url += suffix + '.html';
+    }
+
+    // Mettre à jour le bouton acheter
+    const buyBtn = document.getElementById('buy-' + product);
+    if (buyBtn) {
+      buyBtn.href = url;
+      buyBtn.removeAttribute('disabled');
+      buyBtn.style.opacity = '1';
+      buyBtn.innerHTML = `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+      Commander en taille ${size}`;
+    }
+  });
+});
+
+// Reveal
+document.addEventListener('DOMContentLoaded', () => {
+  const obs = new IntersectionObserver(e=>{e.forEach(x=>{if(x.isIntersecting){x.target.classList.add('visible');obs.unobserve(x.target);}});},{threshold:.1});
+  document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
+});
+</script>
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/sw.js').catch(() => {});
+      });
+    }
+  </script>
+</body>
+</html>

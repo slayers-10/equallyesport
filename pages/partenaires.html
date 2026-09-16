@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Partenaires — Equally Esport</title>
+  <link rel="stylesheet" href="../css/variables.css" />
+  <link rel="stylesheet" href="../css/reset.css" />
+  <link rel="stylesheet" href="../css/components.css" />
+  <link rel="stylesheet" href="../css/main.css" />
+</head>
+<body>
+<main style="padding-top:var(--navbar-h)">
+
+  <div class="page-hero">
+    <div class="container">
+      <p class="page-hero-eyebrow">Sponsors</p>
+      <h1 class="page-hero-title">Nos <span class="text-red">Partenaires</span></h1>
+      <p class="page-hero-sub">Les organisations et marques qui soutiennent Equally Esport.</p>
+    </div>
+  </div>
+
+  <section style="padding:4rem 0">
+    <div class="container">
+      <div class="partners-tier reveal">
+        <div class="tier-label tier-gold">🥇 Gold</div>
+        <div id="partners-gold" class="partners-row"></div>
+      </div>
+      <div class="partners-tier reveal">
+        <div class="tier-label tier-silver">🥈 Silver</div>
+        <div id="partners-silver" class="partners-row"></div>
+      </div>
+      <div class="partners-tier reveal">
+        <div class="tier-label tier-bronze">🥉 Bronze</div>
+        <div class="partners-marquee">
+          <div id="partners-bronze-track" class="marquee-track"></div>
+        </div>
+      </div>
+
+      <!-- CTA devenir partenaire -->
+      <div style="margin-top:5rem;text-align:center;padding:3rem;background:var(--color-bg-3);border-radius:12px;border:1px solid rgba(229,0,10,.2)" class="reveal">
+        <h2 style="font-family:var(--font-display);font-style:italic;font-weight:900;font-size:2rem;text-transform:uppercase;margin-bottom:1rem">
+          Devenir <span class="text-red">Partenaire</span>
+        </h2>
+        <p style="color:var(--color-gray);margin-bottom:2rem;max-width:500px;margin-left:auto;margin-right:auto">
+          Vous souhaitez soutenir Equally Esport et bénéficier d'une visibilité auprès de notre communauté ? Contactez-nous.
+        </p>
+        <a href="/pages/contact.html" class="btn btn-primary">Nous contacter</a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<script src="../js/components.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', async () => {
+  const API='../api/';
+  async function get(ep){try{const r=await fetch(API+ep);const j=await r.json();return j.ok?j.data:[];}catch{return[];}}
+  const safe=s=>{const d=document.createElement('div');d.appendChild(document.createTextNode(String(s||'')));return d.innerHTML;};
+
+  const partners = await get('partners.php');
+  function makeLogo(p){
+    const a=document.createElement('a');
+    a.href=p.url||'#'; a.target='_blank'; a.rel='noopener noreferrer';
+    a.className='partner-logo';
+    if(p.logo_url){
+      const img=document.createElement('img');
+      img.src=p.logo_url.startsWith('http')?p.logo_url:'../'+p.logo_url;
+      img.alt=p.name;
+      a.appendChild(img);
+    } else {
+      a.textContent=p.name;
+    }
+    return a;
+  }
+  partners.filter(p=>p.tier==='gold').forEach(p=>document.getElementById('partners-gold')?.appendChild(makeLogo(p)));
+  partners.filter(p=>p.tier==='silver').forEach(p=>document.getElementById('partners-silver')?.appendChild(makeLogo(p)));
+  const bronze=partners.filter(p=>p.tier==='bronze');
+  const track=document.getElementById('partners-bronze-track');
+  if(track && bronze.length) [...bronze,...bronze].forEach(p=>track.appendChild(makeLogo(p)));
+
+  const obs=new IntersectionObserver(e=>{e.forEach(x=>{if(x.isIntersecting){x.target.classList.add('visible');obs.unobserve(x.target);}});},{threshold:.1});
+  document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
+});
+</script>
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/sw.js').catch(() => {});
+      });
+    }
+  </script>
+</body>
+</html>

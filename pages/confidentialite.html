@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8"/>
+  <link rel="manifest" href="../manifest.json"/>
+  <meta name="theme-color" content="#e5000a"/>
+  <meta name="apple-mobile-web-app-capable" content="yes"/>
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
+  <meta name="apple-mobile-web-app-title" content="Equally"/>
+  <link rel="apple-touch-icon" href="../assets/icons/icon-192x192.png"/>
+  <link rel="icon" type="image/x-icon" href="../favicon.ico"/>
+  <link rel="shortcut icon" type="image/x-icon" href="../favicon.ico"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="description" content="Politique de confidentialité — Equally Esport"/>
+  <title>Politique de confidentialité — Equally Esport</title>
+  <link rel="stylesheet" href="../css/variables.css"/>
+  <link rel="stylesheet" href="../css/reset.css"/>
+  <link rel="stylesheet" href="../css/components.css"/>
+  <link rel="stylesheet" href="../css/main.css"/>
+  <style>
+    .page-hero { background:linear-gradient(180deg,rgba(229,0,10,.06) 0%,transparent 100%); border-bottom:1px solid rgba(229,0,10,.15); padding:5rem 0 3rem; text-align:center; position:relative; overflow:hidden; }
+    .page-hero::before { content:''; position:absolute; inset:0; background:radial-gradient(ellipse 60% 80% at 50% 0%,rgba(229,0,10,.08) 0%,transparent 70%); pointer-events:none; }
+    .page-hero-eyebrow { font-family:var(--font-mono); font-size:.75rem; text-transform:uppercase; letter-spacing:.3em; color:var(--color-red); margin-bottom:1rem; opacity:0; animation:fade-up .6s ease-out .1s forwards; }
+    .page-hero-title { font-family:var(--font-display); font-style:italic; font-weight:900; font-size:clamp(2.2rem,5vw,3.6rem); text-transform:uppercase; line-height:1; margin-bottom:.75rem; opacity:0; animation:fade-up .6s ease-out .2s forwards; }
+    .page-hero-sub { font-size:1rem; color:var(--color-gray); max-width:600px; margin:0 auto; opacity:0; animation:fade-up .6s ease-out .3s forwards; }
+    .text-red { color:var(--color-red); }
+    @keyframes fade-up { from{opacity:0;transform:translateY(16px)} to{opacity:1;transform:translateY(0)} }
+
+    .legal-wrap { max-width:820px; margin:0 auto; padding:4rem 0 6rem; }
+    .legal-wrap h2 { font-family:var(--font-display); font-style:italic; font-weight:800; font-size:1.4rem; text-transform:uppercase; color:#fff; margin:2.5rem 0 1rem; padding-bottom:.6rem; border-bottom:1px solid rgba(229,0,10,.2); }
+    .legal-wrap h2:first-of-type { margin-top:0; }
+    .legal-wrap h3 { font-family:var(--font-mono); font-size:.82rem; text-transform:uppercase; letter-spacing:.04em; color:var(--color-red); margin:1.5rem 0 .6rem; }
+    .legal-wrap p, .legal-wrap li { color:#aaa; font-size:.92rem; line-height:1.75; }
+    .legal-wrap p { margin-bottom:1rem; }
+    .legal-wrap ul { margin:0 0 1rem 1.2rem; }
+    .legal-wrap li { margin-bottom:.4rem; }
+    .legal-wrap strong { color:#ddd; }
+    .legal-wrap a { color:var(--color-red); text-decoration:none; border-bottom:1px solid rgba(229,0,10,.3); }
+    .legal-wrap a:hover { border-color:var(--color-red); }
+    .legal-updated { font-family:var(--font-mono); font-size:.72rem; color:#555; margin-bottom:2rem; }
+
+    .todo-box {
+      background:rgba(255,152,0,.06); border:1px dashed rgba(255,152,0,.4); border-radius:8px;
+      padding:1rem 1.25rem; margin-bottom:.5rem; font-size:.82rem; color:#ffb74d; line-height:1.6;
+    }
+    .todo-box strong { color:#ffcc80; }
+
+    .data-table { width:100%; border-collapse:collapse; margin:1rem 0 1.5rem; font-size:.85rem; }
+    .data-table th { text-align:left; font-family:var(--font-mono); font-size:.68rem; text-transform:uppercase; letter-spacing:.05em; color:#666; padding:.6rem .75rem; border-bottom:1px solid rgba(229,0,10,.2); }
+    .data-table td { padding:.7rem .75rem; border-bottom:1px solid rgba(255,255,255,.05); color:#aaa; vertical-align:top; }
+    .data-table tr:last-child td { border-bottom:none; }
+  </style>
+</head>
+<body>
+<main style="padding-top:var(--navbar-h)">
+
+  <div class="page-hero">
+    <div class="container">
+      <p class="page-hero-eyebrow">RGPD</p>
+      <h1 class="page-hero-title">Politique de <span class="text-red">Confidentialité</span></h1>
+      <p class="page-hero-sub">Comment Equally Esport collecte, utilise et protège tes données personnelles.</p>
+    </div>
+  </div>
+
+  <section>
+    <div class="container legal-wrap">
+
+      <h2>1. Responsable du traitement</h2>
+      <p>
+        Le responsable du traitement des données collectées sur ce site est :<br>
+        <strong>Equally Esport</strong> — Association loi 1901<br>
+        6 rue du Parc, 17137 Esnandes, France<br>
+        SIREN : 102 680 063<br>
+        Contact : <strong>pro@equallyesport.fr</strong>
+      </p>
+      <p>
+        Cette politique s'applique à l'ensemble du site <strong>equallyesport.fr</strong> et à son espace d'administration. Elle est rédigée conformément au Règlement Général sur la Protection des Données (RGPD — UE 2016/679) et à la loi française « Informatique et Libertés ».
+      </p>
+
+      <h2>2. Données que nous collectons</h2>
+      <p>Nous collectons uniquement les données nécessaires au fonctionnement du site et à la gestion de la communauté Equally Esport :</p>
+
+      <table class="data-table">
+        <tr><th>Situation</th><th>Données collectées</th><th>Pourquoi</th></tr>
+        <tr>
+          <td><strong>Simple visite du site</strong></td>
+          <td>Adresse IP, ville/pays approximatif, pages consultées, type de navigateur/appareil, site d'origine (referrer), date et heure</td>
+          <td>Statistiques de fréquentation internes, sécurité, détection d'anomalies</td>
+        </tr>
+        <tr>
+          <td><strong>Formulaire de contact</strong></td>
+          <td>Nom, adresse e-mail, message</td>
+          <td>Répondre à ta demande</td>
+        </tr>
+        <tr>
+          <td><strong>Formulaire de candidature / recrutement</strong></td>
+          <td>Pseudo, jeu joué, rang/niveau, message de motivation, lien de profil (Tracker/réseau social), adresse IP</td>
+          <td>Étudier ta candidature pour rejoindre une équipe Equally Esport</td>
+        </tr>
+        <tr>
+          <td><strong>Connexion à l'espace admin</strong> (équipe Equally uniquement)</td>
+          <td>Identifiant, adresse IP, ville/pays approximatif, type d'appareil, date de connexion</td>
+          <td>Sécurité du panneau d'administration, traçabilité des accès</td>
+        </tr>
+      </table>
+
+      <p>Nous ne collectons <strong>jamais</strong> de mot de passe en clair, de coordonnées bancaires, ni de données dites « sensibles » (santé, opinions, origine...).</p>
+
+      <h2>3. Base légale des traitements</h2>
+      <ul>
+        <li><strong>Intérêt légitime</strong> : statistiques de visite, sécurité du site et de l'administration.</li>
+        <li><strong>Consentement</strong> : envoi volontaire d'un formulaire de contact ou de candidature — en soumettant le formulaire, tu consens à ce que les informations saisies soient traitées pour la finalité indiquée.</li>
+      </ul>
+
+      <h2>4. Destinataires des données</h2>
+      <p>
+        Les données que tu nous transmets sont destinées exclusivement à l'équipe Equally Esport. Elles ne sont ni vendues, ni louées, ni cédées à des tiers à des fins commerciales.
+      </p>
+      <p>Certaines données transitent toutefois par des prestataires techniques, strictement pour le fonctionnement du service :</p>
+      <ul>
+        <li><strong>Hostinger International Ltd.</strong> (hébergement du site et de la base de données) — Chypre, Union européenne.</li>
+        <li><strong>ip-api.com</strong> — service utilisé pour convertir une adresse IP en ville/pays approximatif à des fins de sécurité et de statistiques. Seule l'adresse IP est transmise à ce service, ponctuellement, et le résultat est mis en cache pour éviter des appels répétés.</li>
+        <li><strong>Discord</strong> — si tu soumets une candidature, un résumé (pseudo, jeu, rang, message) peut être transmis automatiquement à un salon Discord privé de l'équipe Equally Esport, via un webhook, afin de la traiter plus rapidement.</li>
+      </ul>
+
+      <h2>5. Durée de conservation</h2>
+      <ul>
+        <li><strong>Statistiques de visite</strong> : conservées le temps nécessaire à l'analyse, puis purgées périodiquement.</li>
+        <li><strong>Candidatures</strong> : conservées le temps du traitement du recrutement, puis supprimées ou archivées si tu deviens membre d'une équipe.</li>
+        <li><strong>Messages de contact</strong> : transmis par e-mail à l'équipe et non conservés en base au-delà du traitement de la demande.</li>
+        <li><strong>Historique de connexion admin</strong> : conservé à des fins de sécurité, pour une durée raisonnable.</li>
+      </ul>
+
+      <h2>6. Cookies</h2>
+      <p>
+        Le site public <strong>n'utilise aucun cookie</strong> de suivi publicitaire ou traceur tiers. L'espace d'administration (réservé à l'équipe Equally Esport) utilise un stockage technique local (localStorage) pour maintenir une session de connexion — cette technologie n'est jamais utilisée sur les pages accessibles au public et ne collecte aucune donnée de navigation te concernant.
+      </p>
+
+      <h2>7. Tes droits</h2>
+      <p>Conformément au RGPD, tu disposes des droits suivants sur tes données personnelles :</p>
+      <ul>
+        <li><strong>Droit d'accès</strong> : savoir quelles données nous détenons sur toi.</li>
+        <li><strong>Droit de rectification</strong> : corriger des données inexactes.</li>
+        <li><strong>Droit à l'effacement</strong> : demander la suppression de tes données.</li>
+        <li><strong>Droit d'opposition</strong> : t'opposer à un traitement pour motif légitime.</li>
+        <li><strong>Droit à la portabilité</strong> : récupérer les données que tu nous as fournies.</li>
+      </ul>
+      <p>
+        Pour exercer ces droits, contacte-nous via notre <a href="contact.html">page de contact</a> ou à l'adresse <strong>pro@equallyesport.fr</strong>. Nous répondons dans un délai maximal d'un mois.
+      </p>
+      <p>
+        Si tu estimes que tes droits ne sont pas respectés, tu peux introduire une réclamation auprès de la CNIL (Commission Nationale de l'Informatique et des Libertés) : <a href="https://www.cnil.fr" target="_blank" rel="noopener">www.cnil.fr</a>.
+      </p>
+
+      <h2>8. Sécurité</h2>
+      <p>
+        Nous mettons en œuvre des mesures techniques pour protéger tes données : mots de passe administrateur hashés (jamais stockés en clair), connexions chiffrées (HTTPS), accès à l'administration restreint par identifiants individuels et rôles, et historique des connexions pour détecter toute activité suspecte.
+      </p>
+
+      <h2>9. Mineurs</h2>
+      <p>
+        Si tu as moins de 15 ans, l'accord d'un parent ou tuteur légal est requis avant de soumettre un formulaire (contact ou candidature) sur ce site.
+      </p>
+
+      <h2>10. Modifications de cette politique</h2>
+      <p>
+        Cette politique de confidentialité peut être mise à jour, notamment en cas d'évolution du site ou de la réglementation. La date de dernière mise à jour est indiquée ci-dessous.
+      </p>
+
+      <p class="legal-updated">Dernière mise à jour : <strong>02/07/2026</strong></p>
+
+    </div>
+  </section>
+
+</main>
+
+<script src="../js/components.js"></script>
+<script>
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+      navigator.serviceWorker.register('/sw.js').catch(() => {});
+    });
+  }
+</script>
+</body>
+</html>

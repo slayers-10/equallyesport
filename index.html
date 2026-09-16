@@ -1,0 +1,835 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8"/>
+  <link rel="manifest" href="/manifest.json"/>
+  <meta name="theme-color" content="#e5000a"/>
+  <meta name="apple-mobile-web-app-capable" content="yes"/>
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
+  <meta name="apple-mobile-web-app-title" content="Equally"/>
+  <link rel="apple-touch-icon" href="/assets/icons/icon-192x192.png"/>
+  <link rel="icon" type="image/x-icon" href="favicon.ico"/>
+  <link rel="shortcut icon" type="image/x-icon" href="favicon.ico"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="description" content="Equally Esport — Organisation esport professionnelle."/>
+  <meta name="theme-color" content="#E5000A"/>
+  <title>Equally Esport — Accueil</title>
+  <link rel="stylesheet" href="css/variables.css"/>
+  <link rel="stylesheet" href="css/reset.css"/>
+  <link rel="stylesheet" href="css/components.css"/>
+  <link rel="stylesheet" href="css/main.css"/>
+  <style>
+    /* ══════════════════════════════════
+       1. COMPTE À REBOURS TOURNOI
+    ══════════════════════════════════ */
+    .countdown-section {
+      background: #050505;
+      border-top: 3px solid var(--color-red);
+      padding: 5rem 0;
+      position: relative;
+      overflow: hidden;
+    }
+    .countdown-section::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse 70% 60% at 50% 0%, rgba(229,0,10,.08) 0%, transparent 65%);
+      pointer-events: none;
+    }
+    .countdown-tournament-name {
+      font-family: var(--font-display);
+      font-style: italic;
+      font-weight: 900;
+      font-size: clamp(1.5rem, 4vw, 2.8rem);
+      text-transform: uppercase;
+      text-align: center;
+      margin-bottom: .5rem;
+      letter-spacing: .03em;
+    }
+    .countdown-tournament-meta {
+      text-align: center;
+      font-family: var(--font-mono);
+      font-size: .75rem;
+      text-transform: uppercase;
+      letter-spacing: .15em;
+      color: var(--color-gray);
+      margin-bottom: 3rem;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 1.5rem;
+      flex-wrap: wrap;
+    }
+    .countdown-meta-tag {
+      display: flex;
+      align-items: center;
+      gap: .4rem;
+    }
+    .countdown-meta-tag::before {
+      content: '▸';
+      color: var(--color-red);
+      font-size: .7rem;
+    }
+    .countdown-grid {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 0;
+    }
+    .countdown-unit {
+      text-align: center;
+      min-width: 100px;
+      padding: 0 1.5rem;
+      position: relative;
+    }
+    .countdown-unit:not(:last-child)::after {
+      content: ':';
+      position: absolute;
+      right: -8px;
+      top: 50%;
+      transform: translateY(-60%);
+      font-family: var(--font-display);
+      font-style: italic;
+      font-weight: 900;
+      font-size: 3rem;
+      color: rgba(229,0,10,.4);
+      line-height: 1;
+    }
+    .countdown-num {
+      font-family: var(--font-display);
+      font-style: italic;
+      font-weight: 900;
+      font-size: clamp(3rem, 8vw, 6rem);
+      color: var(--color-red);
+      line-height: 1;
+      display: block;
+      text-shadow: 0 0 40px rgba(229,0,10,.3);
+      transition: transform .1s;
+    }
+    .countdown-num.bump { transform: scale(1.08); }
+    .countdown-lbl {
+      font-family: var(--font-mono);
+      font-size: .65rem;
+      text-transform: uppercase;
+      letter-spacing: .2em;
+      color: var(--color-gray);
+      margin-top: .5rem;
+      display: block;
+    }
+    .countdown-progress {
+      max-width: 500px;
+      margin: 3rem auto 0;
+      height: 3px;
+      background: rgba(255,255,255,.06);
+      border-radius: 2px;
+      overflow: hidden;
+    }
+    .countdown-progress-fill {
+      height: 100%;
+      background: var(--color-red);
+      box-shadow: 0 0 8px rgba(229,0,10,.5);
+      transition: width .5s ease-out;
+    }
+    .countdown-no-tournament {
+      text-align: center;
+      color: var(--color-gray);
+      font-family: var(--font-mono);
+      font-size: .9rem;
+    }
+
+    /* ══════════════════════════════════
+       2. CARTE INTERACTIVE JOUEURS
+    ══════════════════════════════════ */
+    .worldmap-section {
+      background: var(--color-bg-2);
+      padding: 5rem 0;
+    }
+    .worldmap-wrap {
+      position: relative;
+      max-width: 900px;
+      margin: 0 auto;
+    }
+    .worldmap-svg {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+    .mc-bg { fill: #b8d4e8; stroke:none; }
+    .mc {
+      fill: #1a1a1a;
+      stroke: rgba(255,255,255,.08);
+      stroke-width: .5;
+      transition: fill .2s;
+      cursor: default;
+    }
+    .mc-deco { fill: #a8c8e0; stroke: rgba(0,0,0,.08); stroke-width:.4; }
+    .mc-deco { fill: #a8c8e0; stroke: rgba(0,0,0,.08); stroke-width:.4; }
+    .mc-bg { fill: #b8d4e8; stroke: none; }
+    .mc {
+      fill: #1a1a1a;
+      stroke: rgba(229,0,10,.2);
+      stroke-width: .6;
+      transition: fill .2s, filter .2s;
+    }
+    .mc.has-players {
+      fill: var(--color-red) !important;
+      stroke: #fff !important;
+      stroke-width: 2 !important;
+      cursor: pointer;
+      filter: drop-shadow(0 0 6px rgba(229,0,10,.7));
+    }
+    .mc.has-players:hover {
+      fill: #ff2030 !important;
+      filter: drop-shadow(0 0 14px rgba(229,0,10,1));
+    }
+    .worldmap-country.has-players {
+      fill: var(--color-red) !important;
+      stroke: #fff !important;
+      stroke-width: 2 !important;
+      cursor: pointer;
+      filter: drop-shadow(0 0 6px rgba(229,0,10,.7));
+    }
+    .worldmap-country.has-players:hover {
+      fill: #ff2030 !important;
+      filter: drop-shadow(0 0 14px rgba(229,0,10,1));
+    }
+    /* Tooltip carte */
+    .map-tooltip {
+      position: absolute;
+      background: #0d0d0d;
+      border: 1px solid rgba(229,0,10,.4);
+      border-radius: 8px;
+      padding: 10px 14px;
+      pointer-events: none;
+      display: none;
+      z-index: 100;
+      min-width: 160px;
+      box-shadow: 0 8px 30px rgba(0,0,0,.8);
+    }
+    .map-tooltip.show { display: block; }
+    .map-tooltip-flag { font-size: 1.4rem; margin-bottom: .4rem; }
+    .map-tooltip-country {
+      font-family: var(--font-display);
+      font-style: italic;
+      font-weight: 700;
+      font-size: .95rem;
+      text-transform: uppercase;
+      color: #fff;
+      margin-bottom: .5rem;
+    }
+    .map-tooltip-players { display: flex; flex-direction: column; gap: 3px; }
+    .map-tooltip-player {
+      font-family: var(--font-mono);
+      font-size: .72rem;
+      color: var(--color-gray);
+      display: flex;
+      align-items: center;
+      gap: .4rem;
+    }
+    .map-tooltip-player::before {
+      content: '▸';
+      color: var(--color-red);
+      font-size: .6rem;
+    }
+    /* Légende pays */
+    .map-legend {
+      display: flex;
+      flex-wrap: wrap;
+      gap: .75rem;
+      justify-content: center;
+      margin-top: 2rem;
+    }
+    .map-legend-item {
+      display: flex;
+      align-items: center;
+      gap: .5rem;
+      font-family: var(--font-mono);
+      font-size: .72rem;
+      color: var(--color-gray);
+      cursor: pointer;
+      padding: .35rem .75rem;
+      border: 1px solid rgba(229,0,10,.15);
+      border-radius: 20px;
+      transition: all .2s;
+    }
+    .map-legend-item:hover {
+      border-color: var(--color-red);
+      color: #fff;
+      background: rgba(229,0,10,.08);
+    }
+    .map-legend-flag { font-size: .9rem; }
+    .map-legend-count {
+      background: rgba(229,0,10,.2);
+      color: var(--color-red);
+      font-size: .65rem;
+      padding: 1px 6px;
+      border-radius: 10px;
+    }
+
+    /* ══════════════════════════════════
+       3. TIMELINE HISTOIRE
+    ══════════════════════════════════ */
+    .timeline-section {
+      background: var(--color-bg);
+      padding: 5rem 0;
+    }
+    .timeline {
+      position: relative;
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 0 2rem;
+    }
+    /* Ligne centrale */
+    .timeline::before {
+      content: '';
+      position: absolute;
+      top: 0; bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 2px;
+      background: linear-gradient(180deg, transparent, var(--color-red) 10%, var(--color-red) 90%, transparent);
+    }
+    .timeline-item {
+      display: grid;
+      grid-template-columns: 1fr 60px 1fr;
+      gap: 0;
+      margin-bottom: 3rem;
+      position: relative;
+    }
+    .timeline-item:nth-child(odd) .timeline-content  { grid-column: 1; text-align: right; padding-right: 2.5rem; }
+    .timeline-item:nth-child(odd) .timeline-empty    { grid-column: 3; }
+    .timeline-item:nth-child(even) .timeline-content { grid-column: 3; text-align: left;  padding-left: 2.5rem; grid-row: 1; }
+    .timeline-item:nth-child(even) .timeline-dot     { grid-column: 2; grid-row: 1; }
+    .timeline-item:nth-child(even) .timeline-empty   { grid-column: 1; grid-row: 1; }
+
+    .timeline-dot {
+      grid-column: 2;
+      display: flex;
+      align-items: flex-start;
+      justify-content: center;
+      padding-top: .5rem;
+      position: relative;
+      z-index: 1;
+    }
+    .timeline-dot-inner {
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      background: var(--color-red);
+      border: 3px solid var(--color-bg);
+      box-shadow: 0 0 0 2px var(--color-red), 0 0 16px rgba(229,0,10,.5);
+      transition: all .3s;
+      flex-shrink: 0;
+    }
+    .timeline-item:hover .timeline-dot-inner {
+      transform: scale(1.4);
+      box-shadow: 0 0 0 3px var(--color-red), 0 0 30px rgba(229,0,10,.7);
+    }
+    .timeline-content {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity .6s ease-out, transform .6s ease-out;
+    }
+    .timeline-content.visible { opacity: 1; transform: translateY(0); }
+    .timeline-year {
+      font-family: var(--font-mono);
+      font-size: .7rem;
+      text-transform: uppercase;
+      letter-spacing: .15em;
+      color: var(--color-red);
+      margin-bottom: .4rem;
+    }
+    .timeline-title {
+      font-family: var(--font-display);
+      font-style: italic;
+      font-weight: 700;
+      font-size: 1.15rem;
+      text-transform: uppercase;
+      color: #fff;
+      margin-bottom: .4rem;
+      line-height: 1.2;
+    }
+    .timeline-desc {
+      font-size: .85rem;
+      color: var(--color-gray);
+      line-height: 1.6;
+    }
+    .timeline-badge {
+      display: inline-block;
+      margin-top: .5rem;
+      padding: 2px 10px;
+      border-radius: 20px;
+      font-family: var(--font-mono);
+      font-size: .65rem;
+      text-transform: uppercase;
+      letter-spacing: .08em;
+    }
+
+    @media (max-width: 768px) {
+      .countdown-unit { min-width: 70px; padding: 0 .75rem; }
+      .timeline::before { left: 20px; }
+      .timeline-item { grid-template-columns: 40px 1fr; }
+      .timeline-item:nth-child(odd) .timeline-content  { grid-column: 2; text-align: left; padding-right: 0; padding-left: 1.5rem; }
+      .timeline-item:nth-child(even) .timeline-content { grid-column: 2; text-align: left; padding-left: 1.5rem; }
+      .timeline-dot  { grid-column: 1; }
+      .timeline-item:nth-child(odd) .timeline-empty,
+      .timeline-item:nth-child(even) .timeline-empty { display: none; }
+    }
+
+    /* ══ TERMINAL FEED ══ */
+    .terminal-section { background: var(--color-bg-2); padding: 5rem 0; }
+    .terminal-wrap {
+      max-width: 860px;
+      margin: 0 auto;
+      background: #050505;
+      border: 1px solid rgba(229,0,10,.25);
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 20px 60px rgba(0,0,0,.8), 0 0 0 1px rgba(229,0,10,.1);
+    }
+    .terminal-topbar {
+      background: #111;
+      border-bottom: 1px solid rgba(229,0,10,.15);
+      padding: .65rem 1rem;
+      display: flex;
+      align-items: center;
+      gap: .5rem;
+    }
+    .term-btn { width:12px; height:12px; border-radius:50%; flex-shrink:0; }
+    .term-title-bar {
+      font-family: var(--font-mono);
+      font-size: .72rem;
+      color: #444;
+      text-transform: uppercase;
+      letter-spacing: .12em;
+      margin-left: .5rem;
+    }
+    .term-status {
+      margin-left: auto;
+      display: flex;
+      align-items: center;
+      gap: .4rem;
+      font-family: var(--font-mono);
+      font-size: .65rem;
+      color: #00c853;
+    }
+    .term-status::before {
+      content: '';
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: #00c853;
+      animation: blink-green 1.5s infinite;
+    }
+    @keyframes blink-green { 0%,100%{opacity:1} 50%{opacity:.3} }
+    .terminal-body {
+      padding: 1.25rem 1.5rem;
+      min-height: 320px;
+      max-height: 420px;
+      overflow-y: auto;
+      scrollbar-width: thin;
+      scrollbar-color: rgba(229,0,10,.3) transparent;
+    }
+    .term-row {
+      display: grid;
+      grid-template-columns: 70px 90px 1fr;
+      gap: .75rem;
+      padding: .45rem 0;
+      border-bottom: 1px solid rgba(255,255,255,.03);
+      font-family: var(--font-mono);
+      font-size: .8rem;
+      opacity: 0;
+      transform: translateY(4px);
+      animation: term-in .3s ease-out forwards;
+    }
+    @keyframes term-in { to { opacity:1; transform:translateY(0); } }
+    .term-ts  { color: #333; white-space: nowrap; }
+    .term-tag { font-weight: 700; text-transform: uppercase; letter-spacing: .05em; white-space: nowrap; }
+    .term-tag.win      { color: #00c853; }
+    .term-tag.loss     { color: #cc4444; }
+    .term-tag.news     { color: #4fc3f7; }
+    .term-tag.transfer { color: #ffb300; }
+    .term-tag.trophy   { color: #ffd700; }
+    .term-msg { color: #888; line-height: 1.4; }
+    .term-msg strong { color: #ccc; }
+    .term-cursor-row {
+      padding: .6rem 0;
+      font-family: var(--font-mono);
+      font-size: .8rem;
+      color: #333;
+      display: flex;
+      align-items: center;
+      gap: .5rem;
+    }
+    .term-cursor {
+      display: inline-block;
+      width: 8px; height: 14px;
+      background: var(--color-red);
+      animation: cursor-blink .7s step-end infinite;
+      vertical-align: middle;
+    }
+    @keyframes cursor-blink { 0%,100%{opacity:1} 50%{opacity:0} }
+    .term-filter-bar {
+      display: flex;
+      gap: .5rem;
+      padding: .75rem 1.5rem;
+      border-top: 1px solid rgba(255,255,255,.04);
+      background: rgba(255,255,255,.02);
+      flex-wrap: wrap;
+    }
+    .term-filter {
+      font-family: var(--font-mono);
+      font-size: .68rem;
+      text-transform: uppercase;
+      letter-spacing: .1em;
+      padding: .35rem .9rem;
+      border-radius: 20px;
+      border: 1px solid rgba(255,255,255,.1);
+      background: rgba(255,255,255,.03);
+      color: #555;
+      cursor: pointer;
+      transition: all .2s;
+      user-select: none;
+    }
+    .term-filter:hover { border-color: rgba(229,0,10,.4); color: #aaa; background: rgba(229,0,10,.04); }
+    .term-filter.active { border-color: var(--color-red); color: var(--color-red); background: rgba(229,0,10,.1); font-weight: 700; }
+
+  </style>
+</head>
+<body>
+<main>
+
+  <!-- ══ HERO ══ -->
+  <section id="hero" aria-label="Accueil">
+    <canvas id="particles-canvas" aria-hidden="true"></canvas>
+    <div class="hero-content">
+      <div class="hero-logo-wrap">
+        <img src="assets/logo/logo.png" alt="Equally Esport" class="hero-logo-img glitch-img"/>
+      </div>
+      <p class="hero-eyebrow">Organisation Esport Semi Professionnelle</p>
+      <h1 class="hero-title glitch" data-text="EQUALLY ESPORT">
+        EQUALLY<br/><span class="line-red">ESPORT</span>
+      </h1>
+      <p class="hero-sub"><span>Compétiteurs.</span> Stratèges. <span>Vainqueurs.</span></p>
+      <div class="hero-cta">
+        <a href="pages/equipes.html" class="btn btn-primary">Nos équipes</a>
+        <a href="pages/resultats.html" class="btn btn-outline">Nos résultats</a>
+      </div>
+    </div>
+    <div class="hero-stats">
+      <div class="hero-stats-inner">
+        <div class="stat-item"><span class="stat-number counter" id="s-eq" data-target="0">0</span><span class="stat-label">Équipes</span></div>
+        <div class="stat-item"><span class="stat-number counter" id="s-pl" data-target="0">0</span><span class="stat-label">Joueurs</span></div>
+        <div class="stat-item"><span class="stat-number counter" id="s-wi" data-target="0">0</span><span class="stat-label">Victoires</span></div>
+        <div class="stat-item"><span class="stat-number counter" data-target="3" data-suffix=" ans">0</span><span class="stat-label">D'expérience</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ 1. COMPTE À REBOURS ══ -->
+  <section class="countdown-section">
+    <div class="container">
+      <h2 class="section-title reveal" style="justify-content:center;margin-bottom:1rem">Prochain tournoi</h2>
+      <div id="countdown-content"></div>
+    </div>
+  </section>
+
+  <!-- ══ 2. TERMINAL FEED ══ -->
+  <section class="terminal-section">
+    <div class="container">
+      <h2 class="section-title reveal">Activité récente</h2>
+      <div class="terminal-wrap reveal" style="transition-delay:.1s">
+        <!-- Barre du haut -->
+        <div class="terminal-topbar">
+          <div class="term-btn" style="background:#ff5f57"></div>
+          <div class="term-btn" style="background:#febc2e"></div>
+          <div class="term-btn" style="background:#28c840"></div>
+          <span class="term-title-bar">equally-esport — activity feed</span>
+          <span class="term-status">Live</span>
+        </div>
+        <!-- Corps du terminal -->
+        <div class="terminal-body" id="term-body"></div>
+        <!-- Filtres -->
+        <div class="term-filter-bar">
+          <button class="term-filter active" data-filter="all">Tout</button>
+          <button class="term-filter" data-filter="win">Victoires</button>
+          <button class="term-filter" data-filter="loss">Défaites</button>
+          <button class="term-filter" data-filter="news">Actualités</button>
+          <button class="term-filter" data-filter="trophy">Trophées</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ TIMELINE ══ -->
+  <section class="timeline-section">
+    <div class="container">
+      <h2 class="section-title reveal">Notre histoire</h2>
+      <div class="timeline" id="timeline"></div>
+    </div>
+  </section>
+
+</main>
+
+<script src="js/components.js"></script>
+<script src="js/particles.js"></script>
+<script src="js/counter.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', async () => {
+
+  if (window.initParticles) initParticles();
+
+  const API = 'api/';
+  async function get(ep) {
+    try { const r=await fetch(API+ep); const j=await r.json(); return j.ok?j.data:[]; } catch { return []; }
+  }
+  const safe = s => { const d=document.createElement('div'); d.appendChild(document.createTextNode(String(s||''))); return d.innerHTML; };
+
+  const [teams, results, tournaments] = await Promise.all([
+    get('teams.php'), get('results.php'), get('tournaments.php')
+  ]);
+
+  /* ── Stats hero ── */
+  const wins = results.filter(r=>r.result==='win').length;
+  const setC = (id,v) => { const e=document.getElementById(id); if(e){e.dataset.target=v;e.textContent='0';} };
+  setC('s-eq', teams.length);
+  setC('s-pl', teams.reduce((a,t)=>a+(t.players?.length||0),0));
+  setC('s-wi', wins);
+  if (window.initCounters) initCounters();
+
+  /* ════════════════════════════════
+     1. COMPTE À REBOURS
+  ════════════════════════════════ */
+  const cdContent = document.getElementById('countdown-content');
+  const nextTournament = tournaments[0];
+
+  if (!nextTournament) {
+    cdContent.innerHTML = `<div class="countdown-no-tournament">Aucun tournoi prévu pour le moment.</div>`;
+  } else {
+    const target = new Date(nextTournament.date).getTime();
+    const gameColors = {'Valorant':'#FF4655','CS2':'#F0A500','League of Legends':'#C89B3C','Rocket League':'#00B4D8'};
+    const color = gameColors[nextTournament.game] || 'var(--color-red)';
+
+    const dateStr = new Date(nextTournament.date).toLocaleDateString('fr-FR',{weekday:'long',day:'numeric',month:'long',year:'numeric',hour:'2-digit',minute:'2-digit'});
+
+    cdContent.innerHTML = `
+      <div class="countdown-tournament-name" style="color:${color}">${safe(nextTournament.name)}</div>
+      <div class="countdown-tournament-meta">
+        <span class="countdown-meta-tag">${safe(nextTournament.game)}</span>
+        <span class="countdown-meta-tag">${safe(nextTournament.location)}</span>
+        <span class="countdown-meta-tag">${dateStr}</span>
+      </div>
+      <div class="countdown-grid">
+        <div class="countdown-unit"><span class="countdown-num" id="cd-j">00</span><span class="countdown-lbl">Jours</span></div>
+        <div class="countdown-unit"><span class="countdown-num" id="cd-h">00</span><span class="countdown-lbl">Heures</span></div>
+        <div class="countdown-unit"><span class="countdown-num" id="cd-m">00</span><span class="countdown-lbl">Minutes</span></div>
+        <div class="countdown-unit"><span class="countdown-num" id="cd-s">00</span><span class="countdown-lbl">Secondes</span></div>
+      </div>
+      <div class="countdown-progress"><div class="countdown-progress-fill" id="cd-progress" style="background:${color}"></div></div>`;
+
+    // Durée totale depuis la création de l'event (approximée 30 jours avant)
+    const totalDuration = 30 * 24 * 3600 * 1000;
+    const startTime = target - totalDuration;
+
+    function updateCountdown() {
+      const now = Date.now();
+      const diff = target - now;
+      if (diff <= 0) {
+        cdContent.innerHTML = `<div class="countdown-tournament-name" style="color:var(--color-green)">🏆 ${safe(nextTournament.name)} — C'est maintenant !</div>`;
+        return;
+      }
+      const j = Math.floor(diff / 86400000);
+      const h = Math.floor((diff % 86400000) / 3600000);
+      const m = Math.floor((diff % 3600000) / 60000);
+      const s = Math.floor((diff % 60000) / 1000);
+
+      const pad = n => String(n).padStart(2,'0');
+      const update = (id, val, prev) => {
+        const el = document.getElementById(id);
+        if (!el) return;
+        if (el.textContent !== val) {
+          el.textContent = val;
+          el.classList.remove('bump');
+          void el.offsetWidth;
+          el.classList.add('bump');
+          setTimeout(() => el.classList.remove('bump'), 100);
+        }
+      };
+      update('cd-j', pad(j));
+      update('cd-h', pad(h));
+      update('cd-m', pad(m));
+      update('cd-s', pad(s));
+
+      // Progress bar
+      const elapsed = now - startTime;
+      const pct = Math.min(100, Math.max(0, (elapsed / totalDuration) * 100));
+      const prog = document.getElementById('cd-progress');
+      if (prog) prog.style.width = pct + '%';
+    }
+
+    updateCountdown();
+    setInterval(updateCountdown, 1000);
+  }
+
+  /* ── TERMINAL FEED ── */
+  const termBody = document.getElementById('term-body');
+  if (termBody) {
+    const [termNews, termAch] = await Promise.all([get('news.php'), get('achievements.php')]);
+    const entries = [];
+
+    results.forEach(r => {
+      let ds = ''; try { ds = new Date(r.date).toLocaleDateString('fr-FR',{day:'2-digit',month:'2-digit',year:'2-digit'}); } catch { ds = '--/--'; }
+      entries.push({ date: r.date, ds, type: r.result, tag: r.result==='win'?'[WIN]':'[LOSS]',
+        msg: `<strong>Equally ${safe(r.scoreUs)}-${safe(r.scoreThem)}</strong> vs ${safe(r.opponent)} <span style="color:#555">· ${safe(r.game)}</span>` });
+    });
+
+    termNews.forEach(n => {
+      let ds = ''; try { ds = new Date(n.date).toLocaleDateString('fr-FR',{day:'2-digit',month:'2-digit',year:'2-digit'}); } catch { ds = '--/--'; }
+      entries.push({ date: n.date, ds, type: 'news', tag: '[NEWS]',
+        msg: `<strong>${safe(n.title)}</strong> <span style="color:#555">· ${safe(n.category)}</span>` });
+    });
+
+    termAch.forEach(a => {
+      entries.push({ date: a.year+'-01-01', ds: a.year, type: 'trophy', tag: '[TROPHY]',
+        msg: `<strong>${safe(a.icon)} ${safe(a.name)}</strong> <span style="color:#555">· ${safe(a.game)}</span>` });
+    });
+
+    entries.sort((a,b) => new Date(b.date) - new Date(a.date));
+
+    function renderEntries(filter) {
+      termBody.innerHTML = '';
+      const list = filter === 'all' ? entries : entries.filter(e => e.type === filter);
+      if (!list.length) {
+        termBody.innerHTML = '<div style="padding:2rem;font-family:var(--font-mono);font-size:.8rem;color:#333">Aucune entrée.</div>';
+        return;
+      }
+      list.forEach((e,i) => {
+        const row = document.createElement('div');
+        row.className = 'term-row';
+        row.style.animationDelay = `${i*60}ms`;
+        row.innerHTML = `<span class="term-ts">${safe(e.ds)}</span><span class="term-tag ${e.type}">${safe(e.tag)}</span><span class="term-msg">${e.msg}</span>`;
+        termBody.appendChild(row);
+      });
+      const cur = document.createElement('div');
+      cur.className = 'term-cursor-row';
+      cur.innerHTML = `<span style="color:#333">$&nbsp;</span><span class="term-cursor"></span>`;
+      termBody.appendChild(cur);
+      setTimeout(() => { termBody.scrollTop = termBody.scrollHeight; }, list.length * 60 + 100);
+    }
+
+    renderEntries('all');
+
+    document.querySelectorAll('.term-filter').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.term-filter').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        renderEntries(btn.dataset.filter);
+      });
+    });
+  }
+
+  /* ════════════════════════════════
+     3. TIMELINE HISTOIRE
+  ════════════════════════════════ */
+  const timelineData = [
+  {
+    year: '2022',
+    title: 'Fondation d\'Equally Esport',
+    desc: 'Equally Esport voit le jour avec une ambition claire : bâtir une organisation esport compétitive, professionnelle et tournée vers l\'avenir. Dès sa création, la structure place la passion, l\'engagement et l\'esprit d\'équipe au cœur de son projet.',
+    badge: '🚀 Création',
+    badgeColor: '#E5000A',
+  },
+  {
+    year: '2022',
+    title: 'Association loi 1901',
+    desc: 'Quelques mois après sa création, Equally Esport adopte officiellement le statut d\'association loi 1901. Cette décision reflète la volonté de construire un projet durable, transparent et crédible auprès des joueurs, partenaires et sponsors.',
+    badge: '⚖️ Association',
+    badgeColor: '#4CAF20',
+  },
+  {
+    year: '2022',
+    title: 'Les premiers rosters',
+    desc: 'Les premières équipes voient le jour sur Fortnite et Call of Duty. Ces rosters marquent les débuts d\'Equally Esport dans la compétition et permettent de poser les bases de la communauté.',
+    badge: '🎮 Débuts',
+    badgeColor: '#FF4655',
+  },
+  {
+    year: '2023',
+    title: 'Arrivée sur Rainbow Six Siege',
+    desc: 'L\'organisation ouvre sa division Rainbow Six Siege, qui deviendra rapidement le projet phare d\'Equally Esport. Cette nouvelle étape marque le début d\'une montée en puissance sur la scène compétitive.',
+    badge: '🛡️ Rainbow Six',
+    badgeColor: '#F0A500',
+  },
+  {
+    year: '2024',
+    title: 'Une pause nécessaire',
+    desc: 'Face à plusieurs difficultés organisationnelles, Equally Esport prend la décision de suspendre temporairement ses activités. Cette fermeture permet de repenser entièrement le projet afin de revenir plus fort.',
+    badge: '⏸️ Fermeture',
+    badgeColor: '#FF6B6B',
+  },
+  {
+    year: '2025',
+    title: 'La renaissance',
+    desc: 'Après plusieurs mois de préparation, Equally Esport revient avec une identité renforcée, une organisation restructurée et des ambitions encore plus élevées. De nouveaux projets voient le jour afin de construire une structure pérenne.',
+    badge: '🔥 Renaissance',
+    badgeColor: '#00B4D8',
+  },
+  {
+    year: '2025',
+    title: 'Première LAN & Top 18 Global',
+    desc: 'Du 19 au 20 avril 2025, Equally Esport participe à sa toute première LAN officielle lors de la Gamers Assembly sur Rainbow Six Siege. Pour cette première expérience en événement physique, la structure réalise une performance historique avec une place dans le Top 18 Global. Cette étape marque un tournant majeur pour Equally Esport et confirme ses ambitions de s\'installer durablement sur la scène compétitive française.',
+    badge: '🏆 Gamers Assembly',
+    badgeColor: '#00C853',
+  },
+  {
+    year: '2026',
+    title: 'Nouvelle direction artistique & retour aux origines',
+    desc: 'En juillet 2026, Equally Esport entame une nouvelle phase de son histoire avec une refonte complète de sa direction artistique. La structure modernise son identité visuelle afin de renforcer son image et son ambition. Cette période marque également le retour d\'Equally Esport sur Fortnite, un jeu historique de la structure qui rappelle ses premiers pas en compétition en 2022.',
+    badge: '🎨 Nouvelle ère',
+    badgeColor: '#9C27B0',
+  },
+];
+  const timeline = document.getElementById('timeline');
+  timelineData.forEach((item, i) => {
+    const div = document.createElement('div');
+    div.className = 'timeline-item' + (i % 2 === 0 ? ' tl-left' : ' tl-right');
+    const contentHTML = `
+      <div class="timeline-year">${safe(item.year)}</div>
+      <div class="timeline-title">${safe(item.title)}</div>
+      <div class="timeline-desc">${safe(item.desc)}</div>
+      <span class="timeline-badge" style="background:${item.badgeColor}18;color:${item.badgeColor};border:1px solid ${item.badgeColor}40">${safe(item.badge)}</span>`;
+    if (i % 2 === 0) {
+      div.innerHTML = `<div class="timeline-content">${contentHTML}</div><div class="timeline-dot"><div class="timeline-dot-inner"></div></div><div class="timeline-empty"></div>`;
+    } else {
+      div.innerHTML = `<div class="timeline-empty"></div><div class="timeline-dot"><div class="timeline-dot-inner"></div></div><div class="timeline-content">${contentHTML}</div>`;
+    }
+    timeline.appendChild(div);
+  });
+
+  // Reveal timeline au scroll
+  const tlObs = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.querySelector('.timeline-content')?.classList.add('visible');
+        tlObs.unobserve(e.target);
+      }
+    });
+  },{threshold:.3});
+  timeline.querySelectorAll('.timeline-item').forEach(el => tlObs.observe(el));
+
+  /* ── Reveal général ── */
+  const obs = new IntersectionObserver(e=>{
+    e.forEach(x=>{if(x.isIntersecting){x.target.classList.add('visible');obs.unobserve(x.target);}});
+  },{threshold:.1,rootMargin:'0px 0px -50px 0px'});
+  document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
+
+});
+</script>
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/sw.js').catch(() => {});
+      });
+    }
+  </script>
+</body>
+</html>
